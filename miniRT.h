@@ -6,13 +6,14 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/12 02:45:00 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/17 20:33:07 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINIRT_H
 # define MINIRT_H
 
+# include "mlx_struct.h"
 # include "libft/includes/libft.h"
 # include "minilibx/mlx.h"
 # include <X11/keysym.h>
@@ -23,6 +24,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define NAME "miniRTX  |  agadkari & mman project"
 # ifndef M_PI
 #  define M_PI 3.141592653589793238462643383279502884197169399375105820974944
 # endif
