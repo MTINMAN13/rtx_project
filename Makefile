@@ -17,7 +17,7 @@ OBJ_DIR = obj
 INCLUDE = include
 
 # Sources
-SRC_FILES = main
+SRC_FILES = main mlx_functions mlx_functionss
 
 SRC = $(addsuffix .c, $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(SRC_FILES)))
