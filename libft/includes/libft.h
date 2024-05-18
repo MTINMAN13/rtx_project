@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:18:00 by mman              #+#    #+#             */
-/*   Updated: 2024/01/03 17:19:34 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/18 19:38:59 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,10 @@
 # include <stdarg.h>
 # include <stdint.h>
 # include <limits.h>
+
+# ifndef BUFFER_SIZE
+#  define BUFFER_SIZE 10000000
+# endif
 
 typedef struct s_list
 {
@@ -95,4 +99,10 @@ int			ft_handle_s(char *string);
 int			ft_handle_c(int whatever);
 int			ft_printf(const char *to_be_printed, ...);
 int			ft_pntf(const char *to_be_printed, ...);
+
+char		*ft_line_parsed(char *current_storage);
+char		*ft_overwrite_static(char *current_str);
+char		*ft_read_and_append(int fd, char *saved_str);
+char		*get_next_line(int fd);
+
 #endif

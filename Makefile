@@ -12,12 +12,15 @@ CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf
 
 # Directories
-SRC_DIR =
+SRC_DIR = # src
 OBJ_DIR = obj
 INCLUDE = include
 
 # Sources
-SRC_FILES = main mlx_functions mlx_functionss
+SRC_FILES = main mlx_functions mlx_functionss \
+			render_calculations \
+			vector_functions vector_allocation free_stuff \
+
 
 SRC = $(addsuffix .c, $(SRC_FILES))
 OBJ = $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(SRC_FILES)))
@@ -34,7 +37,7 @@ $(OBJ_DIR)/%.o: %.c
 # Rule to build the executable  and run
 $(NAME): minlibx libft $(OBJ)
 	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT) $(LFLAGS)
-	# @clear
+	@clear
 	@echo "$(CLR2)rdy$(DEF_COLOR)"
 
 all:
@@ -69,6 +72,13 @@ fclean: clean
 re:	fclean
 	make $(NAME)
 	@sleep 1
+
+ree:
+	@ $(RM) $(OBJ)
+	@ $(RM) $(NAME)
+	make $(NAME)
+	@sleep 1
+
 
 norm:
 		@clear
