@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 20:28:45 by mman              #+#    #+#             */
-/*   Updated: 2024/05/17 20:32:12 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/18 21:05:24 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	ft_mouse_hook(int button, int x, int y, t_mlxdata *mlxdata)
 	return (0);
 }
 
-void	setup_event_hooks(t_mlxdata *mlxdata)
+void	setup_event_hooks(t_scene *scene)
 {
-	mlx_key_hook(mlxdata->win, ft_key_hook, mlxdata);
-	mlx_hook(mlxdata->win, 17, 0, ft_close_window_event, mlxdata);
-	mlx_mouse_hook(mlxdata->win, ft_mouse_hook, mlxdata);
+	mlx_key_hook(scene->mlx.win, ft_key_hook, &scene->mlx);
+	mlx_hook(scene->mlx.win, 17, 0, ft_close_window_event, &scene->mlx);
+	mlx_mouse_hook(scene->mlx.win, ft_mouse_hook, &scene->mlx);
 }

@@ -6,7 +6,7 @@
 #    By: mman <mman@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/19 20:04:35 by apple             #+#    #+#              #
-#    Updated: 2024/01/03 16:41:00 by mman             ###   ########.fr        #
+#    Updated: 2024/05/18 20:53:19 by mman             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -60,6 +60,9 @@ FTPTF_DIR	=	ft_printf/
 FTPTF		=	ft_hex_handler ft_int_handler ft_pointer_handler \
 				ft_print_handlers ft_printf ft_pntf
 
+FTGTNL_DIR	=	ft_getnextline/
+FTGTNL		=	get_next_line get_next_line_utils
+
 SRC_FILES+=$(addprefix $(FTIS_DIR),$(FTIS))
 SRC_FILES+=$(addprefix $(FTMEM_DIR),$(FTMEM))
 SRC_FILES+=$(addprefix $(FTPUT_DIR),$(FTPUT))
@@ -67,6 +70,7 @@ SRC_FILES+=$(addprefix $(FTTO_DIR),$(FTTO))
 SRC_FILES+=$(addprefix $(FTSTR_DIR),$(FTSTR))
 SRC_FILES+=$(addprefix $(FTLST_DIR),$(FTLST))
 SRC_FILES += $(addprefix $(FTPTF_DIR), $(FTPTF))
+SRC_FILES += $(addprefix $(FTGTNL_DIR), $(FTGTNL))
 
 SRCS 		= 	$(addprefix $(SRCS_DIR), $(addsuffix .c, $(SRC_FILES)))
 OBJS 		= 	$(addprefix $(OBJS_DIR), $(addsuffix .o, $(SRC_FILES)))
@@ -95,6 +99,7 @@ $(OBJSF):
 			@mkdir -p $(OBJS_DIR)$(FTSTR_DIR)
 			@mkdir -p $(OBJS_DIR)$(FTLST_DIR)
 			@mkdir -p $(OBJS_DIR)$(FTPTF_DIR)
+			@mkdir -p $(OBJS_DIR)$(FTGTNL_DIR)
 
 clean:
 			@$(RM) -rf $(OBJS_DIR)

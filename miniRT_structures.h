@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mlx_struct.h                                       :+:      :+:    :+:   */
+/*   miniRT_structures.h                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/17 20:32:04 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/18 19:44:48 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MLX_STRUCT_H
-# define MLX_STRUCT_H
+#ifndef MINIRT_STRUCTURES_H
+# define MINIRT_STRUCTURES_H
+
 
 # include "miniRT.h"
 # include "minilibx/mlx.h"
+
+typedef struct s_vector
+{
+	double	x;
+	double	y;
+	double	z;
+}			t_vec;
 
 typedef struct s_mlxdata
 {
@@ -27,13 +35,24 @@ typedef struct s_mlxdata
 	int			endian;
 }			t_mlxdata;
 
-void	ft_error_check(char *string);
-int		ft_mlx_init(t_mlxdata *mlxdata, char *argv[]);
-void	ft_process_other_keys(int keycode, t_mlxdata *mlxdata);
-int		ft_key_hook(int keycode, t_mlxdata *mlxdata);
-void	ft_cleanup_all(t_mlxdata *mlxdata);
-int		ft_close_window_event(t_mlxdata *mlxdata);
-int		ft_mouse_hook(int button, int x, int y, t_mlxdata *mlxdata);
-void	setup_event_hooks(t_mlxdata *mlxdata);
+//Store Camera and Viewport Values
+typedef struct s_viewport
+{
+	t_vec	cam_pos;
+	t_vec	orientation;
+	double	focal_length;		//calculated as focal_length(FOV)
+	t_vec	upper_left;
+	t_vec	viewport_u;
+	t_vec	viewport_v;
+	t_vec	pixel_delta_u;
+	t_vec	pixel_delta_v;
+}			t_viewport;
+
+typedef struct s_scene
+{
+	t_viewport	viewport;
+	t_mlxdata	mlx;
+	char		*scene_data;
+}			t_scene;
 
 #endif
