@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/29 19:28:32 by mman              #+#    #+#             */
-/*   Updated: 2024/05/18 20:54:06 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 22:04:58 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ char	*ft_read_and_append(int fd, char *saved_str)
 		bytes_read = read(fd, buffer, BUFFER_SIZE);
 		if (bytes_read == -1)
 		{
+
 			free(buffer);
 			return (NULL);
 		}
@@ -76,6 +77,7 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
+	ft_pntf("fd: %i", fd);
 	saved_str[fd] = ft_read_and_append(fd, saved_str[fd]);
 	if (!saved_str[fd])
 		return (NULL);

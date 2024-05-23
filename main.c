@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/23 20:56:18 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 22:05:48 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,32 +33,31 @@ void	render(t_scene *scene)
 	ft_pntf("beep boop im a render %i", scene);
 }
 
-void	setup_event_hooks(t_scene *scene)
+int	ft_parse(int fd, t_scene **scene)
 {
-	mlx_key_hook(scene->mlx.win, ft_key_hook, scene);
-	mlx_hook(scene->mlx.win, 17, 0, ft_close_window_event, scene);
-	mlx_mouse_hook(scene->mlx.win, ft_mouse_hook, &scene->mlx);
-	ft_pntf("Event hooks set up\n");
+	ft_pntf("beep boop im a parser %s", get_next_line(fd));
+	ft_pntf("suppressor %i", scene);
+	return(EXIT_SUCCESS);
 }
+
 
 //Sets up Viewport
 //Stores the values of objects in the scene (obviously parses the data)
 //Exits the program (safely) if something fucks up
 int	ft_initialize(t_scene **scene, char *input) 
 {
-	int	fd1;
-
+	int		fd1;
+	
 	ft_error_check(input);
-	*scene = malloc(sizeof(t_scene)); // Allocate and assign to the original pointer
+	*scene = malloc(sizeof(t_scene));
 	if (*scene == NULL)
-	{
 		return (EXIT_FAILURE);
-	}
 	fd1 = open(input, O_RDONLY);
+	ft_parse(fd1, scene);
 	if (fd1 == -1)
 	{
 		perror("Error opening file");
-		free(*scene); // Clean up if file opening fails
+		free(*scene);
 		return (EXIT_FAILURE);
 	}
 	close(fd1);
@@ -79,9 +78,9 @@ int	main(int argc, char *argv[])
 	render(scene);
 	if (mlx_loop(scene->mlx.mlx) != 0)
 	{
-        ft_pntf("Error starting MLX loop\n");
-        return (EXIT_FAILURE);
-    }
+		ft_pntf("Error starting MLX loop\n");
+		return (EXIT_FAILURE);
+	}
 	ft_pntf("exiting");
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/18 19:44:48 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 21:14:32 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,13 @@ typedef struct s_vector
 	double	y;
 	double	z;
 }			t_vec;
+
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}			t_color;
 
 typedef struct s_mlxdata
 {
@@ -48,10 +55,24 @@ typedef struct s_viewport
 	t_vec	pixel_delta_v;
 }			t_viewport;
 
+typedef struct s_object
+{
+	char			*raw_data;
+	int				type;	//0 = camera, 1 = light, 2 = sphere, 3 = plane, 4 = square, 5 = cylinder, 6 = triangle
+	t_vec			coordinates;
+	t_color			color;
+	double			diameter;
+	double			brightness;
+	double			height;
+	double			ambient_ratio;
+	struct s_object	*next;
+}			t_object;
+
 typedef struct s_scene
 {
 	t_viewport	viewport;
 	t_mlxdata	mlx;
+	t_object	*objects;
 	char		*scene_data;
 }			t_scene;
 

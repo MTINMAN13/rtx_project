@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/23 20:49:20 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 21:17:05 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,10 @@ int     ft_close_window_event(t_scene *scene);
 int		ft_mouse_hook(int button, int x, int y, t_mlxdata *mlxdata);
 void	setup_event_hooks(t_scene *scene);
 void	render(t_scene *scene);
+
+//Parsing:
+int     ft_parse(int fd, t_scene **scene);
+
 
 //Calculations:
 double	focal_length(int fov);
