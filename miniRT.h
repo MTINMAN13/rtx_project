@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/18 21:01:42 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 20:49:20 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,10 +33,10 @@
 
 void	ft_error_check(char *string);
 int		ft_mlx_init(t_mlxdata *mlxdata);
-void	ft_process_other_keys(int keycode, t_mlxdata *mlxdata);
-int		ft_key_hook(int keycode, t_mlxdata *mlxdata);
-void	ft_cleanup_all(t_mlxdata *mlxdata);
-int		ft_close_window_event(t_mlxdata *mlxdata);
+void	ft_process_other_keys(int keycode, t_scene **scene);
+int		ft_key_hook(int keycode, t_scene *scene);
+void	ft_cleanup_all(t_scene **scene);
+int     ft_close_window_event(t_scene *scene);
 int		ft_mouse_hook(int button, int x, int y, t_mlxdata *mlxdata);
 void	setup_event_hooks(t_scene *scene);
 void	render(t_scene *scene);
