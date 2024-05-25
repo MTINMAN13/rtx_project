@@ -6,13 +6,13 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 15:59:40 by mman              #+#    #+#             */
-/*   Updated: 2023/10/28 21:55:52 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/25 23:12:07 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strdup(const char *str)
+char	*ft_strdup(char *str)
 {
 	char	*dupe;
 	size_t	i;

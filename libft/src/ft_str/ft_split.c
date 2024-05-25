@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:11:33 by mman              #+#    #+#             */
-/*   Updated: 2023/11/20 21:25:48 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/25 23:11:09 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ static size_t	ft_countword(char const *s, char c)
 	return (count);
 }
 
-char	**ft_split(char const *s, char c)
+char	**ft_split(char *s, char c)
 {
 	char	**lst;
 	size_t	word_len;

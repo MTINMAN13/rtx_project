@@ -6,13 +6,13 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:20:35 by apple             #+#    #+#             */
-/*   Updated: 2024/05/23 21:58:49 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/25 23:12:50 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strjoin(char *s1, char *s2)
 {
 	size_t	len_s1;
 	size_t	len_s2;

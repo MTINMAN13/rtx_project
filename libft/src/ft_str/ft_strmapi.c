@@ -6,14 +6,14 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 12:24:45 by apple             #+#    #+#             */
-/*   Updated: 2023/10/28 21:56:03 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/25 23:14:45 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 // applies function f to each char s
 #include "libft.h"
 
-char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+char	*ft_strmapi(char *s, char (*f)(unsigned int, char))
 {
 	char			*str;
 	size_t			len;

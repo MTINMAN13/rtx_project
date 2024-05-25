@@ -6,14 +6,14 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/21 16:14:14 by mman              #+#    #+#             */
-/*   Updated: 2023/10/28 21:56:08 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/25 23:15:52 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 #include "libft.h"
 
-char	*ft_strtrim(char const *s1, char const *set)
+char	*ft_strtrim(char *s1, char *set)
 {
 	size_t	i;
 
