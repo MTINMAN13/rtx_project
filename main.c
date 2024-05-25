@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/23 22:05:48 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/25 23:45:01 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	ft_parse(int fd, t_scene **scene)
 	return(EXIT_SUCCESS);
 }
 
+//You need at least these 3 simple geometric objects: plane, sphere, cylinder.
 
 //Sets up Viewport
 //Stores the values of objects in the scene (obviously parses the data)
