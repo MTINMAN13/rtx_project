@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/22 22:20:35 by apple             #+#    #+#             */
-/*   Updated: 2023/11/20 21:24:06 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 21:58:49 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ char	*ft_strjoin(char const *s1, char const *s2)
 
 	len_s1 = ft_strlen(s1);
 	len_s2 = ft_strlen(s2);
+
 	result = (char *)malloc(len_s1 + len_s2 + 1);
 	temp = result;
+
 	if (!result)
 		return (NULL);
 	if (s1)

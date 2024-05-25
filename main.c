@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/18 21:05:54 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 22:05:48 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,31 +33,54 @@ void	render(t_scene *scene)
 	ft_pntf("beep boop im a render %i", scene);
 }
 
+int	ft_parse(int fd, t_scene **scene)
+{
+	ft_pntf("beep boop im a parser %s", get_next_line(fd));
+	ft_pntf("suppressor %i", scene);
+	return(EXIT_SUCCESS);
+}
+
+
 //Sets up Viewport
 //Stores the values of objects in the scene (obviously parses the data)
 //Exits the program (safely) if something fucks up
-int	ft_initialize(t_scene *scene, char *input)
+int	ft_initialize(t_scene **scene, char *input) 
 {
-	int			fd1;
-
+	int		fd1;
+	
 	ft_error_check(input);
-	scene = malloc(sizeof(t_scene));
+	*scene = malloc(sizeof(t_scene));
+	if (*scene == NULL)
+		return (EXIT_FAILURE);
 	fd1 = open(input, O_RDONLY);
+	ft_parse(fd1, scene);
+	if (fd1 == -1)
+	{
+		perror("Error opening file");
+		free(*scene);
+		return (EXIT_FAILURE);
+	}
 	close(fd1);
-	ft_mlx_init(&scene->mlx);
+	ft_mlx_init(&(*scene)->mlx);
+	ft_pntf("%i", &(*scene)->mlx);
 	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[])
 {
-	t_scene		scene;
+	t_scene		*scene;
 
 	ft_pntf("argv %s", argv[1]);
 	ft_initialize(&scene, "scene.rt");
 	if (argc)
 		ft_pntf("Usage Guide: TBD");
-	setup_event_hooks(&scene);
-	render(&scene);
-	mlx_loop(&scene);
+	setup_event_hooks(scene);
+	render(scene);
+	if (mlx_loop(scene->mlx.mlx) != 0)
+	{
+		ft_pntf("Error starting MLX loop\n");
+		return (EXIT_FAILURE);
+	}
+	ft_pntf("exiting");
 	return (EXIT_SUCCESS);
 }

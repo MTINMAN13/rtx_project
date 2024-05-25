@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 17:18:00 by mman              #+#    #+#             */
-/*   Updated: 2024/05/18 19:38:59 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/23 21:59:50 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <limits.h>
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 10000000
+#  define BUFFER_SIZE 100
 # endif
 
 typedef struct s_list
@@ -59,14 +59,14 @@ void		ft_putchar_fd(char c, int fd);
 void		ft_putnbr_fd(int n, int fd);
 void		ft_putstr_fd(char *s, int fd);
 char		**ft_split(char const *s, char c);
-char		*ft_strchr(const char *s, int c);
+char		*ft_strchr(char *s, int c);
 char		*ft_strrchr(const char *s, int c);
 void		ft_striteri(char *s, void (*f)(unsigned int, char *));
 char		*ft_strjoin(char const *s1, char const *s2);
 size_t		ft_strlcat(char *dst, const char *src, size_t size);
 size_t		ft_strlcpy(char *dst, const char *src, size_t size);
 char		*ft_strdup(const char *str);
-size_t		ft_strlen(const char *s);
+size_t		ft_strlen(char *s);
 char		*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 int			ft_strncmp(const char *s1, const char *s2, size_t n);
 char		*ft_strnstr(const char *big, const char *little, size_t len);
