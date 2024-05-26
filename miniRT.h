@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 14:14:01 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 16:20:06 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	setup_event_hooks(t_scene *scene);
 void	render(t_scene *scene);
 
 //Parsing:
-int     ft_parse(int fd, t_scene **scene);
+int		ft_parse(int fd, t_scene **scene);
 void	parse_camera_data(char* line, t_scene** scene);
 void	parse_sphere_data(char* line, t_scene** scene);
 void	parse_plane_data(char* line, t_scene** scene);
@@ -50,6 +50,8 @@ void	parse_cylinder_data(char* line, t_scene** scene);
 
 //Vector Allocation:
 void	ft_assign_values_to_t_vec(t_vec *vec, char *str);
+void	ft_assign_values_to_t_color(t_color *color, char *str);
+
 
 //Calculations:
 double	focal_length(int fov);

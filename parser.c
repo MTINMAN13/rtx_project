@@ -6,30 +6,48 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 14:17:59 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 18:00:19 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 // Function to parse the sphere data
-void parse_sphere_data(char* line, t_scene** scene)
+// sphere is passed in in the following format
+//
+// sp 0.0,0.0,20.6 12.6 10,0,255
+void	parse_sphere_data(char *line, t_scene **scene)
 {
+	char	**split;
+
 	// Check if the line starts with 'sp'
 	if (ft_strncmp(line, "sp", 2) == 0)
 	{
-		ft_pntf("beep boop im a sphere, %i", scene);
+		split = ft_split(line, ' ');
+		(*scene)->objects->raw_data = ft_strdup(line);
+		ft_pntf("beep boop im a sphere, %s", split);
+		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
+		(*scene)->objects->diameter = ft_atoidouble(split[2]);
+		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
+		(*scene)->objects->type = 2;
+		(*scene)->objects->next = malloc(sizeof(t_object));
+		(*scene)->objects = (*scene)->objects->next;
+		(*scene)->objects->next = NULL;
+		(*scene)->total_objects++;
+		free(split);
 	}
+	else
+		split = NULL;
 }
 
 // Function to parse the plane data
+// plane is passed in in the following format
+//
+// pl 0.0,0.0,20.6 0.0,0.0,1.0 10,0,255
 void parse_plane_data(char* line, t_scene** scene)
 {
-	// Check if the line starts with 'pl'
-	if (ft_strncmp(line, "pl", 2) == 0)
-	{
-		ft_pntf("beep boop im a plane, %i", scene);
-	}
+	char	**split;
+
 }
 
 // Function to parse the cylinder data
@@ -48,14 +66,17 @@ void parse_camera_data(char* line, t_scene** scene)
 	// t_vec	*orientation;
 	// coords = NULL;
 	// orientation = NULL;
-	if (ft_strncmp(line, "C", 1) == 0) 
-	{	
-		ft_pntf("beep boop im a cylinder, %i", scene);
+	if (ft_strncmp(line, "C", 1) == 0)
+	{
 		split = ft_split(line, ' ');
+		(*scene)->viewport.raw_data = ft_strdup(line);
+		ft_assign_values_to_t_vec(&(*scene)->viewport.cam_pos, split[1]);
+		ft_assign_values_to_t_vec(&(*scene)->viewport.orientation, split[2]);
+		(*scene)->viewport.focal_length = focal_length(ft_atoi(split[3]));
 	}
 	else
 		split = NULL;
-	ft_pntf("beep boop im a cylinder, %s", split);
+	ft_pntf("beep boop im a suppressor, %s", split);
 }
 
 // Function to parse the input file
