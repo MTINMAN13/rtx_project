@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/25 23:45:01 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 11:04:12 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,22 +33,15 @@ void	render(t_scene *scene)
 	ft_pntf("beep boop im a render %i", scene);
 }
 
-int	ft_parse(int fd, t_scene **scene)
-{
-	ft_pntf("beep boop im a parser %s", get_next_line(fd));
-	ft_pntf("suppressor %i", scene);
-	return(EXIT_SUCCESS);
-}
-
 //You need at least these 3 simple geometric objects: plane, sphere, cylinder.
 
 //Sets up Viewport
 //Stores the values of objects in the scene (obviously parses the data)
 //Exits the program (safely) if something fucks up
-int	ft_initialize(t_scene **scene, char *input) 
+int	ft_initialize(t_scene **scene, char *input)
 {
 	int		fd1;
-	
+
 	ft_error_check(input);
 	*scene = malloc(sizeof(t_scene));
 	if (*scene == NULL)

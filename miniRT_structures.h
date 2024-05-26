@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/23 21:14:32 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 11:10:50 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ typedef struct s_mlxdata
 //Store Camera and Viewport Values
 typedef struct s_viewport
 {
+	char	*raw_data;
 	t_vec	cam_pos;
 	t_vec	orientation;
 	double	focal_length;		//calculated as focal_length(FOV)
@@ -73,7 +74,6 @@ typedef struct s_scene
 	t_viewport	viewport;
 	t_mlxdata	mlx;
 	t_object	*objects;
-	char		*scene_data;
 }			t_scene;
 
 #endif
