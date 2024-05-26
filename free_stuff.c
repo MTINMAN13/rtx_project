@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:44:57 by mman              #+#    #+#             */
-/*   Updated: 2024/05/23 20:53:48 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 14:15:39 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,7 @@ void	ft_cleanup_all(t_scene **scene)
     mlx_destroy_display(mlxdata->mlx); 
 
     free(mlxdata->mlx);  
-
-    free((*scene)->scene_data); 
+    free((*scene)->objects); 
 
     free(*scene); 
     *scene = NULL; 
