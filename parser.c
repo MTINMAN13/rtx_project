@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 18:00:19 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 18:25:41 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,13 +23,45 @@ void	parse_sphere_data(char *line, t_scene **scene)
 	// Check if the line starts with 'sp'
 	if (ft_strncmp(line, "sp", 2) == 0)
 	{
+		ft_pntf("found a sphere");
+		// (*scene)->objects->raw_data = (line);
+		// ft_pntf("assigned");
 		split = ft_split(line, ' ');
-		(*scene)->objects->raw_data = ft_strdup(line);
-		ft_pntf("beep boop im a sphere, %s", split);
+		ft_pntf("beep boop im a sphere, %s", split[1]);
 		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
 		(*scene)->objects->diameter = ft_atoidouble(split[2]);
+		ft_pntf("test");
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
 		(*scene)->objects->type = 2;
+		(*scene)->objects->next = malloc(sizeof(t_object));
+		(*scene)->objects = (*scene)->objects->next;
+		(*scene)->objects->next = NULL;
+		(*scene)->total_objects++;
+		free(split);
+		ft_pntf("jobs done");
+	}
+	else
+		split = NULL;
+}
+
+// Function to parse the plane data
+// plane is passed in in the following format
+//
+// pl 0.0,0.0,20.6 0.0,0.0,1.0 10,0,255
+void	parse_plane_data(char *line, t_scene **scene)
+{
+	char	**split;
+
+	// Check if the line starts with 'pl'
+	if (ft_strncmp(line, "pl", 2) == 0)
+	{
+		split = ft_split(line, ' ');
+		(*scene)->objects->raw_data = ft_strdup(line);
+		ft_pntf("beep boop im a plane, %s", split);
+		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
+		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
+		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
+		(*scene)->objects->type = 3;
 		(*scene)->objects->next = malloc(sizeof(t_object));
 		(*scene)->objects = (*scene)->objects->next;
 		(*scene)->objects->next = NULL;
@@ -40,26 +72,36 @@ void	parse_sphere_data(char *line, t_scene **scene)
 		split = NULL;
 }
 
-// Function to parse the plane data
-// plane is passed in in the following format
+// Function to parse the cylinder data
+// cylinder is passed in in the following format
 //
-// pl 0.0,0.0,20.6 0.0,0.0,1.0 10,0,255
-void parse_plane_data(char* line, t_scene** scene)
+// cl 0.0,0.0,20.6 0.0,0.0,1.0 12.6 10,0,255
+void	parse_cylinder_data(char *line, t_scene **scene)
 {
 	char	**split;
-
-}
-
-// Function to parse the cylinder data
-void parse_cylinder_data(char* line, t_scene** scene) {
 	// Check if the line starts with 'cl'
 	if (ft_strncmp(line, "cl", 2) == 0)
 	{
-		ft_pntf("beep boop im a cylinder, %i", scene);
+		split = ft_split(line, ' ');
+		(*scene)->objects->raw_data = ft_strdup(line);
+		ft_pntf("beep boop im a cylinder, %s", split);
+		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
+		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
+		(*scene)->objects->diameter = ft_atoidouble(split[3]);
+		(*scene)->objects->height = ft_atoidouble(split[4]);
+		ft_assign_values_to_t_color(&(*scene)->objects->color, split[5]);
+		(*scene)->objects->type = 4;
+		(*scene)->objects->next = malloc(sizeof(t_object));
+		(*scene)->objects = (*scene)->objects->next;
+		(*scene)->objects->next = NULL;
+		(*scene)->total_objects++;
+		free(split);
 	}
+	else
+		split = NULL;
 }
 
-void parse_camera_data(char* line, t_scene** scene)
+void	parse_camera_data(char *line, t_scene **scene)
 {
 	char	**split;
 	// t_vec	*coords;
@@ -76,14 +118,13 @@ void parse_camera_data(char* line, t_scene** scene)
 	}
 	else
 		split = NULL;
-	ft_pntf("beep boop im a suppressor, %s", split);
 }
 
 // Function to parse the input file
 //If it finds a C, it will ram the data into scene->viewport
 //If it finds other shit, it will do it into scene->objects->raw_data
 //It then tells us how many objects are there
-int ft_parse(int fd, t_scene** scene)
+int	ft_parse(int fd, t_scene **scene)
 {
 	char	*line;
 
@@ -105,6 +146,8 @@ int ft_parse(int fd, t_scene** scene)
 			// Get the next line
 			line = get_next_line(fd);
 		}
+		ft_pntf("found %i objects", (*scene)->total_objects);
+		free(line);
 	}
 	return (EXIT_SUCCESS);
 }
