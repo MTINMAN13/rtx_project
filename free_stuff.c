@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:44:57 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 14:15:39 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 19:04:47 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,23 @@
 // 	exit(EXIT_SUCCESS);
 // }
 
-
+void	ft_free_scene_objects(t_scene **scene)
+{
+	if (*scene == NULL) {
+		return;
+	}
+	
+	t_object *current = (*scene)->objects;
+	t_object *next;
+	
+	while (current != NULL) {
+		next = current->next;
+		free(current);
+		current = next;
+	}
+	
+	(*scene)->objects = NULL;
+}
 
 //frees all pointers related to MLX (via mlx funcs.)
 //also frees the *mlx pointer
@@ -45,9 +61,8 @@ void	ft_cleanup_all(t_scene **scene)
     mlx_destroy_window(mlxdata->mlx, mlxdata->win);  
     mlx_destroy_display(mlxdata->mlx); 
 
-    free(mlxdata->mlx);  
-    free((*scene)->objects); 
-
+	free(mlxdata->mlx);
+	ft_free_scene_objects(scene);
     free(*scene); 
     *scene = NULL; 
     ft_pntf("Cleaned up all resources yo\n");

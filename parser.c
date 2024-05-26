@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 18:49:06 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 19:17:09 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ void	parse_sphere_data(char *line, t_scene **scene)
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
 		(*scene)->objects->type = 2;
 		(*scene)->objects->next = malloc(sizeof(t_object));
+		(*scene)->objects->next->prev = (*scene)->objects;
 		(*scene)->objects = (*scene)->objects->next;
 		(*scene)->objects->next = NULL;
 		(*scene)->total_objects++;
@@ -63,6 +64,7 @@ void	parse_plane_data(char *line, t_scene **scene)
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
 		(*scene)->objects->type = 3;
 		(*scene)->objects->next = malloc(sizeof(t_object));
+		(*scene)->objects->next->prev = (*scene)->objects;
 		(*scene)->objects = (*scene)->objects->next;
 		(*scene)->objects->next = NULL;
 		(*scene)->total_objects++;
@@ -92,6 +94,7 @@ void	parse_cylinder_data(char *line, t_scene **scene)
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[5]);
 		(*scene)->objects->type = 4;
 		(*scene)->objects->next = malloc(sizeof(t_object));
+		(*scene)->objects->next->prev = (*scene)->objects;
 		(*scene)->objects = (*scene)->objects->next;
 		(*scene)->objects->next = NULL;
 		(*scene)->total_objects++;
@@ -143,6 +146,7 @@ int	ft_parse(int fd, t_scene **scene)
 			parse_plane_data(line, scene);
 			// Parse the line starting with 'cl'
 			parse_cylinder_data(line, scene);
+			parse_ambient_light(line, scene);
 			// Get the next line
 			line = get_next_line(fd);
 		}

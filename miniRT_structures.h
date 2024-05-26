@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 18:53:25 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 19:11:15 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ typedef struct s_object
 	double			height;
 	double			ambient_ratio;
 	struct s_object	*next;
+	struct s_object	*prev;
 }			t_object;
 
 typedef struct s_scene
@@ -76,6 +77,8 @@ typedef struct s_scene
 	t_mlxdata	mlx;
 	t_object	*objects;
 	int			total_objects;
+	t_color		ambient_light;
+	double		ambient_ratio;
 }			t_scene;
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 18:50:31 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 19:03:43 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	ft_initialize(t_scene **scene, char *input)
 	if (*scene == NULL)
 		return (EXIT_FAILURE);
 	(*scene)->objects = malloc(sizeof(t_object));
+	(*scene)->objects->prev = NULL;
+	(*scene)->objects->next = NULL;
 	if ((*scene)->objects == NULL)
 		return (EXIT_FAILURE);
 	fd1 = open(input, O_RDONLY);
