@@ -19,7 +19,7 @@ INCLUDE = include
 # Sources
 SRC_FILES = main mlx_functions mlx_functionss \
 			render_calculations \
-			vector_functions vector_allocation free_stuff parser \
+			vector_functions vector_allocation free_stuff parser parse_lights \
 
 
 SRC = $(addsuffix .c, $(SRC_FILES))
@@ -93,8 +93,8 @@ run:
 		@echo
 		@echo "$(CLR2)--------- clean program run ---------$(DEF_COLOR)"
 
-valgrind:
-		valgrind --leak-check=full --show-leak-kinds=all ./$(NAME) mandelbrot
+v:
+		valgrind --leak-check=full --track-origins=yes ./miniRT
 
 
 .PHONY: all libft clean fclean re norm $(NAME) run
