@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 20:28:19 by mman              #+#    #+#             */
-/*   Updated: 2024/05/23 21:00:58 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/26 13:59:15 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	ft_error_check(char *string)
 {
+	ft_pntf("PLEASE DELIMIT THE INSTRUCTIONS BY A SINGLE SPACE AND A NEWLINE\n");
 	ft_pntf("String checked passed: %s", string);
 }
 
