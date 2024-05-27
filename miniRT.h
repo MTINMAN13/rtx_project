@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 19:16:06 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 02:41:57 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define SAMPLES_PER_PIXEL 8
 # define NAME "miniRTX  |  agadkari & mman project"
 # ifndef M_PI
 #  define M_PI 3.141592653589793238462643383279502884197169399375105820974944
@@ -41,6 +42,9 @@ int		ft_close_window_event(t_scene *scene);
 int		ft_mouse_hook(int button, int x, int y, t_mlxdata *mlxdata);
 void	setup_event_hooks(t_scene *scene);
 void	render(t_scene *scene);
+
+void    ft_initialize_viewport(t_scene **scene);
+void	bvh_tree(t_scene *scene);
 
 //Parsing:
 int		ft_parse(int fd, t_scene **scene);

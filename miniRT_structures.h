@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 19:11:15 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 02:27:24 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,14 +46,14 @@ typedef struct s_mlxdata
 typedef struct s_viewport
 {
 	char	*raw_data;
-	t_vec	cam_pos;
-	t_vec	orientation;
+	t_vec	cam_pos;		//taken in from the camera data
+	t_vec	orientation;	//taken in from the camera data
 	double	focal_length;		//calculated as focal_length(FOV)
-	t_vec	upper_left;
-	t_vec	viewport_u;
-	t_vec	viewport_v;
-	t_vec	pixel_delta_u;
-	t_vec	pixel_delta_v;
+	t_vec	upper_left;			//x y z coordinates of the upper left corner of the viewport
+	t_vec	viewport_u;			//A 3D vector that spans the width of the viewport along the horizontal (x) axis.
+	t_vec	viewport_v;			//A 3D vector that spans the height of the viewport along the vertical (y) axis.
+	t_vec	pixel_delta_u;		//A 3D vector that represents the change in the x-coordinate for each pixel across the viewport.
+	t_vec	pixel_delta_v;		//A 3D vector that represents the change in the y-coordinate for each pixel across the viewport.
 }			t_viewport;
 
 typedef struct s_object
@@ -71,11 +71,26 @@ typedef struct s_object
 	struct s_object	*prev;
 }			t_object;
 
+typedef struct s_light
+{
+	char			*raw_data;
+	t_vec			coordinates;
+	t_vec			normal;
+	t_color			color;
+	double			diameter;
+	double			brightness;
+	double			height;
+	double			ambient_ratio;
+	struct s_object	*next;
+	struct s_object	*prev;
+}			t_light;
+
 typedef struct s_scene
 {
 	t_viewport	viewport;
 	t_mlxdata	mlx;
 	t_object	*objects;
+	t_light		*lights;
 	int			total_objects;
 	t_color		ambient_light;
 	double		ambient_ratio;
