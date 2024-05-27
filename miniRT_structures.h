@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 02:56:48 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 18:35:53 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,14 @@ typedef struct s_vector
 	double	y;
 	double	z;
 }			t_vec;
+
+typedef struct s_aabb
+{
+	t_vec	min; // Minimum corner (x, y, z)
+	t_vec	max; // Maximum corner (x, y, z)
+	void	*data;    // Pointer to object or child nodes
+    int		isLeaf;   // Flag to indicate leaf node (1) or internal node (0)
+}			t_aabb;
 
 typedef struct s_color
 {
@@ -63,6 +71,7 @@ typedef struct s_object
 	t_vec			coordinates;
 	t_vec			normal;
 	t_color			color;
+	t_aabb			bounds;
 	double			diameter;
 	double			brightness;
 	double			height;
@@ -92,6 +101,8 @@ typedef struct s_scene
 	t_object	*objects;
 	t_light		*lights;
 	int			total_objects;
+	int			total_lights;
+	t_aabb		*bounds;
 	t_color		ambient_light;
 	double		ambient_ratio;
 }			t_scene;
