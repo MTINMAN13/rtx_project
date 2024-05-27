@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 19:31:02 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 20:43:52 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		ft_mouse_hook(int button, int x, int y, t_mlxdata *mlxdata);
 void	setup_event_hooks(t_scene *scene);
 void	render(t_scene *scene);
 
-void    ft_initialize_viewport(t_scene **scene);
+void	ft_initialize_viewport(t_scene **scene);
 void	bvh_tree(t_scene *scene);
 void	bvh_bounds(t_scene *scene);
 void	calculate_aabb(t_object	*object, t_aabb	*aabb);
@@ -60,9 +60,10 @@ void	ft_assign_values_to_t_vec(t_vec *vec, char *str);
 void	ft_assign_values_to_t_color(t_color *color, char *str);
 void	parse_ambient_light(char *line, t_scene **scene);
 
-
 //Calculations:
 double	focal_length(int fov);
+double	ft_fmax(double x, double y);
+double	ft_fmin(double x, double y);
 
 
 #endif

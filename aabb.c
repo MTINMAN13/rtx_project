@@ -6,32 +6,65 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:26:44 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 19:31:24 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 21:29:15 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
+static void	initialize_bounds(t_scene **scene)
+{
+	(*scene)->bounds->min.y = INFINITY;
+	(*scene)->bounds->min.y = INFINITY;
+	(*scene)->bounds->min.z = INFINITY;
+	(*scene)->bounds->max.x = -INFINITY;
+	(*scene)->bounds->max.y = -INFINITY;
+	(*scene)->bounds->max.z = -INFINITY;
+}
+
+double	ft_fmin(double x, double y)
+{
+	if (x < y)
+		return (x);
+	return (y);
+}
+
+double	ft_fmax(double x, double y)
+{
+	if (x > y)
+		return (x);
+	return (y);
+}
+
 //Bounding Volume Hierarchy -- the box that surrounds all objects in the scene
 //axis-aligned bounding box (AABB)
 //scans objects in the scene
 //calculates the bounds of the scene
-void    bvh_bounds(t_scene *scene)
+void	bvh_bounds(t_scene *scene)
 {
-	// int i = 0;
-	// // Scan through the objects in the scene
-	// while (i < scene->objects_count)
-	// {
-	//     // Calculate the bounds of each object
-	//     // ...
-		
-	//     i++;
-	// }
+	int	i;
 
-	// Calculate the bounds of the lights in the scene
-	// ...
-
-	ft_pntf("beep boop im a bvh bounds %i", scene);
+	i = 0;
+	ft_pntf("beep boop im a bvh_bounds %i", scene);
+	scene->bounds = malloc(sizeof(t_aabb));
+	initialize_bounds(&scene);
+	ft_pntf("hi");
+	while (scene->objects->prev)
+		scene->objects = scene->objects->prev;
+	while (i <= scene->total_objects)
+	{
+		ft_pntf("this is the bounds.min %f", scene->objects->bounds.min.x);
+		scene->bounds->min.x = ft_fmin(scene->bounds->min.x, scene->objects->bounds.min.x);
+		scene->bounds->min.y = ft_fmin(scene->bounds->min.y, scene->objects->bounds.min.y);
+		scene->bounds->min.z = ft_fmin(scene->bounds->min.z, scene->objects->bounds.min.z);
+		scene->bounds->max.x = ft_fmax(scene->bounds->max.x, scene->objects->bounds.max.x); // Fix typo: min -> max
+		scene->bounds->max.y = ft_fmax(scene->bounds->max.y, scene->objects->bounds.max.y); // Fix typo: min -> max
+		scene->bounds->max.z = ft_fmax(scene->bounds->max.z, scene->objects->bounds.max.z); // Fix typo: min -> max
+		i++;
+		scene->objects = scene->objects->next;
+	}
+	printf("----------- the min bounds are: %lf, %lf, %lf\n", scene->bounds->min.x, scene->bounds->min.y, scene->bounds->min.z);
+	printf("----------- the max bounds are: %lf, %lf, %lf\n", scene->bounds->max.x, scene->bounds->max.y, scene->bounds->max.z);
 }
 
 // 0 = camera, 1 = light, 2 = sphere, 3 = plane, 4 = square, 5 = cylinder, 6 = triangle
