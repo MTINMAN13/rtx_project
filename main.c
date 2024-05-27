@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 02:39:36 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 03:13:34 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ void	raycaster(t_scene *scene)
 void	render(t_scene *scene)
 {
 	ft_pntf("beep boop im a render %i", scene);
+	bvh_bounds(scene);
 	bvh_tree(scene);
 	raycaster(scene);
 }
