@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 03:14:05 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 19:31:02 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	render(t_scene *scene);
 void    ft_initialize_viewport(t_scene **scene);
 void	bvh_tree(t_scene *scene);
 void	bvh_bounds(t_scene *scene);
+void	calculate_aabb(t_object	*object, t_aabb	*aabb);
 
 //Parsing:
 int		ft_parse(int fd, t_scene **scene);
