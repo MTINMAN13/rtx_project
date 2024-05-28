@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 20:48:13 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 00:06:25 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,9 @@ typedef struct s_aabb
 {
 	t_vec	min; // Minimum corner (x, y, z)
 	t_vec	max; // Maximum corner (x, y, z)
-	void	*data;    // Pointer to object or child nodes
-    int		isLeaf;   // Flag to indicate leaf node (1) or internal node (0)
+	void	*child;    // Pointer to object or child nodes
+	
+	int		isLeaf;   // Flag to indicate leaf node (1) or internal node (0)
 }			t_aabb;
 
 typedef struct s_color
@@ -57,7 +58,9 @@ typedef struct s_viewport
 	t_vec	cam_pos;		//taken in from the camera data
 	t_vec	orientation;	//taken in from the camera data
 	double	focal_length;		//calculated as focal_length(FOV)
+	double	render_distance_cutoff;
 	t_vec	upper_left;			//x y z coordinates of the upper left corner of the viewport
+	t_vec	bottom_right;		//x y z coordinates of the bottom right corner of the viewport -- to simplify some claculations
 	t_vec	viewport_u;			//A 3D vector that spans the width of the viewport along the horizontal (x) axis.
 	t_vec	viewport_v;			//A 3D vector that spans the height of the viewport along the vertical (y) axis.
 	t_vec	pixel_delta_u;		//A 3D vector that represents the change in the x-coordinate for each pixel across the viewport.

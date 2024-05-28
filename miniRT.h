@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 20:43:52 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/28 20:33:33 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define WIDTH 1200
 # define HEIGHT 800
 # define SAMPLES_PER_PIXEL 8
-# define NAME "miniRTX  |  agadkari & mman project"
+# define NAME "miniRTX  | mman & agadkari project"
 # ifndef M_PI
 #  define M_PI 3.141592653589793238462643383279502884197169399375105820974944
 # endif
