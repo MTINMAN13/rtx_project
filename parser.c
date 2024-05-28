@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/26 19:17:09 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/27 19:30:31 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,9 @@ void	parse_sphere_data(char *line, t_scene **scene)
 {
 	char	**split;
 
-	// Check if the line starts with 'sp'
 	if (ft_strncmp(line, "sp", 2) == 0)
 	{
 		ft_pntf("found a sphere");
-		// (*scene)->objects->raw_data = (line);
-		// ft_pntf("assigned");
 		split = ft_split(line, ' ');
 		ft_pntf("beep boop im a sphere, %s", split[1]);
 		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
@@ -33,6 +30,7 @@ void	parse_sphere_data(char *line, t_scene **scene)
 		ft_pntf("test");
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
 		(*scene)->objects->type = 2;
+		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);
 		(*scene)->objects->next = malloc(sizeof(t_object));
 		(*scene)->objects->next->prev = (*scene)->objects;
 		(*scene)->objects = (*scene)->objects->next;
@@ -53,7 +51,6 @@ void	parse_plane_data(char *line, t_scene **scene)
 {
 	char	**split;
 
-	// Check if the line starts with 'pl'
 	if (ft_strncmp(line, "pl", 2) == 0)
 	{
 		split = ft_split(line, ' ');
@@ -63,6 +60,7 @@ void	parse_plane_data(char *line, t_scene **scene)
 		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
 		(*scene)->objects->type = 3;
+		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);
 		(*scene)->objects->next = malloc(sizeof(t_object));
 		(*scene)->objects->next->prev = (*scene)->objects;
 		(*scene)->objects = (*scene)->objects->next;
@@ -81,7 +79,7 @@ void	parse_plane_data(char *line, t_scene **scene)
 void	parse_cylinder_data(char *line, t_scene **scene)
 {
 	char	**split;
-	// Check if the line starts with 'cl'
+	
 	if (ft_strncmp(line, "cl", 2) == 0)
 	{
 		split = ft_split(line, ' ');
@@ -93,6 +91,7 @@ void	parse_cylinder_data(char *line, t_scene **scene)
 		(*scene)->objects->height = ft_atoidouble(split[4]);
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[5]);
 		(*scene)->objects->type = 4;
+		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);
 		(*scene)->objects->next = malloc(sizeof(t_object));
 		(*scene)->objects->next->prev = (*scene)->objects;
 		(*scene)->objects = (*scene)->objects->next;

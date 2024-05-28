@@ -20,7 +20,7 @@ INCLUDE = include
 SRC_FILES = main mlx_functions mlx_functionss \
 			render_calculations \
 			vector_functions vector_allocation free_stuff parser parse_lights \
-			viewport bvh_tree \
+			viewport bvh_tree aabb \
 
 
 SRC = $(addsuffix .c, $(SRC_FILES))
