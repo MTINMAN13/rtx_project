@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 19:30:31 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 00:12:18 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,6 +117,8 @@ void	parse_camera_data(char *line, t_scene **scene)
 		ft_assign_values_to_t_vec(&(*scene)->viewport.cam_pos, split[1]);
 		ft_assign_values_to_t_vec(&(*scene)->viewport.orientation, split[2]);
 		(*scene)->viewport.focal_length = focal_length(ft_atoi(split[3]));
+		(*scene)->viewport.render_distance_cutoff = tan((ft_atoi(split[3])) / 2);
+		printf("render cutoff distance : %f\n", (*scene)->viewport.render_distance_cutoff);
 	}
 	else
 		split = NULL;
@@ -136,7 +138,6 @@ int	ft_parse(int fd, t_scene **scene)
 		while (line != NULL)
 		{
 			ft_pntf("beep boop im a parser\n %s", line);
-
 			// Parse the line starting with 'C'
 			parse_camera_data(line, scene);
 			// Parse the line starting with 'sp'
