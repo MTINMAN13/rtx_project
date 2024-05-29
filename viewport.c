@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 00:09:14 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 13:26:09 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,32 @@ void	ft_initialize_viewport(t_scene **scene)
 									viewport->cam_pos.y - (viewport->viewport_v.y / 2),
 									viewport->cam_pos.z - viewport->focal_length};
 	ft_pntf("viewport rdy");
+	printf("fov %f\n", viewport->fov);
+	printf("focal length %f\n", viewport->focal_length);
 	printf("upper_left %f %f %f\n", viewport->upper_left.x, viewport->upper_left.y, viewport->upper_left.z);
 	printf("bottom_right %f %f %f\n", viewport->bottom_right.x, viewport->bottom_right.y, viewport->bottom_right.z);
 	ft_pntf("------------------");
+}
+
+void	parse_camera_data(char *line, t_scene **scene)
+{
+	char	**split;
+	// t_vec	*coords;
+	// t_vec	*orientation;
+	// coords = NULL;
+	// orientation = NULL;
+	if (ft_strncmp(line, "C", 1) == 0)
+	{
+		split = ft_split(line, ' ');
+		(*scene)->viewport.raw_data = ft_strdup(line);
+		ft_assign_values_to_t_vec(&(*scene)->viewport.cam_pos, split[1]);
+		ft_assign_values_to_t_vec(&(*scene)->viewport.orientation, split[2]);
+		(*scene)->viewport.fov = ft_atoidouble(split[3]);
+		(*scene)->viewport.focal_length = focal_length((*scene)->viewport.fov);
+		(*scene)->viewport.render_distance_cutoff = tan((ft_atoidouble(split[3])) / 2);
+		ft_initialize_viewport(scene);
+		printf("render cutoff distance : %f\n", (*scene)->viewport.render_distance_cutoff);
+	}
+	else
+		split = NULL;
 }

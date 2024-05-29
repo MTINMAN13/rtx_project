@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 00:12:06 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 13:25:35 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 //axis-aligned bounding boxes (AABB)
 //stuff from scene->objects is to be stored in a BVH tree
 //
-//cylinder           
+//cylinder
 //sphere
 //plane
 
@@ -57,6 +57,11 @@
 // 	// Free the memory allocated for the BVH tree
 // 	free_bvh_tree(root);
 // }
+
+void	bvh_tree(t_scene *scene)
+{
+	ft_pntf("bvh tree %i", scene);
+}
 
 void	free_bvh_tree(t_scene *scene)
 {

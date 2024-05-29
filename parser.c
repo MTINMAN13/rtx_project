@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 00:12:18 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 11:40:32 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	parse_plane_data(char *line, t_scene **scene)
 void	parse_cylinder_data(char *line, t_scene **scene)
 {
 	char	**split;
-	
+
 	if (ft_strncmp(line, "cl", 2) == 0)
 	{
 		split = ft_split(line, ' ');
@@ -98,27 +98,6 @@ void	parse_cylinder_data(char *line, t_scene **scene)
 		(*scene)->objects->next = NULL;
 		(*scene)->total_objects++;
 		free(split);
-	}
-	else
-		split = NULL;
-}
-
-void	parse_camera_data(char *line, t_scene **scene)
-{
-	char	**split;
-	// t_vec	*coords;
-	// t_vec	*orientation;
-	// coords = NULL;
-	// orientation = NULL;
-	if (ft_strncmp(line, "C", 1) == 0)
-	{
-		split = ft_split(line, ' ');
-		(*scene)->viewport.raw_data = ft_strdup(line);
-		ft_assign_values_to_t_vec(&(*scene)->viewport.cam_pos, split[1]);
-		ft_assign_values_to_t_vec(&(*scene)->viewport.orientation, split[2]);
-		(*scene)->viewport.focal_length = focal_length(ft_atoi(split[3]));
-		(*scene)->viewport.render_distance_cutoff = tan((ft_atoi(split[3])) / 2);
-		printf("render cutoff distance : %f\n", (*scene)->viewport.render_distance_cutoff);
 	}
 	else
 		split = NULL;
