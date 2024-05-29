@@ -3,6 +3,9 @@
 		"minirt.h": "c",
 		"mlx_struct.h": "c",
 		"libft.h": "c",
-		"mlx.h": "c"
+		"mlx.h": "c",
+		"*.tcc": "c",
+		"string": "c",
+		"string_view": "c"
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:26:44 by mman              #+#    #+#             */
-/*   Updated: 2024/05/28 23:01:54 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 17:32:41 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	bvh_bounds(t_scene *scene)
 	ft_pntf("beep boop im a bvh_bounds %i", scene);
 	scene->bounds = malloc(sizeof(t_aabb));
 	initialize_bounds(&scene);
-	ft_pntf("hi");
 	while (scene->objects->prev)
 		scene->objects = scene->objects->prev;
 	while (i <= scene->total_objects)

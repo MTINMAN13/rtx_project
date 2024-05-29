@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/28 20:33:33 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 17:18:11 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_assign_values_to_t_color(t_color *color, char *str);
 void	parse_ambient_light(char *line, t_scene **scene);
 
 //Calculations:
-double	focal_length(int fov);
+double	focal_length(double fov);
 double	ft_fmax(double x, double y);
 double	ft_fmin(double x, double y);
 

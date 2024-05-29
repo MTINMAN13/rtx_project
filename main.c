@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 12:51:00 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 17:42:07 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	raycaster(t_scene *scene)
 		}
 		i++;
 	}
-	ft_pntf("beep boop im a raycaster %i", scene);
+	ft_pntf("beep boop im a raycaster %i and I finished running", scene);
 }
 
 void	render(t_scene *scene)
@@ -104,11 +104,7 @@ int	main(int argc, char *argv[])
 		ft_pntf("Usage Guide: TBD");
 	setup_event_hooks(scene);
 	render(scene);
-	if (mlx_loop(scene->mlx.mlx) != 0)
-	{
-		ft_pntf("Error starting MLX loop\n");
-		return (EXIT_FAILURE);
-	}
+	mlx_loop(scene->mlx.mlx);
 	ft_pntf("exiting");
 	return (EXIT_SUCCESS);
 }
