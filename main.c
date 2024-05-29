@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/27 21:28:55 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 12:51:00 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	raycaster(t_scene *scene)
 {
 	int		i;
 	int		j;
-	
+
 	i = 0;
 	while (i < WIDTH)
 	{
@@ -91,7 +91,6 @@ int	ft_initialize(t_scene **scene, char *input)
 	}
 	close(fd1);
 	ft_mlx_init(&(*scene)->mlx);
-	ft_initialize_viewport(scene);
 	return (EXIT_SUCCESS);
 }
 
