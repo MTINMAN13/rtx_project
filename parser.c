@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 11:40:32 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 18:39:25 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	parse_sphere_data(char *line, t_scene **scene)
 		ft_pntf("beep boop im a sphere, %s", split[1]);
 		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
 		(*scene)->objects->diameter = ft_atoidouble(split[2]);
-		ft_pntf("test");
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
 		(*scene)->objects->type = 2;
 		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);

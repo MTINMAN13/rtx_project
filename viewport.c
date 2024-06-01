@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 13:26:09 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 20:22:30 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@ void	ft_initialize_viewport(t_scene **scene)
 	viewport->viewport_v = (t_vec){0, -HEIGHT, 0};
 	viewport->pixel_delta_u = (t_vec){viewport->viewport_u.x / WIDTH, 0, 0};
 	viewport->pixel_delta_v = (t_vec){0, viewport->viewport_v.y / HEIGHT, 0};
-	viewport->upper_left = (t_vec){viewport->cam_pos.x - (viewport->viewport_u.x / 2),
+	viewport->bottom_left = (t_vec){viewport->cam_pos.x - (viewport->viewport_u.x / 2),
 									viewport->cam_pos.y + (viewport->viewport_v.y / 2),
 									viewport->cam_pos.z - viewport->focal_length};
-	viewport->bottom_right = (t_vec){viewport->cam_pos.x + (viewport->viewport_u.x / 2),
+	viewport->upper_right = (t_vec){viewport->cam_pos.x + (viewport->viewport_u.x / 2),
 									viewport->cam_pos.y - (viewport->viewport_v.y / 2),
 									viewport->cam_pos.z - viewport->focal_length};
 	ft_pntf("viewport rdy");
 	printf("fov %f\n", viewport->fov);
 	printf("focal length %f\n", viewport->focal_length);
-	printf("upper_left %f %f %f\n", viewport->upper_left.x, viewport->upper_left.y, viewport->upper_left.z);
-	printf("bottom_right %f %f %f\n", viewport->bottom_right.x, viewport->bottom_right.y, viewport->bottom_right.z);
+	printf("bottom_left %f %f %f\n", viewport->bottom_left.x, viewport->bottom_left.y, viewport->bottom_left.z);
+	printf("upper_right %f %f %f\n", viewport->upper_right.x, viewport->upper_right.y, viewport->upper_right.z);
 	ft_pntf("------------------");
 }
 
@@ -54,7 +54,7 @@ void	parse_camera_data(char *line, t_scene **scene)
 		ft_assign_values_to_t_vec(&(*scene)->viewport.orientation, split[2]);
 		(*scene)->viewport.fov = ft_atoidouble(split[3]);
 		(*scene)->viewport.focal_length = focal_length((*scene)->viewport.fov);
-		(*scene)->viewport.render_distance_cutoff = tan((ft_atoidouble(split[3])) / 2);
+		(*scene)->viewport.render_distance_cutoff = tan((*scene)->viewport.fov / 2);
 		ft_initialize_viewport(scene);
 		printf("render cutoff distance : %f\n", (*scene)->viewport.render_distance_cutoff);
 	}

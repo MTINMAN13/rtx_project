@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/28 20:33:33 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 20:30:13 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,14 @@ void	parse_cylinder_data(char *line, t_scene **scene);
 void	ft_assign_values_to_t_vec(t_vec *vec, char *str);
 void	ft_assign_values_to_t_color(t_color *color, char *str);
 void	parse_ambient_light(char *line, t_scene **scene);
+void	ft_vectorize(t_vec *vec, double x, double y, double z);
+
 
 //Calculations:
-double	focal_length(int fov);
+double	focal_length(double fov);
 double	ft_fmax(double x, double y);
 double	ft_fmin(double x, double y);
+double	degrees_to_radians(double degrees);
 
 
 #endif

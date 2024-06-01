@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 13:25:35 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 18:45:39 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@
 // 	free_bvh_tree(root);
 // }
 
+//I have the Camera in front of mee and I want to traverse everything the camera can see
 void	bvh_tree(t_scene *scene)
 {
 	ft_pntf("bvh tree %i", scene);

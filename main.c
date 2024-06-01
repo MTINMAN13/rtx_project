@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:41:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 12:51:00 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 19:06:09 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,40 +28,6 @@ coordinates - diameter - color(RGB)
 	In range [-1,1] for each x,y,z axis: 0.0,0.0,1.0
 */
 
-//casts a SAMPLES_PER_PIXEL rays from each pixel in the viewport -- WIDTH, HEIGHT
-//for each ray, check for intersections with objects in the scene
-//objects in the scene are stored in a linked list
-//scene is a struct that contains the linked list of objects
-//scene is divided into BVH tree
-void	raycaster(t_scene *scene)
-{
-	int		i;
-	int		j;
-
-	i = 0;
-	while (i < WIDTH)
-	{
-		j = 0;
-		while (j < HEIGHT)
-		{
-			//cast ray from pixel i,j
-			//check for intersections with objects in the scene
-			//if intersection, calculate color
-			//store color in image buffer
-			j++;
-		}
-		i++;
-	}
-	ft_pntf("beep boop im a raycaster %i", scene);
-}
-
-void	render(t_scene *scene)
-{
-	ft_pntf("beep boop im a render %i", scene);
-	bvh_bounds(scene);
-	bvh_tree(scene);
-	raycaster(scene);
-}
 
 //You need at least these 3 simple geometric objects: plane, sphere, cylinder.
 
@@ -104,11 +70,7 @@ int	main(int argc, char *argv[])
 		ft_pntf("Usage Guide: TBD");
 	setup_event_hooks(scene);
 	render(scene);
-	if (mlx_loop(scene->mlx.mlx) != 0)
-	{
-		ft_pntf("Error starting MLX loop\n");
-		return (EXIT_FAILURE);
-	}
+	mlx_loop(scene->mlx.mlx);
 	ft_pntf("exiting");
 	return (EXIT_SUCCESS);
 }
