@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:10:04 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 17:42:59 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 18:52:52 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,14 @@ void	ft_assign_values_to_t_vec(t_vec *vec, char *str)
 	// Free the memory allocated by ft_split
 	free(copy);
 	free(token);
+}
+
+//Takes in the vector structure and assigns three doubles to it
+void	ft_vectorize(t_vec *vec, double x, double y, double z)
+{
+	vec->x = x;
+	vec->y = y;
+	vec->z = z;
 }
 
 //takes in the color structure, assigns values from string

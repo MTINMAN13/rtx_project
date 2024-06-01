@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 17:41:21 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 20:20:49 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,16 @@ typedef struct s_aabb
 {
 	t_vec	min; // Minimum corner (x, y, z)
 	t_vec	max; // Maximum corner (x, y, z)
-	void	*child;    // Pointer to object or child nodes
-
-	int		isLeaf;   // Flag to indicate leaf node (1) or internal node (0)
 }			t_aabb;
+
+typedef struct s_bvh_node
+{
+	t_aabb				aabb; // Axis-aligned bounding box
+	void				*data; // Pointer to the data stored in the node
+	int					isLeaf; // Flag indicating if the node is a leaf node
+	struct s_bvh_node	*left; // Pointer to the left child node
+	struct s_bvh_node	*right; // Pointer to the right child node
+}			t_bvh_node;
 
 typedef struct s_color
 {
@@ -51,7 +57,7 @@ typedef struct s_mlxdata
 	int			endian;
 }			t_mlxdata;
 
-//Store Camera and Viewport Values
+//Store Camera / Viewport Values
 typedef struct s_viewport
 {
 	char	*raw_data;
@@ -59,9 +65,9 @@ typedef struct s_viewport
 	t_vec	orientation;	//taken in from the camera data
 	double	focal_length;		//calculated as focal_length(FOV)
 	double	render_distance_cutoff;
-	t_vec	upper_left;			//x y z coordinates of the upper left corner of the viewport
+	t_vec	bottom_left;			//x y z coordinates of the upper left corner of the viewport
 	double	fov;
-	t_vec	bottom_right;		//x y z coordinates of the bottom right corner of the viewport -- to simplify some claculations
+	t_vec	upper_right;		//x y z coordinates of the bottom right corner of the viewport -- to simplify some claculations
 	t_vec	viewport_u;			//A 3D vector that spans the width of the viewport along the horizontal (x) axis.
 	t_vec	viewport_v;			//A 3D vector that spans the height of the viewport along the vertical (y) axis.
 	t_vec	pixel_delta_u;		//A 3D vector that represents the change in the x-coordinate for each pixel across the viewport.

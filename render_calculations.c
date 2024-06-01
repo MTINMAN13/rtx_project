@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 14:56:52 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 17:41:51 by mman             ###   ########.fr       */
+/*   Updated: 2024/05/29 20:30:03 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,3 +25,7 @@ double	focal_length(double fov)
 	return (fl);
 }
 
+double	degrees_to_radians(double degrees)
+{
+	return (degrees * (M_PI / 180));
+}
