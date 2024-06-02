@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 20:51:41 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/02 23:47:44 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ void	raycaster(t_scene *scene)
 			//check for intersections with objects in the scene
 			//if intersection, calculate color
 			//store color in image buffer
-			ray_direction(&scene->viewport, i, j);
+			// ray_direction(&scene->viewport, i, j);
 			j++;
 		}
 		i++;
@@ -88,7 +88,8 @@ void	render(t_scene *scene)
 {
 	ft_pntf("beep boop im a render %i", scene);
 	printf("I think the viewport will be initialized with the coordinates: %f,%f,%f and  %f,%f,%f\n", scene->viewport.bottom_left.x, scene->viewport.bottom_left.y, scene->viewport.bottom_left.z, scene->viewport.upper_right.x, scene->viewport.upper_right.y, scene->viewport.upper_right.z);
-	bvh_bounds(scene);
+	printf("the eye is located at TBD\n");
+    bvh_bounds(scene);
 	bvh_tree(scene);
 	raycaster(scene);
 }

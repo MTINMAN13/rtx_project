@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 20:30:13 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/02 23:48:52 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ void	setup_event_hooks(t_scene *scene);
 void	render(t_scene *scene);
 
 void	ft_initialize_viewport(t_scene **scene);
+void	get_eye_coords(t_scene **scene);
 void	bvh_tree(t_scene *scene);
 void	bvh_bounds(t_scene *scene);
 void	calculate_aabb(t_object	*object, t_aabb	*aabb);

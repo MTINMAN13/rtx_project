@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 20:22:30 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/02 23:50:22 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,14 @@ void	parse_camera_data(char *line, t_scene **scene)
 		(*scene)->viewport.focal_length = focal_length((*scene)->viewport.fov);
 		(*scene)->viewport.render_distance_cutoff = tan((*scene)->viewport.fov / 2);
 		ft_initialize_viewport(scene);
+		get_eye_coords(scene);
 		printf("render cutoff distance : %f\n", (*scene)->viewport.render_distance_cutoff);
 	}
 	else
 		split = NULL;
+}
+
+void	get_eye_coords(t_scene **scene)
+{
+	
 }

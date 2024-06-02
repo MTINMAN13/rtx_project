@@ -29,7 +29,7 @@ OBJ = $(addprefix $(OBJ_DIR)/, $(addsuffix .o, $(SRC_FILES)))
 
 LIBFT = libft.a
 MINILIBX = minilibx/libmlx_Linux.a
-LFLAGS = -Lminilibx -lmlx -lXext -lX11 -lm #okay this cost me .... fml lol
+LFLAGS = -Lminilibx -lmlx -lXext -lX11 -lm 
 
 # Rule to compile .c files into .o files
 $(OBJ_DIR)/%.o: %.c
