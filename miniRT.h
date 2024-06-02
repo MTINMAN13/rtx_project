@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/02 23:48:52 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/02 23:19:42 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@ void	bvh_tree(t_scene *scene);
 void	bvh_bounds(t_scene *scene);
 void	calculate_aabb(t_object	*object, t_aabb	*aabb);
 
+//
+void	raycaster(t_scene *scene);
+void    ray(t_scene *scene, int x, int y);
+
 //Parsing:
 int		ft_parse(int fd, t_scene **scene);
 void	parse_camera_data(char *line, t_scene **scene);
@@ -68,6 +72,12 @@ double	focal_length(double fov);
 double	ft_fmax(double x, double y);
 double	ft_fmin(double x, double y);
 double	degrees_to_radians(double degrees);
+
+
+//Coloring:
+void	ft_process_pixel(t_mlxdata *mlxdata, int x, int y, t_color rgb);
+
+
 
 
 #endif
