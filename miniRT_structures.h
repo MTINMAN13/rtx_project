@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 20:20:49 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/03 00:14:02 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,7 @@ typedef struct s_viewport
 {
 	char	*raw_data;
 	t_vec	cam_pos;		//taken in from the camera data
+	t_vec	eye_pos;		//calculated later on
 	t_vec	orientation;	//taken in from the camera data
 	double	focal_length;		//calculated as focal_length(FOV)
 	double	render_distance_cutoff;

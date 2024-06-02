@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/02 23:50:22 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/03 00:19:11 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,7 @@ void	parse_camera_data(char *line, t_scene **scene)
 
 void	get_eye_coords(t_scene **scene)
 {
-	
+	(*scene)->viewport.eye_pos.x = 
+	(*scene)->viewport.eye_pos.y = 
+	(*scene)->viewport.eye_pos.z = 
 }
