@@ -6,54 +6,11 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/02 23:47:44 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/03 00:45:45 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
-//calculates the ray direction vector
-//takes in the camera structure, the x and y coordinates of the pixel
-//returns the ray direction vector -- normalized
-//
-//
-//returns ray_direction_normalized_vector
-t_vec   ray_direction(t_viewport *camera, int x, int y)
-{
-    t_vec   ray;
-    double  aspect_ratio;
-    double  half_fov_rad;
-    double  tangent_h;
-    double  normalized_x;
-    double  normalized_y;
-    double  x_offset;
-    double  y_offset;
-
-    // Calculate aspect ratio
-    aspect_ratio = (double)WIDTH / (double)HEIGHT;
-
-    // Convert FOV to radians and calculate scaling factor
-    half_fov_rad = camera->fov * M_PI / 180 / 2.0;
-    tangent_h = tan(half_fov_rad);
-
-    // Normalize pixel coordinates
-    normalized_x = (2.0 * x / (WIDTH - 1)) - 1.0;
-    normalized_y = (2.0 * y / (HEIGHT - 1)) - 1.0;
-
-    // Calculate X and Y offsets with aspect ratio
-    x_offset = normalized_x * aspect_ratio * tangent_h;
-    y_offset = normalized_y * tangent_h;
-
-    // Optional normalization (uncomment if desired)
-    double magnitude = sqrt(x_offset * x_offset + y_offset * y_offset + 1.0);
-    x_offset /= magnitude;
-    y_offset /= magnitude;
-
-    // Set ray direction (z-component typically set based on focal length)
-    ft_vectorize(&ray, x_offset, y_offset, -camera->focal_length); // Assuming negative focal length
-
-    printf("ray direction %f,%f,%f\n", ray.x, ray.y, ray.z);
-    return (ray);
-}
 
 //casts a SAMPLES_PER_PIXEL rays from each pixel in the viewport -- WIDTH, HEIGHT
 //for each ray, check for intersections with objects in the scene
@@ -71,17 +28,114 @@ void	raycaster(t_scene *scene)
 		j = 0;
 		while (j < HEIGHT)
 		{
-			//cast ray from pixel i,j
-			//check for intersections with objects in the scene
-			//if intersection, calculate color
-			//store color in image buffer
-			// ray_direction(&scene->viewport, i, j);
+			ray(scene, i, j);
 			j++;
 		}
 		i++;
 	}
 	printf("focal length %f\n", scene->viewport.focal_length);
 	ft_pntf("beep boop im a raycaster %i and I finished running", scene);
+}
+
+// checks if the ray intersects with any "object" aabb in the bvh of our scene
+// if yes, then we calculate the color data for the pixel
+void    ray(t_scene *scene, int x, int y)
+{
+    t_color	rgb;
+	t_ray	ray;
+
+	ray.direction.x = x;
+	ray.direction.y = y;
+	ray.direction.z = 0;
+	ray.origin = (*scene).viewport.eye_pos;
+	rgb = bvh_intersect(scene, &ray);
+    ft_process_pixel(&scene->mlx, x, y, rgb);
+}
+
+/**
+ * Checks if a ray intersects with an axis-aligned bounding box (AABB).
+ *
+ * @param aabb The AABB to check for intersection.
+ * @param ray The ray to check for intersection.
+ * @return 1 if the ray intersects with the AABB, 0 otherwise.
+ */
+int	aabb_intersect(t_aabb *aabb, t_ray *ray)
+{
+	double	tmin;
+	double	tmax;
+	double	t1;
+	double	t2;
+	double	t;
+
+	tmin = (aabb->min.x - ray->origin.x) / ray->direction.x;
+	tmax = (aabb->max.x - ray->origin.x) / ray->direction.x;
+	if (tmin > tmax)
+	{
+		t = tmin;
+		tmin = tmax;
+		tmax = t;
+	}
+	t1 = (aabb->min.y - ray->origin.y) / ray->direction.y;
+	t2 = (aabb->max.y - ray->origin.y) / ray->direction.y;
+	if (t1 > t2)
+	{
+		t = t1;
+		t1 = t2;
+		t2 = t;
+	}
+	if ((tmin > t2) || (t1 > tmax))
+		return (0);
+	if (t1 > tmin)
+		tmin = t1;
+	if (t2 < tmax)
+		tmax = t2;
+	t1 = (aabb->min.z - ray->origin.z) / ray->direction.z;
+	t2 = (aabb->max.z - ray->origin.z) / ray->direction.z;
+	if (t1 > t2)
+	{
+		t = t1;
+		t1 = t2;
+		t2 = t;
+	}
+	if ((tmin > t2) || (t1 > tmax))
+		return (0);
+	if (t1 > tmin)
+		tmin = t1;
+	if (t2 < tmax)
+		tmax = t2;
+	return (1);
+}
+
+t_color	bvh_intersect(t_scene *scene, t_ray *ray)
+{
+	t_bvh_node	*node;
+	t_color		rgb;
+
+	node = scene->bvh;
+	rgb.r = 0;
+	rgb.g = 0;
+	rgb.b = 0;
+	while (node)
+	{
+		if (aabb_intersect(node->aabb, ray))
+		{
+			if (node->isLeaf)
+			{
+				rgb = color_from_object(node->data);
+				break ;
+			}
+			else
+			{
+				if (aabb_intersect(node->left->aabb, ray))
+					node = node->left;
+				else
+					node = node->right;
+			}
+		}
+		else
+			node = NULL;
+	}
+	return (rgb);
 }
 
 void	render(t_scene *scene)

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 18:39:25 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/02 23:22:46 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	parse_plane_data(char *line, t_scene **scene)
 	{
 		split = ft_split(line, ' ');
 		(*scene)->objects->raw_data = ft_strdup(line);
-		ft_pntf("beep boop im a plane, %s", split);
+		ft_pntf("beep boop im a plane, %s", (*scene)->objects->raw_data);
 		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
 		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);

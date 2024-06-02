@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/03 00:14:02 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/03 00:14:00 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ typedef struct s_mlxdata
 	void		*mlx;
 	void		*win;
 	void		*img;
-	char		*addr;
-	int			bits_per_pixel;
-	int			line_length;
-	int			endian;
+	char		*addr;			 // This is a pointer to the memory address where the image's pixel data is stored. It is obtained by calling mlx_get_data_addr(). This address allows you to directly manipulate the pixel data of the image.
+	int			bits_per_pixel;  //This integer indicates the number of bits used to represent each pixel in the image. Common values are 24 (for 8 bits each of Red, Green, and Blue) or 32 (for 8 bits each of Red, Green, Blue, and Alpha).
+	int			line_length;	// This integer represents the number of bytes used to store a single line of pixels in the image. This value is useful for calculating the address of a specific pixel and for iterating over the image data.
+	int			endian;			// This integer indicates the endianness of the image data. Endianness refers to the byte order used to store pixel data. It can help you determine how to correctly interpret the color values in the image.
 }			t_mlxdata;
 
 //Store Camera / Viewport Values
@@ -109,6 +109,7 @@ typedef struct s_scene
 {
 	t_viewport	viewport;
 	t_mlxdata	mlx;
+	t_bvh_node	*bvh;
 	t_object	*objects;
 	t_light		*lights;
 	int			total_objects;
@@ -117,5 +118,11 @@ typedef struct s_scene
 	t_color		ambient_light;
 	double		ambient_ratio;
 }			t_scene;
+
+typedef struct s_ray
+{
+	t_vec	origin; // Ray origin -- marks where we cast it from
+	t_vec	direction; // Ray direction -- marks where we cast it to - reference for trajectory calculations
+}			t_ray;
 
 #endif
