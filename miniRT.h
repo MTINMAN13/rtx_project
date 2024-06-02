@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/02 23:19:42 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/02 23:55:43 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ void	get_eye_coords(t_scene **scene);
 void	bvh_tree(t_scene *scene);
 void	bvh_bounds(t_scene *scene);
 void	calculate_aabb(t_object	*object, t_aabb	*aabb);
+t_color bvh_intersect(t_scene *scene, t_ray *ray);
+
 
 //
 void	raycaster(t_scene *scene);

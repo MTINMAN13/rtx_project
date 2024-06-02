@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/02 23:07:28 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/03 00:14:00 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ typedef struct s_scene
 {
 	t_viewport	viewport;
 	t_mlxdata	mlx;
+	t_bvh_node	*bvh;
 	t_object	*objects;
 	t_light		*lights;
 	int			total_objects;
