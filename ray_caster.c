@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/03 00:45:45 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/03 22:10:44 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,22 +111,22 @@ t_color	bvh_intersect(t_scene *scene, t_ray *ray)
 	t_bvh_node	*node;
 	t_color		rgb;
 
-	node = scene->bvh;
+	node = scene->bvh; //the entry node of the BVH tree
 	rgb.r = 0;
 	rgb.g = 0;
 	rgb.b = 0;
 	while (node)
 	{
-		if (aabb_intersect(node->aabb, ray))
+		if (aabb_intersect(node->aabb, ray)) //if the ray intersects with aabb with objects
 		{
 			if (node->isLeaf)
 			{
-				rgb = color_from_object(node->data);
+				rgb = color_from_object(node->data); //get the color of the object
 				break ;
 			}
 			else
 			{
-				if (aabb_intersect(node->left->aabb, ray))
+				if (aabb_intersect(node->left->aabb, ray)) 
 					node = node->left;
 				else
 					node = node->right;
