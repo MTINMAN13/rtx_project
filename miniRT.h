@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/02 23:55:43 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/03 00:57:40 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ double	degrees_to_radians(double degrees);
 
 //Coloring:
 void	ft_process_pixel(t_mlxdata *mlxdata, int x, int y, t_color rgb);
+t_color color_from_object(t_object object);
 
 
 
