@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/03 22:10:44 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/08 20:07:28 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void    ray(t_scene *scene, int x, int y)
  * @param ray The ray to check for intersection.
  * @return 1 if the ray intersects with the AABB, 0 otherwise.
  */
-int	aabb_intersect(t_aabb *aabb, t_ray *ray)
+int	aabb_intersect(t_aabb aabb, t_ray *ray)
 {
 	double	tmin;
 	double	tmax;
@@ -67,16 +67,16 @@ int	aabb_intersect(t_aabb *aabb, t_ray *ray)
 	double	t2;
 	double	t;
 
-	tmin = (aabb->min.x - ray->origin.x) / ray->direction.x;
-	tmax = (aabb->max.x - ray->origin.x) / ray->direction.x;
+	tmin = (aabb.min.x - ray->origin.x) / ray->direction.x;
+	tmax = (aabb.max.x - ray->origin.x) / ray->direction.x;
 	if (tmin > tmax)
 	{
 		t = tmin;
 		tmin = tmax;
 		tmax = t;
 	}
-	t1 = (aabb->min.y - ray->origin.y) / ray->direction.y;
-	t2 = (aabb->max.y - ray->origin.y) / ray->direction.y;
+	t1 = (aabb.min.y - ray->origin.y) / ray->direction.y;
+	t2 = (aabb.max.y - ray->origin.y) / ray->direction.y;
 	if (t1 > t2)
 	{
 		t = t1;
@@ -89,8 +89,8 @@ int	aabb_intersect(t_aabb *aabb, t_ray *ray)
 		tmin = t1;
 	if (t2 < tmax)
 		tmax = t2;
-	t1 = (aabb->min.z - ray->origin.z) / ray->direction.z;
-	t2 = (aabb->max.z - ray->origin.z) / ray->direction.z;
+	t1 = (aabb.min.z - ray->origin.z) / ray->direction.z;
+	t2 = (aabb.max.z - ray->origin.z) / ray->direction.z;
 	if (t1 > t2)
 	{
 		t = t1;

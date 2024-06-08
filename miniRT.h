@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/03 00:57:40 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/08 20:08:11 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ void	bvh_tree(t_scene *scene);
 void	bvh_bounds(t_scene *scene);
 void	calculate_aabb(t_object	*object, t_aabb	*aabb);
 t_color bvh_intersect(t_scene *scene, t_ray *ray);
+int	    aabb_intersect(t_aabb aabb, t_ray *ray);
 
 
 //
@@ -78,7 +79,7 @@ double	degrees_to_radians(double degrees);
 
 //Coloring:
 void	ft_process_pixel(t_mlxdata *mlxdata, int x, int y, t_color rgb);
-t_color color_from_object(t_object object);
+t_color color_from_object(t_object *object);
 
 
 
