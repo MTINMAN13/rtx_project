@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/08 20:07:28 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 21:12:26 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ t_color	bvh_intersect(t_scene *scene, t_ray *ray)
 			if (node->isLeaf)
 			{
 				rgb = color_from_object(node->data); //get the color of the object
+				//TBA - Shadow rays
 				break ;
 			}
 			else
@@ -141,8 +142,10 @@ t_color	bvh_intersect(t_scene *scene, t_ray *ray)
 void	render(t_scene *scene)
 {
 	ft_pntf("beep boop im a render %i", scene);
-	printf("I think the viewport will be initialized with the coordinates: %f,%f,%f and  %f,%f,%f\n", scene->viewport.bottom_left.x, scene->viewport.bottom_left.y, scene->viewport.bottom_left.z, scene->viewport.upper_right.x, scene->viewport.upper_right.y, scene->viewport.upper_right.z);
-	printf("the eye is located at TBD\n");
+	ft_pntf("------------ VIEWPORT CHECK ------------");
+	printf("bottom_left %f %f %f\n", scene.viewport.bottom_left.x, scene->viewport->bottom_left.y, scene->viewport->bottom_left.z);
+	printf("upper_right %f %f %f\n", scene->viewport->upper_right.x, scene->viewport->upper_right.y, scene->viewport->upper_right.z);
+	ft_pntf("----------------------------------------");
     bvh_bounds(scene);
 	bvh_tree(scene);
 	raycaster(scene);

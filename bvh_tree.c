@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/05/29 18:45:39 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 21:04:06 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,32 @@
 // }
 
 //I have the Camera in front of mee and I want to traverse everything the camera can see
-void	bvh_tree(t_scene *scene)
+void bvh_tree(t_scene *scene)
 {
-	ft_pntf("bvh tree %i", scene);
+    // Calculate the corners of the scene bounds
+    t_vec scene_bottom_left = scene->bounds->min;
+    t_vec scene_upper_right = scene->bounds->max;
+
+    // Calculate other corners of the scene bounds
+    t_vec scene_min = {scene_bottom_left.x, scene_bottom_left.y, scene_bottom_left.z};
+    t_vec scene_max = {scene_upper_right.x, scene_upper_right.y, scene_upper_right.z};
+
+    // Combine the corners of the scene bounds with the corners of the viewport
+    scene->corner[0] = scene_min;  // Scene bounds min
+    scene->corner[1] = scene_max;  // Scene bounds max
+    scene->corner[2] = scene_bottom_left;
+    scene->corner[3] = scene_upper_right;
+    scene->corner[4] = scene->viewport.bottom_left;
+    scene->corner[5] = (t_vec){scene->viewport.bottom_left.x, scene->viewport.upper_right.y, scene_min.z};
+    scene->corner[6] = (t_vec){scene->viewport.upper_right.x, scene->viewport.bottom_left.y, scene_min.z};
+    scene->corner[7] = scene->viewport.upper_right;
+
+    // Print or use the corner coordinates as needed
+    // Example print:
+	ft_pntf("\n\n\n------------------ BVH CORNERS ------------------");
+    for (int i = 0; i < 8; i++) {
+        printf("Corner %d: (%f, %f, %f)\n", i, scene->corner[i].x, scene->corner[i].y, scene->corner[i].z);
+    }
 }
 
 void	free_bvh_tree(t_scene *scene)

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/03 00:14:00 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 21:11:46 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,8 @@ typedef struct s_vector
 
 typedef struct s_aabb
 {
-	t_vec	min; // Minimum corner (x, y, z)
-	t_vec	max; // Maximum corner (x, y, z)
+	t_vec	min; // Minimum corner (x, y, z) -- Left bottom corner
+	t_vec	max; // Maximum corner (x, y, z) -- Right top corner
 }			t_aabb;
 
 typedef struct s_bvh_node
@@ -105,6 +105,8 @@ typedef struct s_light
 	struct s_object	*prev;
 }			t_light;
 
+
+
 typedef struct s_scene
 {
 	t_viewport	viewport;
@@ -115,6 +117,7 @@ typedef struct s_scene
 	int			total_objects;
 	int			total_lights;
 	t_aabb		*bounds;
+	t_vec		corner[8]; // Array of 8 corner points of the Root AABB
 	t_color		ambient_light;
 	double		ambient_ratio;
 }			t_scene;

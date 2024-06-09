@@ -19,8 +19,8 @@ INCLUDE = include
 # Sources
 SRC_FILES = main mlx_functions mlx_functionss \
 			render_calculations \
-			vector_functions vector_allocation free_stuff parser parse_lights \
-			viewport bvh_tree aabb \
+			vector_functions vector_allocation free_stuff parser parse_lights parser_planes \
+			bvh_tree aabb parse_viewport \
 			ray_caster color_brush \
 
 
