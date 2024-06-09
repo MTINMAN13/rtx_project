@@ -20,7 +20,7 @@ INCLUDE = include
 SRC_FILES = main mlx_functions mlx_functionss \
 			render_calculations \
 			vector_functions vector_allocation free_stuff parser parse_lights parser_planes \
-			viewport bvh_tree aabb \
+			bvh_tree aabb parse_viewport \
 			ray_caster color_brush \
 
 

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:26:44 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 18:37:17 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 20:41:37 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,15 @@ void	bvh_bounds(t_scene *scene)
 		i++;
 		scene->objects = scene->objects->next;
 	}
-	printf("----------- the min bounds are: %lf, %lf, %lf\n", scene->bounds->min.x, scene->bounds->min.y, scene->bounds->min.z);
-	printf("----------- the max bounds are: %lf, %lf, %lf\n", scene->bounds->max.x, scene->bounds->max.y, scene->bounds->max.z);
-
+	
 	//PART TWO -- CREATE THE ROOT NODE OF THE BVH TREE by ALIGNING THE BOUNDS TO THE SCENE (viewport)(camera)
 	//Multiply the bounds' corner points by the view matrix.
 	//This will align the bounds to the scene.
 	// Multiply the bounds' corner points by the view matrix.
 	// This will align the bounds to the scene.
-	// Calculate the corners of the root BVH node
-	scene->corners = malloc(sizeof(t_vec *) * 8);
+	// // Calculate the corners of the root BVH node'
+	printf("----------- the min bounds are: %lf, %lf, %lf\n", scene->bounds->min.x, scene->bounds->min.y, scene->bounds->min.z);
+	printf("----------- the max bounds are: %lf, %lf, %lf\n", scene->bounds->max.x, scene->bounds->max.y, scene->bounds->max.z);
 }
 
 // 0 = camera, 1 = light, 2 = sphere, 3 = plane, 4 = square, 5 = cylinder, 6 = triangle

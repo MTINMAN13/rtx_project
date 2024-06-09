@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 18:25:12 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 20:16:21 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 20:32:42 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,6 @@ void calculate_plane_bounds(t_vec plane_normal, t_vec point, t_object* plane)
     plane->bounds.max.x = point.x + half_width_vec.x + half_height_vec.x;
     plane->bounds.max.y = point.y + half_width_vec.y + half_height_vec.y;
     plane->bounds.max.z = point.z + half_width_vec.z + half_height_vec.z;
-	printf("----------- the min bounds are: %lf, %lf, %lf\n", plane->bounds.min.x, plane->bounds.min.y, plane->bounds.min.z);
-	printf("----------- the max bounds are: %lf, %lf, %lf\n", plane->bounds.max.x, plane->bounds.max.y, plane->bounds.max.z);
+	// printf("----------- the min bounds are: %lf, %lf, %lf\n", plane->bounds.min.x, plane->bounds.min.y, plane->bounds.min.z);
+	// printf("----------- the max bounds are: %lf, %lf, %lf\n", plane->bounds.max.x, plane->bounds.max.y, plane->bounds.max.z);
 }

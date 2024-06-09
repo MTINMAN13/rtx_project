@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 19:34:02 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 20:41:23 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ void	ft_assign_values_to_t_color(t_color *color, char *str);
 void	parse_ambient_light(char *line, t_scene **scene);
 void	ft_vectorize(t_vec *vec, double x, double y, double z);
 
+//Vector Matrix Multiplication;
 
 //Calculations:
 double	focal_length(double fov);
