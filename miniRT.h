@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 16:58:02 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 19:34:02 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define SAMPLES_PER_PIXEL 8
+# define SAMPLES_PER_PIXEL 1
+# define RENDER_DISTANCE 10000
 # define NAME "miniRTX  | mman & agadkari project"
 # ifndef M_PI
 #  define M_PI 3.141592653589793238462643383279502884197169399375105820974944
@@ -60,6 +61,7 @@ void    ray(t_scene *scene, int x, int y);
 int		ft_parse(int fd, t_scene **scene);
 void	parse_camera_data(char *line, t_scene **scene);
 void	parse_sphere_data(char *line, t_scene **scene);
+void	calculate_plane_bounds(t_vec plane_normal, t_vec point, t_object *plane);
 void	parse_plane_data(char *line, t_scene **scene);
 void	parse_cylinder_data(char *line, t_scene **scene);
 

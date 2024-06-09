@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 17:57:59 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 18:33:06 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,37 +37,6 @@ void	parse_sphere_data(char *line, t_scene **scene)
 		(*scene)->total_objects++;
 		free(split);
 		ft_pntf("jobs done");
-	}
-	else
-		split = NULL;
-}
-
-// Function to parse the plane data
-// plane is passed in in the following format
-//
-// pl 0.0,0.0,20.6 0.0,0.0,1.0 10,0,255
-void	parse_plane_data(char *line, t_scene **scene)
-{
-	char	**split;
-
-	if (ft_strncmp(line, "pl", 2) == 0)
-	{
-		split = ft_split(line, ' ');
-		(*scene)->objects->raw_data = ft_strdup(line);
-		ft_pntf("beep boop im a plane, %s", (*scene)->objects->raw_data);
-		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
-		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
-		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
-		ft_vectorize(&(*scene)->objects->bounds.min, 1,1,1);		//left bottom corner;
-		ft_vectorize(&(*scene)->objects->bounds.max, 1,1,1);		//right top corner;
-		(*scene)->objects->type = 3;
-		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);
-		(*scene)->objects->next = malloc(sizeof(t_object));
-		(*scene)->objects->next->prev = (*scene)->objects;
-		(*scene)->objects = (*scene)->objects->next;
-		(*scene)->objects->next = NULL;
-		(*scene)->total_objects++;
-		free(split);
 	}
 	else
 		split = NULL;
