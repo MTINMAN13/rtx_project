@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/06/02 23:22:46 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 17:57:59 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,8 @@ void	parse_plane_data(char *line, t_scene **scene)
 		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
 		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
+		ft_vectorize(&(*scene)->objects->bounds.min, 1,1,1);		//left bottom corner;
+		ft_vectorize(&(*scene)->objects->bounds.max, 1,1,1);		//right top corner;
 		(*scene)->objects->type = 3;
 		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);
 		(*scene)->objects->next = malloc(sizeof(t_object));

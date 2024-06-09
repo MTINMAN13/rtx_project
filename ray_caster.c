@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/08 20:07:28 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/09 17:01:14 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ t_color	bvh_intersect(t_scene *scene, t_ray *ray)
 			if (node->isLeaf)
 			{
 				rgb = color_from_object(node->data); //get the color of the object
+				//TBA - Shadow rays
 				break ;
 			}
 			else
