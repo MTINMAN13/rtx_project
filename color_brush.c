@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/02 21:24:41 by mman              #+#    #+#             */
-/*   Updated: 2024/06/03 21:58:25 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/08 20:08:16 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ void	ft_process_pixel(t_mlxdata *mlxdata, int x, int y, t_color rgb)
     mlxdata->addr[pixel_index + 2] = color;
 }
 
-t_color color_from_object(t_object object)
+t_color color_from_object(t_object *object)
 {
     t_color color;
 
-    color.r = object.color.r;
-    color.g = object.color.g;
-    color.b = object.color.b;
+    color.r = object->color.r;
+    color.g = object->color.g;
+    color.b = object->color.b;
     return (color);
 }
