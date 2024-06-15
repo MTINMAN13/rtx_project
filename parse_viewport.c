@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 21:11:45 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/15 17:26:37 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,27 +15,23 @@
 //Camera Position, Orientation and Focal_Length are stored in the viewport struct
 //this function only initalizes the upper left coordinations
 //
-void	ft_initialize_viewport(t_scene **scene)
+void ft_initialize_viewport(t_scene **scene)
 {
-	t_viewport	*viewport;
-
-	viewport = malloc(sizeof(t_viewport));
-	*viewport = (*scene)->viewport;
-	viewport->viewport_u = (t_vec){WIDTH, 0, 0};
-	viewport->viewport_v = (t_vec){0, -HEIGHT, 0};
-	viewport->pixel_delta_u = (t_vec){viewport->viewport_u.x / WIDTH, 0, 0};
-	viewport->pixel_delta_v = (t_vec){0, viewport->viewport_v.y / HEIGHT, 0};
-	viewport->bottom_left = (t_vec){viewport->cam_pos.x - (viewport->viewport_u.x / 2),
-									viewport->cam_pos.y + (viewport->viewport_v.y / 2),
-									viewport->cam_pos.z - viewport->focal_length};
-	viewport->upper_right = (t_vec){viewport->cam_pos.x + (viewport->viewport_u.x / 2),
-									viewport->cam_pos.y - (viewport->viewport_v.y / 2),
-									viewport->cam_pos.z - viewport->focal_length};
+	(*scene)->viewport.viewport_u = (t_vec){WIDTH, 0, 0};
+	(*scene)->viewport.viewport_v = (t_vec){0, -HEIGHT, 0};
+	(*scene)->viewport.pixel_delta_u = (t_vec){(*scene)->viewport.viewport_u.x / WIDTH, 0, 0};
+	(*scene)->viewport.pixel_delta_v = (t_vec){0, (*scene)->viewport.viewport_v.y / HEIGHT, 0};
+	(*scene)->viewport.bottom_left = (t_vec){(*scene)->viewport.cam_pos.x - ((*scene)->viewport.viewport_u.x / 2),
+											 (*scene)->viewport.cam_pos.y + ((*scene)->viewport.viewport_v.y / 2),
+											 (*scene)->viewport.cam_pos.z - (*scene)->viewport.focal_length};
+	(*scene)->viewport.upper_right = (t_vec){(*scene)->viewport.cam_pos.x + ((*scene)->viewport.viewport_u.x / 2),
+											 (*scene)->viewport.cam_pos.y - ((*scene)->viewport.viewport_v.y / 2),
+											 (*scene)->viewport.cam_pos.z - (*scene)->viewport.focal_length};
 	ft_pntf("viewport rdy");
-	printf("fov %f\n", viewport->fov);
-	printf("focal length %f\n", viewport->focal_length);
-	printf("bottom_left %f %f %f\n", viewport->bottom_left.x, viewport->bottom_left.y, viewport->bottom_left.z);
-	printf("upper_right %f %f %f\n", viewport->upper_right.x, viewport->upper_right.y, viewport->upper_right.z);
+	printf("fov %f\n", (*scene)->viewport.fov);
+	printf("focal length %f\n", (*scene)->viewport.focal_length);
+	printf("bottom_left %f %f %f\n", (*scene)->viewport.bottom_left.x, (*scene)->viewport.bottom_left.y, (*scene)->viewport.bottom_left.z);
+	printf("upper_right %f %f %f\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);
 	ft_pntf("------------------");
 }
 

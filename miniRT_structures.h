@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 21:11:46 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/15 17:34:00 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,11 @@ typedef struct s_bvh_node
 	struct s_bvh_node	*left; // Pointer to the left child node
 	struct s_bvh_node	*right; // Pointer to the right child node
 }			t_bvh_node;
+
+typedef	struct s_kvadr
+{
+	
+}		t_kvadr;
 
 typedef struct s_color
 {
