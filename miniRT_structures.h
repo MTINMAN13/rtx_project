@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/15 19:06:27 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/16 00:13:19 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,15 +72,18 @@ typedef struct s_rotation
 typedef struct s_viewport
 {
 	char		*raw_data;
-	t_vec		cam_pos;		//taken in from the camera data
+	t_vec		viewport_middle;		//taken in from the camera data
 	t_vec		eye_pos;		//calculated later on
 	t_vec		orientation;	//taken in from the camera data
 	t_rotation	rotation;	//taken in from the camera data
+	double		rotation_matrix[3][3];	//calculated from the rotation values
 	double		focal_length;		//calculated as focal_length(FOV)
 	double		render_distance_cutoff;
 	t_vec		bottom_left;			//x y z coordinates of the upper left corner of the viewport
+	t_vec		bottom_right;			//x y z coordinates of the point the camera is looking at
 	double		fov;
 	t_vec		upper_right;		//x y z coordinates of the bottom right corner of the viewport -- to simplify some claculations
+	t_vec		upper_left;
 	t_vec		viewport_u;			//A 3D vector that spans the width of the viewport along the horizontal (x) axis.
 	t_vec		viewport_v;			//A 3D vector that spans the height of the viewport along the vertical (y) axis.
 	t_vec		pixel_delta_u;		//A 3D vector that represents the change in the x-coordinate for each pixel across the viewport.
