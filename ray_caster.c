@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 21:12:26 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/15 17:33:50 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,10 @@ void	raycaster(t_scene *scene)
 {
 	int		i;
 	int		j;
+	int		temp;
 
 	i = 0;
+	temp = 0;
 	while (i < WIDTH)
 	{
 		j = 0;
@@ -30,11 +32,12 @@ void	raycaster(t_scene *scene)
 		{
 			ray(scene, i, j);
 			j++;
+			temp++;
 		}
 		i++;
 	}
 	printf("focal length %f\n", scene->viewport.focal_length);
-	ft_pntf("beep boop im a raycaster %i and I finished running", scene);
+	ft_pntf("beep boop im a raycaster %i and I finished running\nRAYS CAST: %i", scene, temp);
 }
 
 // checks if the ray intersects with any "object" aabb in the bvh of our scene
@@ -143,8 +146,8 @@ void	render(t_scene *scene)
 {
 	ft_pntf("beep boop im a render %i", scene);
 	ft_pntf("------------ VIEWPORT CHECK ------------");
-	printf("bottom_left %f %f %f\n", scene.viewport.bottom_left.x, scene->viewport->bottom_left.y, scene->viewport->bottom_left.z);
-	printf("upper_right %f %f %f\n", scene->viewport->upper_right.x, scene->viewport->upper_right.y, scene->viewport->upper_right.z);
+	printf("bottom_left %f %f %f\n", scene->viewport.bottom_left.x, scene->viewport.bottom_left.y, scene->viewport.bottom_left.z);
+	printf("upper_right %f %f %f\n", scene->viewport.upper_right.x, scene->viewport.upper_right.y, scene->viewport.upper_right.z);
 	ft_pntf("----------------------------------------");
     bvh_bounds(scene);
 	bvh_tree(scene);

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 21:04:06 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/15 18:11:17 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,23 +61,14 @@
 //I have the Camera in front of mee and I want to traverse everything the camera can see
 void bvh_tree(t_scene *scene)
 {
-    // Calculate the corners of the scene bounds
-    t_vec scene_bottom_left = scene->bounds->min;
-    t_vec scene_upper_right = scene->bounds->max;
-
-    // Calculate other corners of the scene bounds
-    t_vec scene_min = {scene_bottom_left.x, scene_bottom_left.y, scene_bottom_left.z};
-    t_vec scene_max = {scene_upper_right.x, scene_upper_right.y, scene_upper_right.z};
-
-    // Combine the corners of the scene bounds with the corners of the viewport
-    scene->corner[0] = scene_min;  // Scene bounds min
-    scene->corner[1] = scene_max;  // Scene bounds max
-    scene->corner[2] = scene_bottom_left;
-    scene->corner[3] = scene_upper_right;
-    scene->corner[4] = scene->viewport.bottom_left;
-    scene->corner[5] = (t_vec){scene->viewport.bottom_left.x, scene->viewport.upper_right.y, scene_min.z};
-    scene->corner[6] = (t_vec){scene->viewport.upper_right.x, scene->viewport.bottom_left.y, scene_min.z};
-    scene->corner[7] = scene->viewport.upper_right;
+    scene->corner[0] = (t_vec){scene->bounds->min.x, scene->bounds->min.y, scene->bounds->min.z};   // bottom left 
+    scene->corner[1] = (t_vec){scene->bounds->max.x, scene->bounds->min.y, scene->bounds->min.z};   // bottom right
+    scene->corner[2] = (t_vec){scene->bounds->min.x, scene->bounds->max.y, scene->bounds->min.z};   //top left
+    scene->corner[3] = (t_vec){scene->bounds->max.x, scene->bounds->max.y, scene->bounds->min.z};   //top right
+    scene->corner[4] = (t_vec){scene->bounds->min.x, scene->bounds->min.y, scene->bounds->max.z};   //bottom far left
+    scene->corner[5] = (t_vec){scene->bounds->max.x, scene->bounds->min.y, scene->bounds->max.z};   //bottom far right
+    scene->corner[6] = (t_vec){scene->bounds->min.x, scene->bounds->max.y, scene->bounds->max.z};   //top far left
+    scene->corner[7] = (t_vec){scene->bounds->max.x, scene->bounds->max.y, scene->bounds->max.z};   //top far right
 
     // Print or use the corner coordinates as needed
     // Example print:
