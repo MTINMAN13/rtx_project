@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 20:41:23 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/16 19:18:21 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ void	bvh_bounds(t_scene *scene);
 void	calculate_aabb(t_object	*object, t_aabb	*aabb);
 t_color bvh_intersect(t_scene *scene, t_ray *ray);
 int	    aabb_intersect(t_aabb aabb, t_ray *ray);
+void	ft_rotate_viewport(t_scene **scene);
 
 
 //
@@ -72,6 +73,9 @@ void	parse_ambient_light(char *line, t_scene **scene);
 void	ft_vectorize(t_vec *vec, double x, double y, double z);
 
 //Vector Matrix Multiplication;
+void	multiply_matrix_vector(t_vec *result, const double matrix[3][3], t_vec *vector);
+void	transform_vertex(t_vec center, t_vec *vertex, const double rotation_matrix[3][3]);
+
 
 //Calculations:
 double	focal_length(double fov);

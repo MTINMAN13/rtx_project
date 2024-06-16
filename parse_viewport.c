@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/16 00:17:23 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/16 22:12:01 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,13 +63,29 @@ static void	get_viewport_direction(t_scene *scene)
 //
 void	ft_initialize_viewport(t_scene **scene)
 {
+	(*scene)->viewport.upper_right.x = (*scene)->viewport.viewport_middle.x + WIDTH / 2;
+	(*scene)->viewport.upper_right.y = (*scene)->viewport.viewport_middle.y + HEIGHT / 2;
+	(*scene)->viewport.upper_right.z = (*scene)->viewport.viewport_middle.z;
+	(*scene)->viewport.lower_left.x = (*scene)->viewport.viewport_middle.x - WIDTH / 2;
+	(*scene)->viewport.lower_left.y = (*scene)->viewport.viewport_middle.y - HEIGHT / 2;
+	(*scene)->viewport.lower_left.z = (*scene)->viewport.viewport_middle.z;
+	(*scene)->viewport.upper_left.x = (*scene)->viewport.viewport_middle.x - WIDTH / 2;
+	(*scene)->viewport.upper_left.y = (*scene)->viewport.viewport_middle.y + HEIGHT / 2;
+	(*scene)->viewport.upper_left.z = (*scene)->viewport.viewport_middle.z;
+	(*scene)->viewport.lower_right.x = (*scene)->viewport.viewport_middle.x + WIDTH / 2;
+	(*scene)->viewport.lower_right.y = (*scene)->viewport.viewport_middle.y - HEIGHT / 2;
+	(*scene)->viewport.lower_right.z = (*scene)->viewport.viewport_middle.z;
+	(*scene)->viewport.eye_pos.x = (*scene)->viewport.viewport_middle.x;
+	(*scene)->viewport.eye_pos.y = (*scene)->viewport.viewport_middle.y;
+	(*scene)->viewport.eye_pos.z = (*scene)->viewport.viewport_middle.z - (*scene)->viewport.focal_length;
 	printf("viewport ready\n");
 	printf("fov %f\n", (*scene)->viewport.fov);
 	printf("focal length %f\n", (*scene)->viewport.focal_length);
 	printf("---------------VIEWPORT DATA--\n");
-	// printf("viewport_middle [%f,%f,%f]\n", centerX, centerY, centerZ);
-	// printf("bottom_left [%f,%f,%f]\n", lowerLeftX, lowerLeftY, lowerLeftZ);
-	// printf("upper_right [%f,%f,%f]\n", upperRightX, upperRightY, upperRightZ);
+	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
+	printf("upper_right [%f,%f,%f]\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);	
+	printf("lower_left [%f,%f,%f]\n", (*scene)->viewport.lower_left.x, (*scene)->viewport.lower_left.y, (*scene)->viewport.lower_left.z);
+	printf("eye_pos [%f,%f,%f]\n", (*scene)->viewport.eye_pos.x, (*scene)->viewport.eye_pos.y, (*scene)->viewport.eye_pos.z);
 	printf("------------------\n");
 	get_viewport_direction(*scene);
 }
@@ -130,12 +146,27 @@ void	parse_camera_data(char *line, t_scene **scene)
 		(*scene)->viewport.focal_length = focal_length((*scene)->viewport.fov);
 		(*scene)->viewport.render_distance_cutoff = tan((*scene)->viewport.fov / 2);
 		ft_initialize_viewport(scene);
-		get_eye_coords(scene);
+		ft_rotate_viewport(scene);
 		printf("render cutoff distance : %f\n", (*scene)->viewport.render_distance_cutoff);
-		printf("rotation in rad check: %f, %f\n", (*scene)->viewport.rotation.x, (*scene)->viewport.rotation.y);
 	}
 	else
 		split = NULL;
+}
+
+void	ft_rotate_viewport(t_scene **scene)
+{
+	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_right, (*scene)->viewport.rotation_matrix);
+	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.lower_left, (*scene)->viewport.rotation_matrix);
+	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.lower_right, (*scene)->viewport.rotation_matrix);
+	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_left, (*scene)->viewport.rotation_matrix);
+	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.eye_pos, (*scene)->viewport.rotation_matrix);
+	printf("rotation complete\n");
+	printf("---------------VIEWPORT DATA--\n");
+	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
+	printf("upper_right [%f,%f,%f]\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);	
+	printf("lower_left [%f,%f,%f]\n", (*scene)->viewport.lower_left.x, (*scene)->viewport.lower_left.y, (*scene)->viewport.lower_left.z);
+	printf("eye_pos [%f,%f,%f]\n", (*scene)->viewport.eye_pos.x, (*scene)->viewport.eye_pos.y, (*scene)->viewport.eye_pos.z);
+	printf("------------------\n");
 }
 
 void get_eye_coords(t_scene **scene)

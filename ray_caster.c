@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/15 17:33:50 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/16 19:02:37 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,7 +146,7 @@ void	render(t_scene *scene)
 {
 	ft_pntf("beep boop im a render %i", scene);
 	ft_pntf("------------ VIEWPORT CHECK ------------");
-	printf("bottom_left %f %f %f\n", scene->viewport.bottom_left.x, scene->viewport.bottom_left.y, scene->viewport.bottom_left.z);
+	printf("bottom_left %f %f %f\n", scene->viewport.lower_left.x, scene->viewport.lower_left.y, scene->viewport.lower_left.z);
 	printf("upper_right %f %f %f\n", scene->viewport.upper_right.x, scene->viewport.upper_right.y, scene->viewport.upper_right.z);
 	ft_pntf("----------------------------------------");
     bvh_bounds(scene);

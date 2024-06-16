@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/16 00:13:19 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/16 19:02:46 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ typedef struct s_viewport
 	t_rotation	rotation;	//taken in from the camera data
 	double		rotation_matrix[3][3];	//calculated from the rotation values
 	double		focal_length;		//calculated as focal_length(FOV)
-	double		render_distance_cutoff;
-	t_vec		bottom_left;			//x y z coordinates of the upper left corner of the viewport
-	t_vec		bottom_right;			//x y z coordinates of the point the camera is looking at
 	double		fov;
+	double		render_distance_cutoff;
+	t_vec		lower_left;			//x y z coordinates of the upper left corner of the viewport
+	t_vec		lower_right;			//x y z coordinates of the point the camera is looking at
 	t_vec		upper_right;		//x y z coordinates of the bottom right corner of the viewport -- to simplify some claculations
 	t_vec		upper_left;
 	t_vec		viewport_u;			//A 3D vector that spans the width of the viewport along the horizontal (x) axis.
