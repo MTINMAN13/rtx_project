@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/16 19:18:21 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/22 22:10:52 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,17 @@ void	ft_vectorize(t_vec *vec, double x, double y, double z);
 //Vector Matrix Multiplication;
 void	multiply_matrix_vector(t_vec *result, const double matrix[3][3], t_vec *vector);
 void	transform_vertex(t_vec center, t_vec *vertex, const double rotation_matrix[3][3]);
+void	vector_oneilizer(t_vec *v);
+
+//quaternions:
+t_quaternion    create_quaternion(float angle, t_vec axis);
+t_quaternion    multiply_quaternions(t_quaternion q1, t_quaternion q2);
+t_quaternion    inverse_quaternion(t_quaternion q);
+t_vec           rotate_point(t_vec p, t_quaternion q);
+t_vec           translate_point(t_vec p, t_vec translation);
+t_quaternion    combine_rotations(float theta_x, float theta_y);
+void            rotate_points(t_vec center, t_vec* p1, t_vec* p2, t_vec* p3, t_vec* p4, t_vec* p5, float theta_x, float theta_y);
+
 
 
 //Calculations:

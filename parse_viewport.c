@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/16 22:12:01 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/22 22:13:17 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,10 @@ static void	get_viewport_direction(t_scene *scene)
 	double x = scene->viewport.orientation.x;
 	double y = scene->viewport.orientation.y;
 
+	if (scene->viewport.orientation.z >= 0)
+		scene->viewport.orientation.z = 1;
+	else
+		scene->viewport.orientation.z = -1;
 	printf("\n\n\nLooking ");
 
 	if (x > 0.0 && x <= 0.5)
@@ -75,17 +79,16 @@ void	ft_initialize_viewport(t_scene **scene)
 	(*scene)->viewport.lower_right.x = (*scene)->viewport.viewport_middle.x + WIDTH / 2;
 	(*scene)->viewport.lower_right.y = (*scene)->viewport.viewport_middle.y - HEIGHT / 2;
 	(*scene)->viewport.lower_right.z = (*scene)->viewport.viewport_middle.z;
-	(*scene)->viewport.eye_pos.x = (*scene)->viewport.viewport_middle.x;
-	(*scene)->viewport.eye_pos.y = (*scene)->viewport.viewport_middle.y;
-	(*scene)->viewport.eye_pos.z = (*scene)->viewport.viewport_middle.z - (*scene)->viewport.focal_length;
 	printf("viewport ready\n");
 	printf("fov %f\n", (*scene)->viewport.fov);
 	printf("focal length %f\n", (*scene)->viewport.focal_length);
+	(*scene)->viewport.eye_pos.x = (*scene)->viewport.viewport_middle.x;
+	(*scene)->viewport.eye_pos.y = (*scene)->viewport.viewport_middle.y;
+	(*scene)->viewport.eye_pos.z = (*scene)->viewport.viewport_middle.z - ((*scene)->viewport.orientation.z * (*scene)->viewport.focal_length);
 	printf("---------------VIEWPORT DATA--\n");
 	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
 	printf("upper_right [%f,%f,%f]\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);	
 	printf("lower_left [%f,%f,%f]\n", (*scene)->viewport.lower_left.x, (*scene)->viewport.lower_left.y, (*scene)->viewport.lower_left.z);
-	printf("eye_pos [%f,%f,%f]\n", (*scene)->viewport.eye_pos.x, (*scene)->viewport.eye_pos.y, (*scene)->viewport.eye_pos.z);
 	printf("------------------\n");
 	get_viewport_direction(*scene);
 }
@@ -120,11 +123,6 @@ void	ft_get_rotation(t_scene **scene)
     }
 
     printf("rotation (in rad) x: %f, y: %f\n", x_rotation * M_PI / 180.0, y_rotation * M_PI / 180.0);
-    printf("rotation matrix: \n");
-    for (int i = 0; i < 3; i++) {
-        printf("%f %f %f\n", (*scene)->viewport.rotation_matrix[i][0], (*scene)->viewport.rotation_matrix[i][1], (*scene)->viewport.rotation_matrix[i][2]);
-    }
-    printf("------------------\n");
 }
 
 
@@ -155,11 +153,8 @@ void	parse_camera_data(char *line, t_scene **scene)
 
 void	ft_rotate_viewport(t_scene **scene)
 {
-	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_right, (*scene)->viewport.rotation_matrix);
-	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.lower_left, (*scene)->viewport.rotation_matrix);
-	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.lower_right, (*scene)->viewport.rotation_matrix);
-	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_left, (*scene)->viewport.rotation_matrix);
-	transform_vertex((*scene)->viewport.viewport_middle, &(*scene)->viewport.eye_pos, (*scene)->viewport.rotation_matrix);
+	get_eye_coords(scene);
+	rotate_points((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_left, &(*scene)->viewport.upper_right, &(*scene)->viewport.lower_left, &(*scene)->viewport.lower_right, &(*scene)->viewport.eye_pos, (*scene)->viewport.rotation.x, (*scene)->viewport.rotation.y);
 	printf("rotation complete\n");
 	printf("---------------VIEWPORT DATA--\n");
 	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
