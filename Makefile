@@ -22,7 +22,7 @@ SRC_FILES = main mlx_functions mlx_functionss \
 			vector_functions vector_allocation free_stuff parser parse_lights parser_planes \
 			bvh_tree aabb parse_viewport \
 			ray_caster color_brush \
-			matrix_calculations \
+			matrix_calculations quaternions \
 
 
 SRC = $(addsuffix .c, $(SRC_FILES))
