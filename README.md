@@ -1,37 +1,37 @@
 # rtx_project
+
 Exploration of RayTracing using pre-existing graphical library mlx
 
-- key takeaways and understandings:
-- quaternion rotation
-- optics
-- distance computation in Euclidean space
-
+## Key Takeaways and Understandings:
+- Quaternion rotation
+- Optics
+- Distance computation in Euclidean space
 
 ---------------------
-(notes to self:) Key Takeaways for Machine Learning:
 
-    Feature Engineering and Feature Selection:
-        Distance calculations for creating new features.
-        Normalization and scaling of data.
+# Key Takeaways for Machine Learning
 
-    Machine Learning Algorithms:
-        K-means Clustering: Uses Euclidean distances for grouping.
-        K-nearest Neighbors (KNN): Relies on distance measurements.
-        Support Vector Machines (SVM): Uses geometry and distances for decision boundaries.
+## Feature Engineering and Feature Selection:
+- [ ] Distance calculations for creating new features.
+- [ ] Normalization and scaling of data.
 
-    Dimensionality and Dimensionality Reduction:
-        Principal Component Analysis (PCA): Utilizes geometric relationships.
-        t-SNE and UMAP: Uses distances for data visualization in lower dimensions.
+## Machine Learning Algorithms:
+- [ ] K-means Clustering: Uses Euclidean distances for grouping.
+- [ ] K-nearest Neighbors (KNN): Relies on distance measurements.
+- [ ] Support Vector Machines (SVM): Uses geometry and distances for decision boundaries.
 
-    Real-world Applications:
-        Computer Vision: Object detection, 3D reconstruction.
-        Natural Language Processing (NLP): Similarity measurements in embedding spaces.
+## Dimensionality and Dimensionality Reduction:
+- [ ] Principal Component Analysis (PCA): Utilizes geometric relationships.
+- [ ] t-SNE and UMAP: Uses distances for data visualization in lower dimensions.
 
-    Optimization and Performance:
-        K-means++ initialization: Improved cluster initialization for faster convergence.
+## Real-world Applications:
+- [ ] Computer Vision: Object detection, 3D reconstruction.
+- [ ] Natural Language Processing (NLP): Similarity measurements in embedding spaces.
+
+## Optimization and Performance:
+- [ ] K-means++ initialization: Improved cluster initialization for faster convergence.
 
 Practical Steps:
-
-    Implement Algorithms: Practice implementing distance-based algorithms like KNN and K-means.
-    Data Visualization: Use graphical tools to visualize data in different dimensions.
-    Competitions: Participate in Kaggle competitions to apply these concepts on real datasets.
+- [ ] Implement Algorithms: Practice implementing distance-based algorithms like KNN and K-means.
+- [ ] Data Visualization: Use graphical tools to visualize data in different dimensions.
+- [ ] Competitions: Participate in Kaggle competitions to apply these concepts on real datasets.
