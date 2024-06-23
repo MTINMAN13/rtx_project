@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:49:17 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/23 21:52:26 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ double	ft_fmin(double x, double y);
 double	degrees_to_radians(double degrees);
 t_vec	vector_subtract(t_vec v1, t_vec v2);
 t_vec	vector_divide(t_vec v, double scalar);
-
+t_vec	change_per_unit_distance(t_vec p1, t_vec p2);
 
 //Coloring:
 void	ft_process_pixel(t_mlxdata *mlxdata, int x, int y, t_color rgb);
