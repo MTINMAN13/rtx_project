@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:10:04 by mman              #+#    #+#             */
-/*   Updated: 2024/06/15 23:08:21 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/23 21:46:17 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,36 @@ void	ft_assign_values_to_t_color(t_color *color, char *str)
 	// Free the memory allocated by ft_split
 	free(copy);
 	free(token);
+}
+
+// Function to calculate change in coordinates per unit distance
+t_vec	change_per_unit_distance(t_vec p1, t_vec p2)
+{
+	t_vec delta;
+
+	// Calculate differences in coordinates
+	double deltaX = p2.x - p1.x;
+	double deltaY = p2.y - p1.y;
+	double deltaZ = p2.z - p1.z;
+
+	// Calculate Euclidean distance
+	double distance = sqrt(deltaX * deltaX + deltaY * deltaY + deltaZ * deltaZ);
+	printf("distance: %f\n", distance);
+
+	// Ensure distance is not zero to avoid division by zero
+	if (distance == 0)
+	{
+		delta.x = 0;
+		delta.y = 0;
+		delta.z = 0;
+	}
+	else
+	{
+		// Calculate change per unit distance
+		delta.x = deltaX / distance * -1;
+		delta.y = deltaY / distance * -1;
+		delta.z = deltaZ / distance * -1;
+	}
+	printf("length of delta: %f\n", sqrt(delta.x * delta.x + delta.y * delta.y + delta.z * delta.z));
+	return delta;
 }
