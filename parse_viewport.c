@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/22 22:13:17 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/23 20:54:31 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,13 +155,25 @@ void	ft_rotate_viewport(t_scene **scene)
 {
 	get_eye_coords(scene);
 	rotate_points((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_left, &(*scene)->viewport.upper_right, &(*scene)->viewport.lower_left, &(*scene)->viewport.lower_right, &(*scene)->viewport.eye_pos, (*scene)->viewport.rotation.x, (*scene)->viewport.rotation.y);
+	(*scene)->viewport.normal_unit.x = (*scene)->viewport.viewport_middle.x - (*scene)->viewport.eye_pos.x;
+	(*scene)->viewport.normal_unit.y = (*scene)->viewport.viewport_middle.y - (*scene)->viewport.eye_pos.y;
+	(*scene)->viewport.normal_unit.z = (*scene)->viewport.viewport_middle.z - (*scene)->viewport.eye_pos.z;
+	vector_oneilizer(&(*scene)->viewport.normal_unit);
+	(*scene)->viewport.viewport_u = vector_subtract((*scene)->viewport.upper_right, (*scene)->viewport.upper_left);
+	(*scene)->viewport.viewport_v = vector_subtract((*scene)->viewport.upper_left, (*scene)->viewport.lower_left);
+	(*scene)->viewport.pixel_delta_u = vector_divide((*scene)->viewport.viewport_u, WIDTH);
+	(*scene)->viewport.pixel_delta_v = vector_divide((*scene)->viewport.viewport_v, HEIGHT);
 	printf("rotation complete\n");
-	printf("---------------VIEWPORT DATA--\n");
+	printf("\n\n\n\n\n\nv---------------VIEWPORT DATA--\n");
 	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
 	printf("upper_right [%f,%f,%f]\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);	
 	printf("lower_left [%f,%f,%f]\n", (*scene)->viewport.lower_left.x, (*scene)->viewport.lower_left.y, (*scene)->viewport.lower_left.z);
 	printf("eye_pos [%f,%f,%f]\n", (*scene)->viewport.eye_pos.x, (*scene)->viewport.eye_pos.y, (*scene)->viewport.eye_pos.z);
 	printf("------------------\n");
+	printf("normal unit: [%f,%f,%f]\n", (*scene)->viewport.normal_unit.x, (*scene)->viewport.normal_unit.y, (*scene)->viewport.normal_unit.z);
+	printf("pixel delta u: [%f,%f,%f] (width)\n", (*scene)->viewport.pixel_delta_u.x, (*scene)->viewport.pixel_delta_u.y, (*scene)->viewport.pixel_delta_u.z);
+	printf("pixel delta v: [%f,%f,%f] (height)\n", (*scene)->viewport.pixel_delta_v.x, (*scene)->viewport.pixel_delta_v.y, (*scene)->viewport.pixel_delta_v.z);
+	printf("------------------\n\n\n\n\n\n\n\n\n\n\n");
 }
 
 void get_eye_coords(t_scene **scene)

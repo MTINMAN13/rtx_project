@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/22 21:19:01 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/23 20:49:16 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ typedef struct s_viewport
 	t_vec		viewport_middle;		//taken in from the camera data
 	t_vec		eye_pos;		//calculated later on
 	t_vec		orientation;	//taken in from the camera data
+	t_vec		normal_unit;	//3d vector that represents the change in coordinate for one unit of direction along the directional axis of the camera (eye_pos through the viewport_middle)
 	t_rotation	rotation;	//taken in from the camera data
 	double		rotation_matrix[3][3];	//calculated from the rotation values
 	double		focal_length;		//calculated as focal_length(FOV)

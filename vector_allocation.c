@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:10:04 by mman              #+#    #+#             */
-/*   Updated: 2024/06/15 23:08:21 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/23 21:17:58 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,3 +53,4 @@ void	ft_assign_values_to_t_color(t_color *color, char *str)
 	free(copy);
 	free(token);
 }
+

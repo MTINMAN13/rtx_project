@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/22 22:10:52 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/23 20:49:17 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ double	focal_length(double fov);
 double	ft_fmax(double x, double y);
 double	ft_fmin(double x, double y);
 double	degrees_to_radians(double degrees);
+t_vec	vector_subtract(t_vec v1, t_vec v2);
+t_vec	vector_divide(t_vec v, double scalar);
 
 
 //Coloring:

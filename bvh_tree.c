@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/15 18:11:17 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/23 20:49:09 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,14 @@
 // 	free_bvh_tree(root);
 // }
 
-//I have the Camera in front of mee and I want to traverse everything the camera can see
+//
+
 void bvh_tree(t_scene *scene)
 {
-    scene->corner[0] = (t_vec){scene->bounds->min.x, scene->bounds->min.y, scene->bounds->min.z};   // bottom left 
-    scene->corner[1] = (t_vec){scene->bounds->max.x, scene->bounds->min.y, scene->bounds->min.z};   // bottom right
-    scene->corner[2] = (t_vec){scene->bounds->min.x, scene->bounds->max.y, scene->bounds->min.z};   //top left
-    scene->corner[3] = (t_vec){scene->bounds->max.x, scene->bounds->max.y, scene->bounds->min.z};   //top right
+    scene->corner[0] = scene->viewport.lower_left;   // bottom left 
+    scene->corner[1] = scene->viewport.lower_right;   // bottom right
+    scene->corner[2] = scene->viewport.upper_left;   //top left
+    scene->corner[3] = scene->viewport.upper_right;   //top right
     scene->corner[4] = (t_vec){scene->bounds->min.x, scene->bounds->min.y, scene->bounds->max.z};   //bottom far left
     scene->corner[5] = (t_vec){scene->bounds->max.x, scene->bounds->min.y, scene->bounds->max.z};   //bottom far right
     scene->corner[6] = (t_vec){scene->bounds->min.x, scene->bounds->max.y, scene->bounds->max.z};   //top far left
@@ -76,6 +77,7 @@ void bvh_tree(t_scene *scene)
     for (int i = 0; i < 8; i++) {
         printf("Corner %d: (%f, %f, %f)\n", i, scene->corner[i].x, scene->corner[i].y, scene->corner[i].z);
     }
+    ft_pntf("------------------ VIEWPORT FRUSTRUM ------------------");
 }
 
 void	free_bvh_tree(t_scene *scene)
