@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:33:56 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:48:54 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/24 18:37:50 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,22 @@ t_vec	vector_divide(t_vec v, double scalar)
 	result.y = v.y / scalar;
 	result.z = v.z / scalar;
 	return (result);
+}
+
+
+/**
+ * Multiplies a vector by a scalar.
+ *
+ * @param v The vector to be multiplied.
+ * @param scalar The scalar value to multiply the vector by.
+ * @return The resulting vector after multiplication.
+ */
+t_vec	vector_multiply(t_vec v, double scalar)
+{
+	t_vec result;
+
+	result.x = v.x * scalar;
+	result.y = v.y * scalar;
+	result.z = v.z * scalar;
+	return result;
 }

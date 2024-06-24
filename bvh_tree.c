@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:49:09 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/24 19:04:10 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,15 +60,16 @@
 
 //
 
+
+
 void bvh_tree(t_scene *scene)
 {
     scene->corner[0] = scene->viewport.lower_left;   // bottom left 
     scene->corner[1] = scene->viewport.lower_right;   // bottom right
     scene->corner[2] = scene->viewport.upper_left;   //top left
     scene->corner[3] = scene->viewport.upper_right;   //top right
-    scene->corner[4] = (t_vec){scene->bounds->min.x, scene->bounds->min.y, scene->bounds->max.z};   //bottom far left
-    scene->corner[5] = (t_vec){scene->bounds->max.x, scene->bounds->min.y, scene->bounds->max.z};   //bottom far right
-    scene->corner[6] = (t_vec){scene->bounds->min.x, scene->bounds->max.y, scene->bounds->max.z};   //top far left
+    scene->corner[4] = vector_add(scene->viewport.viewport_middle, vector_multiply(scene->viewport.normal_unit, RENDER_DISTANCE / 2));   //middle
+    scene->corner[6] = (t_vec){scene->bounds->min.x, scene->bounds->max.y, scene->bounds->max.z};   
     scene->corner[7] = (t_vec){scene->bounds->max.x, scene->bounds->max.y, scene->bounds->max.z};   //top far right
 
     // Print or use the corner coordinates as needed

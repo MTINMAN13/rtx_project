@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 21:32:40 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/24 19:13:04 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,7 +154,7 @@ void	parse_camera_data(char *line, t_scene **scene)
 
 void	ft_rotate_viewport(t_scene **scene)
 {
-	rotate_points((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_left, &(*scene)->viewport.upper_right, &(*scene)->viewport.lower_left, &(*scene)->viewport.lower_right, &(*scene)->viewport.eye_pos, (*scene)->viewport.rotation.x, (*scene)->viewport.rotation.y);
+	rotate_points((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_left, &(*scene)->viewport.upper_right, &(*scene)->viewport.lower_left, &(*scene)->viewport.lower_right, &(*scene)->viewport.eye_pos, (*scene)->viewport.rotation.y, (*scene)->viewport.rotation.x);
 	(*scene)->viewport.normal_unit = change_per_unit_distance((*scene)->viewport.viewport_middle, (*scene)->viewport.eye_pos);
 	(*scene)->viewport.viewport_u = vector_subtract((*scene)->viewport.upper_right, (*scene)->viewport.upper_left);
 	(*scene)->viewport.viewport_v = vector_subtract((*scene)->viewport.upper_left, (*scene)->viewport.lower_left);
