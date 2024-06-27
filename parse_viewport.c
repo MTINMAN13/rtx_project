@@ -15,6 +15,8 @@
 //Camera Position, Orientation and Focal_Length are stored in the viewport struct
 //this function only initalizes the upper left coordinations
 
+//ゆあるあふぁつすぅつ
+
 static void	get_viewport_direction(t_scene *scene)
 {
 	double x = scene->viewport.orientation.x;
