@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/22 21:21:11 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:49:29 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/27 21:22:22 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ t_quaternion combine_rotations(float theta_x, float theta_y)
 
 void rotate_points(t_vec center, t_vec* p1, t_vec* p2, t_vec* p3, t_vec* p4, t_vec* p5, float theta_x, float theta_y)
 {
+	printf("Original points:\n");
+	printf("viewport middle: (%f, %f, %f)\n", center.x, center.y, center.z);
 	// Přelož body, aby středový bod byl v počátku
 	t_vec translated_p1 = translate_point(*p1, (t_vec){-center.x, -center.y, -center.z});
 	t_vec translated_p2 = translate_point(*p2, (t_vec){-center.x, -center.y, -center.z});

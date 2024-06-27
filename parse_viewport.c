@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 21:32:40 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/27 21:36:14 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,38 +24,38 @@ static void	get_viewport_direction(t_scene *scene)
 		scene->viewport.orientation.z = 1;
 	else
 		scene->viewport.orientation.z = -1;
-	printf("\n\n\nLooking ");
+	printf("\n\n\n💎 Looking ");
 
-	if (x > 0.0 && x <= 0.5)
+	if (y > 0.0 && y <= 0.5)
 	{
 		printf("slightly to the right ");
 	}
-	else if (x > 0.5 && x <= 1.0)
+	else if (y > 0.5 && y <= 1.0)
 	{
 		printf("to the right ");
 	}
-	else if (x >= -0.5 && x < 0.0)
+	else if (y >= -0.5 && y < 0.0)
 	{
 		printf("slightly to the left ");
 	}
-	else if (x >= -1.0 && x < -0.5)
+	else if (y >= -1.0 && y < -0.5)
 	{
 		printf("to the left ");
 	}
 
-	if (y >= -1.0 && y <= -0.5)
+	if (x >= -1.0 && x <= -0.5)
 	{
 		printf("and down ");
 	}
-	else if (y > -0.5 && y < 0.0)
+	else if (x > -0.5 && x < 0.0)
 	{
 		printf("and slightly down ");
 	}
-	else if (y > 0.0 && y < 0.5)
+	else if (x > 0.0 && x < 0.5)
 	{
 		printf("and slightly up ");
 	}
-	else if (y >= 0.5 && y <= 1.0)
+	else if (x >= 0.5 && x <= 1.0)
 	{
 		printf("and up");
 	}
@@ -86,7 +86,7 @@ void	ft_initialize_viewport(t_scene **scene)
 	(*scene)->viewport.eye_pos.x = (*scene)->viewport.viewport_middle.x;
 	(*scene)->viewport.eye_pos.y = (*scene)->viewport.viewport_middle.y;
 	(*scene)->viewport.eye_pos.z = (*scene)->viewport.viewport_middle.z - ((*scene)->viewport.orientation.z * (*scene)->viewport.focal_length);
-	printf("---------------VIEWPORT DATA--\n");
+	printf("💡 ---------------VIEWPORT DATA--\n");
 	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
 	printf("upper_right [%f,%f,%f]\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);	
 	printf("lower_left [%f,%f,%f]\n", (*scene)->viewport.lower_left.x, (*scene)->viewport.lower_left.y, (*scene)->viewport.lower_left.z);
@@ -161,7 +161,7 @@ void	ft_rotate_viewport(t_scene **scene)
 	(*scene)->viewport.pixel_delta_u = vector_divide((*scene)->viewport.viewport_u, WIDTH);
 	(*scene)->viewport.pixel_delta_v = vector_divide((*scene)->viewport.viewport_v, HEIGHT);
 	printf("rotation complete\n");
-	printf("\n\n\n\n\n\nv---------------VIEWPORT DATA--\n");
+	printf("\n\n\n\n\n\n💡---------------VIEWPORT DATA--\n");
 	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
 	printf("upper_right [%f,%f,%f]\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);	
 	printf("lower_left [%f,%f,%f]\n", (*scene)->viewport.lower_left.x, (*scene)->viewport.lower_left.y, (*scene)->viewport.lower_left.z);
