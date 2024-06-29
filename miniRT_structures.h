@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/27 21:15:49 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/29 18:35:47 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ typedef struct s_bvh_node
 	t_aabb				aabb; // Axis-aligned bounding box
 	void				*data; // Pointer to the data stored in the node
 	int					isLeaf; // Flag indicating if the node is a leaf node
+	int					num_objects; // Number of objects in the node
 	struct s_bvh_node	*left; // Pointer to the left child node
 	struct s_bvh_node	*right; // Pointer to the right child node
 }			t_bvh_node;
@@ -133,7 +134,7 @@ typedef struct s_scene
 {
 	t_viewport	viewport;
 	t_mlxdata	mlx;
-	t_bvh_node	*bvh;
+	t_bvh_node	*bvh_root;
 	t_object	*objects;
 	t_light		*lights;
 	int			total_objects;

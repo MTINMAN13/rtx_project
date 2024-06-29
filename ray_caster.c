@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/27 20:19:09 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/29 15:34:03 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,11 @@ void	raycaster(t_scene *scene)
 	int		j;
 	int		temp;
 
-	i = 0;
+	i = 1;
 	temp = 0;
 	while (i < WIDTH)
 	{
-		j = 0;
+		j = 1;
 		while (j < HEIGHT)
 		{
 			ray(scene, i, j);
@@ -47,9 +47,9 @@ void    ray(t_scene *scene, int x, int y)
     t_color	rgb;
 	t_ray	ray;
 
-	ray.direction.x = x;
-	ray.direction.y = y;
-	ray.direction.z = 0;
+	ray.direction.x = x * scene->viewport.pixel_delta_u.x + scene->viewport.upper_left.x + y * scene->viewport.pixel_delta_u.x;
+	ray.direction.y = x * scene->viewport.pixel_delta_v.y + scene->viewport.upper_left.y + y * scene->viewport.pixel_delta_u.y;
+	ray.direction.z = x * scene->viewport.pixel_delta_u.z + scene->viewport.upper_left.z + y * scene->viewport.pixel_delta_u.z;
 	ray.origin = (*scene).viewport.eye_pos;
 	rgb = bvh_intersect(scene, &ray);
     ft_process_pixel(&scene->mlx, x, y, rgb);
@@ -114,7 +114,7 @@ t_color	bvh_intersect(t_scene *scene, t_ray *ray)
 	t_bvh_node	*node;
 	t_color		rgb;
 
-	node = scene->bvh; //the entry node of the BVH tree
+	node = scene->bvh_root; //the entry node of the BVH tree
 	rgb.r = 0;
 	rgb.g = 0;
 	rgb.b = 0;

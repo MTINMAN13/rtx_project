@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 21:52:26 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/29 16:23:23 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,16 @@ void	ft_process_pixel(t_mlxdata *mlxdata, int x, int y, t_color rgb);
 t_color color_from_object(t_object *object);
 
 
-
+void swap_objects(t_object *a, t_object *b);
+double get_coordinate(t_vec vec, int axis);
+int partition(t_object *object_list, int pivot, int axis);
+t_object *sort_object_list(t_object *object_list, int axis);
+void split_object_list(t_object *object_list, int axis, t_object **left_list, t_object **right_list);
+int ft_longest_axis(t_aabb bbox);
+t_bvh_node *build_bvh_tree(t_object *object_list, t_aabb bounds);
+void bvh_tree(t_scene *scene);
+t_aabb encompassing_bbox(t_aabb bbox1, t_aabb bbox2);
+t_aabb calculate_list_bbox(t_object *object_list);
+void free_bvh_tree(t_scene *scene);
 
 #endif

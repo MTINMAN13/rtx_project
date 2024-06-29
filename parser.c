@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:49:27 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/29 18:38:01 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,10 @@ int	ft_parse(int fd, t_scene **scene)
 			// Get the next line
 			line = get_next_line(fd);
 		}
-		ft_pntf("found %i objects", (*scene)->total_objects);
+		ft_pntf("⭐ found %i objects", (*scene)->total_objects);
 		free(line);
 	}
+	while ((*scene)->objects->prev)
+		(*scene)->objects = (*scene)->objects->prev;
 	return (EXIT_SUCCESS);
 }
