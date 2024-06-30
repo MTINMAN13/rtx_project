@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/06/29 18:38:01 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/30 15:51:44 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,9 @@ void	parse_sphere_data(char *line, t_scene **scene)
 	{
 		ft_pntf("found a sphere");
 		split = ft_split(line, ' ');
-		ft_pntf("beep boop im a sphere, %s", split[1]);
+		ft_pntf("beep boop im a sphere, %s, ----- %s", split[1], line);
+		(*scene)->objects->raw_data = ft_strdup(line);
+		printf("The raw data is %s\n", (*scene)->objects->raw_data);
 		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
 		(*scene)->objects->diameter = ft_atoidouble(split[2]);
 		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
@@ -36,6 +38,7 @@ void	parse_sphere_data(char *line, t_scene **scene)
 		(*scene)->objects->next = NULL;
 		(*scene)->total_objects++;
 		free(split);
+		ft_pntf("TEST beep boop im a sphere, %s", (*scene)->objects->prev->raw_data);
 		ft_pntf("jobs done");
 	}
 	else
@@ -54,7 +57,7 @@ void	parse_cylinder_data(char *line, t_scene **scene)
 	{
 		split = ft_split(line, ' ');
 		(*scene)->objects->raw_data = ft_strdup(line);
-		ft_pntf("beep boop im a cylinder, %s", split);
+		ft_pntf("beep boop im a cylinder, %s -- the data is %s", split, line);
 		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
 		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
 		(*scene)->objects->diameter = ft_atoidouble(split[3]);
@@ -82,6 +85,7 @@ int	ft_parse(int fd, t_scene **scene)
 	char	*line;
 
 	line = NULL;
+	(*scene)->objects->prev = NULL;
 	{
 		line = get_next_line(fd);
 		while (line != NULL)
@@ -104,5 +108,7 @@ int	ft_parse(int fd, t_scene **scene)
 	}
 	while ((*scene)->objects->prev)
 		(*scene)->objects = (*scene)->objects->prev;
+	printf("TEST First object data is %s\n\n", (*scene)->objects->raw_data);
+	printf("Test: %s\n", (*scene)->objects);
 	return (EXIT_SUCCESS);
 }

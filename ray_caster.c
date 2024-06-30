@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/29 15:34:03 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/30 15:54:44 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,6 +150,8 @@ void	render(t_scene *scene)
 	printf("upper_right %f %f %f\n", scene->viewport.upper_right.x, scene->viewport.upper_right.y, scene->viewport.upper_right.z);
 	ft_pntf("----------------------------------------");
     bvh_bounds(scene);
+	// printf("------------ OBJECT CJHECK ------------");
+	// printf("\nobject 1 %f %f %f\n", scene->objects->coordinates.x, scene->objects->coordinates.y, scene->objects->coordinates.z);
 	bvh_tree(scene);
 	raycaster(scene);
 }

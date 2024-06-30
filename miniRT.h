@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/29 16:23:23 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/30 15:10:10 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int partition(t_object *object_list, int pivot, int axis);
 t_object *sort_object_list(t_object *object_list, int axis);
 void split_object_list(t_object *object_list, int axis, t_object **left_list, t_object **right_list);
 int ft_longest_axis(t_aabb bbox);
-t_bvh_node *build_bvh_tree(t_object *object_list, t_aabb bounds);
+t_bvh_node *build_bvh_tree(t_scene *scene, t_object *object_list, t_aabb bounds);
 void bvh_tree(t_scene *scene);
 t_aabb encompassing_bbox(t_aabb bbox1, t_aabb bbox2);
 t_aabb calculate_list_bbox(t_object *object_list);
