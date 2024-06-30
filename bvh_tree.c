@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 18:22:18 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/30 20:30:31 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,18 @@ void bvh_tree(t_scene *scene)
     printf("\n\n\n--------------------------\n");
     // Build the BVH tree and assign it to the scene's root
     printf("So there should be %i objects in the scene. [Longest Axis is %i]\n\n\n\n\n\n\n\n\n", scene->total_objects, ft_longest_axis(*(scene->bounds)));
+    *(scene->bounds) = calculate_list_bbox(object_list);
     sort_object_list(&object_list, ft_longest_axis(*(scene->bounds)));
-    printf("Number of objects in list: %d\n", count_objects(object_list));
     build_bvh_tree(scene, &scene->bvh_root, object_list, *(scene->bounds));
     printf("\n\n\n\n\n\n📦 Total of %i AABBs in the BVH tree\n", count_aabbs_in_bvh(scene->bvh_root));
     printf("BVH tree created - %p\n\n\n", scene);
 }
 
-void    build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *object_list, t_aabb bounds)
+void build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *object_list, t_aabb bounds)
 {
-    // Base case: if the object list is empty, set the bvh root to NULL
+    int object_count = count_objects(object_list);
+
+    // Base case: if the object list is empty, set the BVH node to NULL
     if (object_list == NULL)
     {
         *current_bvh_node = malloc(sizeof(t_bvh_node));
@@ -51,7 +53,9 @@ void    build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *
         (*current_bvh_node)->aabb = bounds;
         return;
     }
-    else if (object_list->next == NULL)
+
+    // Base case: if there's only one object, create a leaf node
+    if (object_count == 1)
     {
         *current_bvh_node = malloc(sizeof(t_bvh_node));
         if (*current_bvh_node == NULL)
@@ -65,31 +69,42 @@ void    build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *
         (*current_bvh_node)->isLeaf = 1;
         (*current_bvh_node)->num_objects = 1;
         (*current_bvh_node)->aabb = object_list->bounds;
-        printf("Create one leaf node with the bounds of the object. [OBJECT TYPE: %i]\n", object_list->type);
+        printf("Leaf node created with 1 object.                                    [Type: %i]\n", object_list->type);
+        printf("the min bounds are: %lf, %lf, %lf\n", (*current_bvh_node)->aabb.min.x, (*current_bvh_node)->aabb.min.y, (*current_bvh_node)->aabb.min.z);
+        printf("the max bounds are: %lf, %lf, %lf\n", (*current_bvh_node)->aabb.max.x, (*current_bvh_node)->aabb.max.y, (*current_bvh_node)->aabb.max.z);
         return;
     }
-    else
+
+    // Create a new BVH node (not a leaf)
+    *current_bvh_node = malloc(sizeof(t_bvh_node));
+    if (*current_bvh_node == NULL)
     {
-        //Here we found a BVH node with more than one object
-        //We need to split the object list into two halves
-        t_object *left_list = malloc(sizeof(t_object));
-        t_object *right_list = malloc(sizeof(t_object));
-        printf("🔔 - %p, %p, %p", left_list, right_list, scene);
-        // Perform the split and update the object lists
-        sort_object_list(&object_list, ft_longest_axis(bounds));
-        split_object_list(object_list, &left_list, &right_list);
-        // Recursively build the BVH tree for the left and right lists
-        build_bvh_tree(scene, &((*current_bvh_node)->left), left_list, calculate_list_bbox(left_list));
-        build_bvh_tree(scene, &((*current_bvh_node)->right), right_list, calculate_list_bbox(right_list));
-        // Update the AABB of the current BVH node
-        (*current_bvh_node)->aabb = encompassing_bbox(calculate_list_bbox(left_list), calculate_list_bbox(right_list));
-        // Update the number of objects in the current BVH node
-        (*current_bvh_node)->num_objects = count_aabbs_in_bvh(*current_bvh_node);
-        // Set the current BVH node as an internal node
-        (*current_bvh_node)->isLeaf = 0;
-        printf("Create one BVH node, which is not leaf");
+        perror("Failed to allocate memory for BVH node");
+        exit(EXIT_FAILURE);
     }
+
+    // Sort the object list along the longest axis of the bounds
+    sort_object_list(&object_list, ft_longest_axis(bounds));
+
+    // Split the object list into left and right lists
+    t_object *left_list = NULL;
+    t_object *right_list = NULL;
+    split_object_list(object_list, &left_list, &right_list);
+
+    // Recursively build the BVH tree for the left and right lists
+    build_bvh_tree(scene, &((*current_bvh_node)->left), left_list, calculate_list_bbox(left_list));
+    build_bvh_tree(scene, &((*current_bvh_node)->right), right_list, calculate_list_bbox(right_list));
+
+    // Update the AABB of the current BVH node
+    (*current_bvh_node)->aabb = encompassing_bbox((*current_bvh_node)->left->aabb, (*current_bvh_node)->right->aabb);
+
+    // Update the number of objects in the current BVH node
+    (*current_bvh_node)->num_objects = count_aabbs_in_bvh(*current_bvh_node);
+
+    // Set the current BVH node as an internal node
+    (*current_bvh_node)->isLeaf = 0;
 }
+
 
 
 
@@ -178,12 +193,10 @@ int partition(t_object *object_list, int pivot, int axis) {
 
 void sort_object_list(t_object **object_list, int axis)
 {
-    printf("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxnumber of objects in list: %d\n", count_objects(*object_list));
     // Base case: If the object list is empty or has only one object, no sorting is needed
     if (*object_list == NULL || (*object_list)->next == NULL) {
         return;
     }
-    
     // Initialize the sorted list with the first object
     t_object *sorted_list = *object_list;
     *object_list = (*object_list)->next;
@@ -242,17 +255,37 @@ int count_objects(t_object *object_list)
 
 void split_object_list(t_object *object_list, t_object **left_list, t_object **right_list)
 {
+    // Check if the object list is empty
+    if (object_list == NULL) {
+        *left_list = NULL;
+        *right_list = NULL;
+        return;
+    }
+
+    // If there is only one object in the list
+    if (object_list->next == NULL) {
+        *left_list = object_list;
+        *right_list = NULL;
+        return;
+    }
+
     // Initialize the left and right lists
     *left_list = object_list;
     *right_list = object_list->next;
-    object_list->next = NULL;
-
+    
     (*left_list)->next = NULL;
-    (*right_list)->prev = NULL;
+
+    // Separate the lists
+    object_list->next = NULL;
+    if (*right_list != NULL) {
+        (*right_list)->prev = NULL;
+    }
+
     // Print the number of objects in each list
     printf("Number of objects in left list: %d\n", count_objects(*left_list));
     printf("Number of objects in right list: %d\n", count_objects(*right_list));
 }
+
 
 
 
@@ -324,7 +357,8 @@ t_aabb calculate_list_bbox(t_object *object_list)
     bbox.max = (t_vec){-INFINITY, -INFINITY, -INFINITY};
     
     t_object *current = object_list;
-    while (current != NULL) {
+    while (current != NULL)
+    {
         t_aabb object_bbox = current->bounds;
         bbox.min.x = fmin(bbox.min.x, object_bbox.min.x);
         bbox.min.y = fmin(bbox.min.y, object_bbox.min.y);
@@ -336,8 +370,8 @@ t_aabb calculate_list_bbox(t_object *object_list)
         
         current = current->next;
     }
-    printf("The min bounds are: %lf, %lf, %lf\n", bbox.min.x, bbox.min.y, bbox.min.z);
-    printf("The max bounds are: %lf, %lf, %lf\n", bbox.max.x, bbox.max.y, bbox.max.z);
+    // printf("The min bounds are: %lf, %lf, %lf\n", bbox.min.x, bbox.min.y, bbox.min.z);
+    // printf("The max bounds are: %lf, %lf, %lf\n", bbox.max.x, bbox.max.y, bbox.max.z);
     return bbox;
 }
 

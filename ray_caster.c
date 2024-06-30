@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 15:54:44 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/30 20:33:59 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,10 @@ void	raycaster(t_scene *scene)
 
 	i = 1;
 	temp = 0;
-	while (i < WIDTH)
+	while (i <= WIDTH)
 	{
 		j = 1;
-		while (j < HEIGHT)
+		while (j <= HEIGHT)
 		{
 			ray(scene, i, j);
 			j++;
