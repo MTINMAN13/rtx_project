@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 15:16:59 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/30 16:52:33 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ typedef struct s_bvh_node
 	void				*data; // Pointer to the data stored in the node
 	int					isLeaf; // Flag indicating if the node is a leaf node
 	int					num_objects; // Number of objects in the node
+	struct s_object		*objects; // Array of pointers to the objects in the node
 	struct s_bvh_node	*left; // Pointer to the left child node
 	struct s_bvh_node	*right; // Pointer to the right child node
 }			t_bvh_node;

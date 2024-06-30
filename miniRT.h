@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 15:10:10 by mman             ###   ########.fr       */
+/*   Updated: 2024/06/30 17:57:33 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,13 +105,15 @@ t_color color_from_object(t_object *object);
 void swap_objects(t_object *a, t_object *b);
 double get_coordinate(t_vec vec, int axis);
 int partition(t_object *object_list, int pivot, int axis);
-t_object *sort_object_list(t_object *object_list, int axis);
-void split_object_list(t_object *object_list, int axis, t_object **left_list, t_object **right_list);
+void sort_object_list(t_object **object_list, int axis);
+void split_object_list(t_object *object_list, t_object **left_list, t_object **right_list);
 int ft_longest_axis(t_aabb bbox);
-t_bvh_node *build_bvh_tree(t_scene *scene, t_object *object_list, t_aabb bounds);
+void    build_bvh_tree(t_scene *scene, t_bvh_node **bvh_root, t_object *object_list, t_aabb bounds);
 void bvh_tree(t_scene *scene);
 t_aabb encompassing_bbox(t_aabb bbox1, t_aabb bbox2);
 t_aabb calculate_list_bbox(t_object *object_list);
 void free_bvh_tree(t_scene *scene);
+int count_aabbs_in_bvh(t_bvh_node *node);
+int count_objects(t_object *object_list);
 
 #endif
