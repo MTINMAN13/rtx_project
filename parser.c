@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:02:34 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 19:22:04 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/01 02:16:54 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,19 +104,24 @@ void parse_cylinder_data(char *line, t_scene **scene)
 int ft_parse(int fd, t_scene **scene)
 {
     char *line = NULL;
+    int i = 0;
 
 	(*scene)->objects = NULL;
     while ((line = get_next_line(fd)) != NULL)
     {
         ft_pntf("beep boop im a parser\n %s", line);
-        parse_camera_data(line, scene);
+        i += parse_camera_data(line, scene);
         parse_sphere_data(line, scene);
         parse_plane_data(line, scene);
         parse_cylinder_data(line, scene);
         parse_ambient_light(line, scene);
         free(line);
     }
-
+    if (i!=1)
+    {
+        printf("Found SUS amount of CAMERA DATA!");
+        exit(EXIT_FAILURE);
+    }
     ft_pntf("⭐ found %i objects", (*scene)->total_objects);
 
     // Print out the raw data from all the objects

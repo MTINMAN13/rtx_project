@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 17:57:33 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/01 02:16:32 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void    ray(t_scene *scene, int x, int y);
 
 //Parsing:
 int		ft_parse(int fd, t_scene **scene);
-void	parse_camera_data(char *line, t_scene **scene);
+int	    parse_camera_data(char *line, t_scene **scene);
 void	parse_sphere_data(char *line, t_scene **scene);
 void	calculate_plane_bounds(t_vec plane_normal, t_vec point, t_object *plane);
 void	parse_plane_data(char *line, t_scene **scene);
@@ -115,5 +115,30 @@ t_aabb calculate_list_bbox(t_object *object_list);
 void free_bvh_tree(t_scene *scene);
 int count_aabbs_in_bvh(t_bvh_node *node);
 int count_objects(t_object *object_list);
+
+
+int sphere_intersection(t_ray *ray, t_object *object, t_color *color);
+
+
+// ray_caster.c
+int ray_intersects_aabb(t_ray *ray, t_aabb *aabb);
+int object_intersects(t_ray *ray, t_object *object, t_color *color);
+int plane_intersection(t_ray *ray, t_object *object, t_color *color);
+int square_intersection(t_ray *ray, t_object *object, t_color *color);
+int cylinder_intersection(t_ray *ray, t_object *object, t_color *color);
+
+
+int is_color_default(t_color color);
+t_color create_color(float r, float g, float b);
+t_color traverse_bvh(t_bvh_node *node, t_ray *ray);
+
+// Functions already in the header:
+t_vec vector_subtract(t_vec v1, t_vec v2);
+t_vec vector_add(t_vec v1, t_vec v2);
+t_vec vector_divide(t_vec v, double scalar);
+double vec_dot(t_vec v1, t_vec v2);
+t_vec vec_cross(t_vec v1, t_vec v2);
+t_color color_from_object(t_object *object);
+
 
 #endif

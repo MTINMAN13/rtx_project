@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/06/27 21:36:14 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/01 02:17:22 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,7 @@ void	ft_get_rotation(t_scene **scene)
 }
 
 
-void	parse_camera_data(char *line, t_scene **scene)
+int	parse_camera_data(char *line, t_scene **scene)
 {
 	char	**split;
 	// t_vec	*coords;
@@ -149,9 +149,11 @@ void	parse_camera_data(char *line, t_scene **scene)
 		ft_initialize_viewport(scene);
 		ft_rotate_viewport(scene);
 		printf("render cutoff distance : %f\n", (*scene)->viewport.render_distance_cutoff);
+		return (1);
 	}
 	else
 		split = NULL;
+	return (0);
 }
 
 void	ft_rotate_viewport(t_scene **scene)
@@ -163,7 +165,7 @@ void	ft_rotate_viewport(t_scene **scene)
 	(*scene)->viewport.pixel_delta_u = vector_divide((*scene)->viewport.viewport_u, WIDTH);
 	(*scene)->viewport.pixel_delta_v = vector_divide((*scene)->viewport.viewport_v, HEIGHT);
 	printf("rotation complete\n");
-	printf("\n\n\n\n\n\n💡---------------VIEWPORT DATA--\n");
+	printf("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n💡---------------VIEWPORT DATA--\n");
 	printf("viewport_middle [%f,%f,%f]\n", (*scene)->viewport.viewport_middle.x, (*scene)->viewport.viewport_middle.y, (*scene)->viewport.viewport_middle.z);
 	printf("upper_right [%f,%f,%f]\n", (*scene)->viewport.upper_right.x, (*scene)->viewport.upper_right.y, (*scene)->viewport.upper_right.z);	
 	printf("lower_left [%f,%f,%f]\n", (*scene)->viewport.lower_left.x, (*scene)->viewport.lower_left.y, (*scene)->viewport.lower_left.z);

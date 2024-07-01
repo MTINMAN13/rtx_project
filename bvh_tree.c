@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 20:30:31 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/01 02:12:43 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,30 @@
 //sphere
 //plane
 
+void print_aabb_bounds(t_bvh_node *node)
+{
+    // Base case: If the node is NULL, return
+    if (node == NULL)
+    {
+        return;
+    }
+    
+    // Leaf node case: If the node is a leaf, print its AABB bounds
+    if (node->isLeaf)
+    {
+        int type = ((t_object *)node->data)->type;
+        t_color color = ((t_object *)node->data)->color;
+        printf("AABB Bounds: [TYPE%i][COLOR:   %i, %i, %i](min: %lf, %lf, %lf), (max: %lf, %lf, %lf)\n", color.r, color.g, color.b, type,
+               node->aabb.min.x, node->aabb.min.y, node->aabb.min.z,
+               node->aabb.max.x, node->aabb.max.y, node->aabb.max.z);
+        return;
+    }
+    
+    // Internal node case: Recursively print AABB bounds for left and right subtrees
+    print_aabb_bounds(node->left);
+    print_aabb_bounds(node->right);
+}
+
 void bvh_tree(t_scene *scene)
 {
     t_object *object_list = scene->objects;
@@ -30,7 +54,11 @@ void bvh_tree(t_scene *scene)
     build_bvh_tree(scene, &scene->bvh_root, object_list, *(scene->bounds));
     printf("\n\n\n\n\n\n📦 Total of %i AABBs in the BVH tree\n", count_aabbs_in_bvh(scene->bvh_root));
     printf("BVH tree created - %p\n\n\n", scene);
+    printf("The following AABBS are in the BVH tree:\n");
+    print_aabb_bounds(scene->bvh_root);
 }
+
+
 
 void build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *object_list, t_aabb bounds)
 {

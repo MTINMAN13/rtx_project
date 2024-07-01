@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 16:52:33 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/01 01:56:24 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ typedef struct s_viewport
 typedef struct s_object
 {
 	char			*raw_data;
-	int				type;	//0 = camera, 1 = light, 2 = sphere, 3 = plane, 4 = square, 5 = cylinder, 6 = triangle
+	int				type;	//0 = camera, 1 = light, 2 = sphere, 3 = plane, 4 = square, 5 = cylinder
 	t_vec			coordinates;
 	t_vec			normal;
 	t_color			color;
