@@ -5,104 +5,132 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/26 14:12:31 by mman              #+#    #+#             */
-/*   Updated: 2024/06/29 18:38:01 by mman             ###   ########.fr       */
+/*   Created: 2024/06/30 19:02:34 by mman              #+#    #+#             */
+/*   Updated: 2024/07/01 02:16:54 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-// Function to parse the sphere data
-// sphere is passed in in the following format
-//
-// sp 0.0,0.0,20.6 12.6 10,0,255
-void	parse_sphere_data(char *line, t_scene **scene)
+// Function to create a new object node
+t_object *create_new_object(void)
 {
-	char	**split;
+    t_object *new_object;
 
-	if (ft_strncmp(line, "sp", 2) == 0)
-	{
-		ft_pntf("found a sphere");
-		split = ft_split(line, ' ');
-		ft_pntf("beep boop im a sphere, %s", split[1]);
-		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
-		(*scene)->objects->diameter = ft_atoidouble(split[2]);
-		ft_assign_values_to_t_color(&(*scene)->objects->color, split[3]);
-		(*scene)->objects->type = 2;
-		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);
-		(*scene)->objects->next = malloc(sizeof(t_object));
-		(*scene)->objects->next->prev = (*scene)->objects;
-		(*scene)->objects = (*scene)->objects->next;
-		(*scene)->objects->next = NULL;
-		(*scene)->total_objects++;
-		free(split);
-		ft_pntf("jobs done");
-	}
-	else
-		split = NULL;
+    new_object = malloc(sizeof(t_object));
+    if (!new_object)
+        return NULL; // Handle allocation failure
+    new_object->raw_data = NULL;
+    new_object->next = NULL;
+    new_object->prev = NULL;
+    return new_object;
+}
+
+// Function to add a new object to the scene's object list
+void add_object_to_scene(t_scene **scene, t_object *new_object)
+{
+    if ((*scene)->objects == NULL)
+    {
+        (*scene)->objects = new_object;
+    }
+    else
+    {
+        t_object *current = (*scene)->objects;
+        while (current->next != NULL)
+            current = current->next;
+        current->next = new_object;
+        new_object->prev = current;
+    }
+    (*scene)->total_objects++;
+}
+
+// Function to parse the plane data
+void parse_plane_data(char *line, t_scene **scene)
+{
+    if (ft_strncmp(line, "pl", 2) == 0)
+    {
+        char **split = ft_split(line, ' ');
+        t_object *new_object = create_new_object();
+        new_object->raw_data = ft_strdup(line);
+        ft_assign_values_to_t_vec(&new_object->coordinates, split[1]);
+        ft_assign_values_to_t_vec(&new_object->normal, split[2]);
+        ft_assign_values_to_t_color(&new_object->color, split[3]);
+        new_object->type = 3;
+        calculate_plane_bounds(new_object->normal, new_object->coordinates, new_object);
+        add_object_to_scene(scene, new_object);
+        free(split);
+    }
+}
+
+// Function to parse the sphere data
+void parse_sphere_data(char *line, t_scene **scene)
+{
+    if (ft_strncmp(line, "sp", 2) == 0)
+    {
+        char **split = ft_split(line, ' ');
+        t_object *new_object = create_new_object();
+        new_object->raw_data = ft_strdup(line);
+        ft_assign_values_to_t_vec(&new_object->coordinates, split[1]);
+        new_object->diameter = ft_atoidouble(split[2]);
+        ft_assign_values_to_t_color(&new_object->color, split[3]);
+        new_object->type = 2;
+        calculate_aabb(new_object, &new_object->bounds);
+        add_object_to_scene(scene, new_object);
+        free(split);
+    }
 }
 
 // Function to parse the cylinder data
-// cylinder is passed in in the following format
-//
-// cl 0.0,0.0,20.6 0.0,0.0,1.0 12.6 10,0,255
-void	parse_cylinder_data(char *line, t_scene **scene)
+void parse_cylinder_data(char *line, t_scene **scene)
 {
-	char	**split;
-
-	if (ft_strncmp(line, "cl", 2) == 0)
-	{
-		split = ft_split(line, ' ');
-		(*scene)->objects->raw_data = ft_strdup(line);
-		ft_pntf("beep boop im a cylinder, %s", split);
-		ft_assign_values_to_t_vec(&(*scene)->objects->coordinates, split[1]);
-		ft_assign_values_to_t_vec(&(*scene)->objects->normal, split[2]);
-		(*scene)->objects->diameter = ft_atoidouble(split[3]);
-		(*scene)->objects->height = ft_atoidouble(split[4]);
-		ft_assign_values_to_t_color(&(*scene)->objects->color, split[5]);
-		(*scene)->objects->type = 4;
-		calculate_aabb((*scene)->objects, &(*scene)->objects->bounds);
-		(*scene)->objects->next = malloc(sizeof(t_object));
-		(*scene)->objects->next->prev = (*scene)->objects;
-		(*scene)->objects = (*scene)->objects->next;
-		(*scene)->objects->next = NULL;
-		(*scene)->total_objects++;
-		free(split);
-	}
-	else
-		split = NULL;
+    if (ft_strncmp(line, "cl", 2) == 0)
+    {
+        char **split = ft_split(line, ' ');
+        t_object *new_object = create_new_object();
+        new_object->raw_data = ft_strdup(line);
+        ft_assign_values_to_t_vec(&new_object->coordinates, split[1]);
+        ft_assign_values_to_t_vec(&new_object->normal, split[2]);
+        new_object->diameter = ft_atoidouble(split[3]);
+        new_object->height = ft_atoidouble(split[4]);
+        ft_assign_values_to_t_color(&new_object->color, split[5]);
+        new_object->type = 4;
+        calculate_aabb(new_object, &new_object->bounds);
+        add_object_to_scene(scene, new_object);
+        free(split);
+    }
 }
 
 // Function to parse the input file
-//If it finds a C, it will ram the data into scene->viewport
-//If it finds other shit, it will do it into scene->objects->raw_data
-//It then tells us how many objects are there
-int	ft_parse(int fd, t_scene **scene)
+int ft_parse(int fd, t_scene **scene)
 {
-	char	*line;
+    char *line = NULL;
+    int i = 0;
 
-	line = NULL;
-	{
-		line = get_next_line(fd);
-		while (line != NULL)
-		{
-			ft_pntf("beep boop im a parser\n %s", line);
-			// Parse the line starting with 'C'
-			parse_camera_data(line, scene);
-			// Parse the line starting with 'sp'
-			parse_sphere_data(line, scene);
-			// Parse the line starting with 'pl'
-			parse_plane_data(line, scene);
-			// Parse the line starting with 'cl'
-			parse_cylinder_data(line, scene);
-			parse_ambient_light(line, scene);
-			// Get the next line
-			line = get_next_line(fd);
-		}
-		ft_pntf("⭐ found %i objects", (*scene)->total_objects);
-		free(line);
-	}
-	while ((*scene)->objects->prev)
-		(*scene)->objects = (*scene)->objects->prev;
-	return (EXIT_SUCCESS);
+	(*scene)->objects = NULL;
+    while ((line = get_next_line(fd)) != NULL)
+    {
+        ft_pntf("beep boop im a parser\n %s", line);
+        i += parse_camera_data(line, scene);
+        parse_sphere_data(line, scene);
+        parse_plane_data(line, scene);
+        parse_cylinder_data(line, scene);
+        parse_ambient_light(line, scene);
+        free(line);
+    }
+    if (i!=1)
+    {
+        printf("Found SUS amount of CAMERA DATA!");
+        exit(EXIT_FAILURE);
+    }
+    ft_pntf("⭐ found %i objects", (*scene)->total_objects);
+
+    // Print out the raw data from all the objects
+    t_object *current_object = (*scene)->objects;
+    while (current_object != NULL)
+    {
+        ft_pntf("x Raw data: %s", current_object->raw_data);
+        current_object = current_object->next;
+    }
+
+    return (EXIT_SUCCESS);
 }

@@ -8,7 +8,7 @@ CLR1 = \033[0;48m  # Complementary orangeish color with a random last digit
 
 
 CC = cc
-CFLAGS = #-Wall -Werror -Wextra
+CFLAGS = -Wall -Werror -Wextra
 RM = rm -rf
 
 # Directories
