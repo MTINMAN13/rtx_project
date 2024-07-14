@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:02:34 by mman              #+#    #+#             */
-/*   Updated: 2024/07/01 02:16:54 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 02:18:12 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_object *create_new_object(void)
 }
 
 // Function to add a new object to the scene's object list
-void add_object_to_scene(t_scene **scene, t_object *new_object)
+void add_object_to_scene(t_engine **scene, t_object *new_object)
 {
     if ((*scene)->objects == NULL)
     {
@@ -45,7 +45,7 @@ void add_object_to_scene(t_scene **scene, t_object *new_object)
 }
 
 // Function to parse the plane data
-void parse_plane_data(char *line, t_scene **scene)
+void parse_plane_data(char *line, t_engine **scene)
 {
     if (ft_strncmp(line, "pl", 2) == 0)
     {
@@ -63,7 +63,7 @@ void parse_plane_data(char *line, t_scene **scene)
 }
 
 // Function to parse the sphere data
-void parse_sphere_data(char *line, t_scene **scene)
+void parse_sphere_data(char *line, t_engine **scene)
 {
     if (ft_strncmp(line, "sp", 2) == 0)
     {
@@ -81,7 +81,7 @@ void parse_sphere_data(char *line, t_scene **scene)
 }
 
 // Function to parse the cylinder data
-void parse_cylinder_data(char *line, t_scene **scene)
+void parse_cylinder_data(char *line, t_engine **scene)
 {
     if (ft_strncmp(line, "cl", 2) == 0)
     {
@@ -101,7 +101,7 @@ void parse_cylinder_data(char *line, t_scene **scene)
 }
 
 // Function to parse the input file
-int ft_parse(int fd, t_scene **scene)
+int ft_parse(int fd, t_engine **scene)
 {
     char *line = NULL;
     int i = 0;

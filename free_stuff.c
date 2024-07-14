@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:44:57 by mman              #+#    #+#             */
-/*   Updated: 2024/06/09 16:57:55 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 02:18:12 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@
 // 	exit(EXIT_SUCCESS);
 // }
 
-void	ft_free_scene_objects(t_scene **scene)
+void	ft_free_scene_objects(t_engine **scene)
 {
 	if (*scene == NULL) {
 		return;
@@ -46,7 +46,7 @@ void	ft_free_scene_objects(t_scene **scene)
 //frees all pointers related to MLX (via mlx funcs.)
 //also frees the *mlx pointer
 //exits the program with EXIT_SUCCESS
-void	ft_cleanup_all(t_scene **scene)
+void	ft_cleanup_all(t_engine **scene)
 {
     t_mlxdata   *mlxdata;
 

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 20:28:19 by mman              #+#    #+#             */
-/*   Updated: 2024/07/01 02:18:43 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 02:18:12 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	ft_mlx_init(t_mlxdata *mlxdata)
 	return (0);
 }
 
-void	ft_process_other_keys(int keycode, t_scene **scene)
+void	ft_process_other_keys(int keycode, t_engine **scene)
 {
 	if (keycode == 65307) {
 		ft_pntf("Escape key pressed\n");
@@ -36,14 +36,14 @@ void	ft_process_other_keys(int keycode, t_scene **scene)
 	}
 }
 
-int	ft_key_hook(int keycode, t_scene *scene)  // Changed to single pointer
+int	ft_key_hook(int keycode, t_engine *scene)  // Changed to single pointer
 {
 	ft_process_other_keys(keycode, &scene); // Pass address of scene
 	mlx_put_image_to_window(scene->mlx.mlx, scene->mlx.win, scene->mlx.img, 0, 0); // Corrected mlxdata access
 	return (0);
 }
 
-void	setup_event_hooks(t_scene *scene)
+void	setup_event_hooks(t_engine *scene)
 {
 	mlx_key_hook(scene->mlx.win, ft_key_hook, scene);
 	mlx_hook(scene->mlx.win, 17, 0, ft_close_window_event, scene);

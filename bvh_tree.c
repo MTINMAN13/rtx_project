@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/07/01 02:12:43 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 19:51:07 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void print_aabb_bounds(t_bvh_node *node)
     print_aabb_bounds(node->right);
 }
 
-void bvh_tree(t_scene *scene)
+void bvh_tree(t_engine *scene)
 {
     t_object *object_list = scene->objects;
-    printf("\n\n\n--------------------------\n");
+    ft_pntf("💎 ------------- BVH TREE ------------- 💎");
     // Build the BVH tree and assign it to the scene's root
     printf("So there should be %i objects in the scene. [Longest Axis is %i]\n\n\n\n\n\n\n\n\n", scene->total_objects, ft_longest_axis(*(scene->bounds)));
     *(scene->bounds) = calculate_list_bbox(object_list);
@@ -56,11 +56,12 @@ void bvh_tree(t_scene *scene)
     printf("BVH tree created - %p\n\n\n", scene);
     printf("The following AABBS are in the BVH tree:\n");
     print_aabb_bounds(scene->bvh_root);
+    ft_pntf("💎 ------------- BVH TREE ------------- 💎");
 }
 
 
 
-void build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *object_list, t_aabb bounds)
+void build_bvh_tree(t_engine *scene, t_bvh_node **current_bvh_node, t_object *object_list, t_aabb bounds)
 {
     int object_count = count_objects(object_list);
 
@@ -77,7 +78,8 @@ void build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *obj
         (*current_bvh_node)->right = NULL;
         (*current_bvh_node)->data = NULL;
         (*current_bvh_node)->isLeaf = 1;
-        (*current_bvh_node)->num_objects = 0;
+        (*current_bvh_node)->num_aabbs_inside = 0;
+        (*current_bvh_node)->num_actual_objects = 0; // Initialize num_actual_objects to 0
         (*current_bvh_node)->aabb = bounds;
         return;
     }
@@ -95,7 +97,8 @@ void build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *obj
         (*current_bvh_node)->right = NULL;
         (*current_bvh_node)->data = object_list;
         (*current_bvh_node)->isLeaf = 1;
-        (*current_bvh_node)->num_objects = 1;
+        (*current_bvh_node)->num_aabbs_inside = 1;
+        (*current_bvh_node)->num_actual_objects = 1; // Set num_actual_objects to 1 for leaf node
         (*current_bvh_node)->aabb = object_list->bounds;
         printf("Leaf node created with 1 object.                                    [Type: %i]\n", object_list->type);
         printf("the min bounds are: %lf, %lf, %lf\n", (*current_bvh_node)->aabb.min.x, (*current_bvh_node)->aabb.min.y, (*current_bvh_node)->aabb.min.z);
@@ -127,7 +130,8 @@ void build_bvh_tree(t_scene *scene, t_bvh_node **current_bvh_node, t_object *obj
     (*current_bvh_node)->aabb = encompassing_bbox((*current_bvh_node)->left->aabb, (*current_bvh_node)->right->aabb);
 
     // Update the number of objects in the current BVH node
-    (*current_bvh_node)->num_objects = count_aabbs_in_bvh(*current_bvh_node);
+    (*current_bvh_node)->num_aabbs_inside = count_aabbs_in_bvh(*current_bvh_node);
+    (*current_bvh_node)->num_actual_objects = object_count; // Set num_actual_objects to object_count
 
     // Set the current BVH node as an internal node
     (*current_bvh_node)->isLeaf = 0;
@@ -404,7 +408,7 @@ t_aabb calculate_list_bbox(t_object *object_list)
 }
 
 
-void	free_bvh_tree(t_scene *scene)
+void	free_bvh_tree(t_engine *scene)
 {
 	ft_pntf("bvh fully freed - %i", scene);
 }

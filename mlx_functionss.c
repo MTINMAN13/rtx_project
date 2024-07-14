@@ -6,13 +6,13 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 20:28:45 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:49:20 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 02:18:12 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
-int	ft_close_window_event(t_scene *scene)
+int	ft_close_window_event(t_engine *scene)
 {
 	printf("Window Closed\n");
 	ft_cleanup_all(&scene);

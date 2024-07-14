@@ -6,14 +6,14 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:26:44 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 19:25:26 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 02:23:16 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "miniRT.h"
 
 //Sets the minimum and maximum bounds of the scene to infinity and -infinity respectively
-static void	initialize_bounds(t_scene **scene)
+static void	initialize_bounds(t_engine **scene)
 {
 	(*scene)->bounds->min.y = INFINITY;
 	(*scene)->bounds->min.y = INFINITY;
@@ -42,12 +42,12 @@ double	ft_fmax(double x, double y)
 //Takes in the Camera Viewport
 //Takes in the Object Data
 //Creates the Root Node of the BVH Tree -- the AABB which surrounds all objects in the scene
-void bvh_bounds(t_scene *scene)
+void bvh_bounds(t_engine *scene)
 {
     int i = 0;
     t_object *current_object;
 
-    ft_pntf("beep boop im a bvh_bounds %i", scene);
+    ft_pntf("💎 ------------- BVH BOUNDS ------------- 💎");
     scene->bounds = malloc(sizeof(t_aabb));
     if (!scene->bounds)
         return; // Handle allocation failure
@@ -86,6 +86,7 @@ void bvh_bounds(t_scene *scene)
 
     printf("----------- the min bounds are: %lf, %lf, %lf\n", scene->bounds->min.x, scene->bounds->min.y, scene->bounds->min.z);
     printf("----------- the max bounds are: %lf, %lf, %lf\n", scene->bounds->max.x, scene->bounds->max.y, scene->bounds->max.z);
+	ft_pntf("💎 ------------- BVH BOUNDS ------------- 💎");
 }
 
 

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/07/01 01:56:24 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 19:51:00 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@
 
 # include "miniRT.h"
 # include "minilibx/mlx.h"
+
+// # --- MATH STRUCTURES ---
 
 typedef struct s_quaternion
 {
@@ -32,6 +34,23 @@ typedef struct s_vector
 	double	z;
 }			t_vec;
 
+typedef struct s_rotation
+{
+	double	x;
+	double	y;
+}			t_rotation;
+
+// # --- UTIL STRUCTURES ---
+
+typedef struct s_color
+{
+	int	r;
+	int	g;
+	int	b;
+}			t_color;
+
+// # --- BVH STRUCTURES ---
+
 typedef struct s_aabb
 {
 	t_vec	min; // Minimum corner (x, y, z) -- Left bottom corner
@@ -43,23 +62,14 @@ typedef struct s_bvh_node
 	t_aabb				aabb; // Axis-aligned bounding box
 	void				*data; // Pointer to the data stored in the node
 	int					isLeaf; // Flag indicating if the node is a leaf node
-	int					num_objects; // Number of objects in the node
+	int					num_aabbs_inside; // Number of objects in the node
+	int					num_actual_objects; // How many Parsed Objects are in the node
 	struct s_object		*objects; // Array of pointers to the objects in the node
 	struct s_bvh_node	*left; // Pointer to the left child node
 	struct s_bvh_node	*right; // Pointer to the right child node
 }			t_bvh_node;
 
-typedef	struct s_kvadr
-{
-	
-}		t_kvadr;
-
-typedef struct s_color
-{
-	int	r;
-	int	g;
-	int	b;
-}			t_color;
+// # --- MLX DATA
 
 typedef struct s_mlxdata
 {
@@ -71,12 +81,6 @@ typedef struct s_mlxdata
 	int			line_length;	// This integer represents the number of bytes used to store a single line of pixels in the image. This value is useful for calculating the address of a specific pixel and for iterating over the image data.
 	int			endian;			// This integer indicates the endianness of the image data. Endianness refers to the byte order used to store pixel data. It can help you determine how to correctly interpret the color values in the image.
 }			t_mlxdata;
-
-typedef struct s_rotation
-{
-	double	x; //degrees in rad
-	double	y; //degrees in rad
-}			t_rotation;
 
 //Store Camera / Viewport Values
 typedef struct s_viewport
@@ -131,7 +135,7 @@ typedef struct s_light
 	struct s_object	*prev;
 }			t_light;
 
-typedef struct s_scene
+typedef struct s_engine
 {
 	t_viewport	viewport;
 	t_mlxdata	mlx;
@@ -144,7 +148,7 @@ typedef struct s_scene
 	t_vec		corner[8]; // Array of 8 corner points of the Root AABB
 	t_color		ambient_light;
 	double		ambient_ratio;
-}			t_scene;
+}			t_engine;
 
 typedef struct s_ray
 {

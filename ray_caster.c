@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/07/01 02:18:58 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 19:52:35 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 //objects in the scene are stored in a linked list
 //scene is a struct that contains the linked list of objects
 //scene is divided into BVH tree
-void	raycaster(t_scene *scene)
+void	raycaster(t_engine *scene)
 {
 	int		i;
 	int		j;
@@ -25,25 +25,29 @@ void	raycaster(t_scene *scene)
 
 	i = 1;
 	temp = 0;
+    ft_pntf("💎 ------------- RAYCASTER ------------- 💎");
 	while (i <= WIDTH)
 	{
 		j = 1;
 		while (j <= HEIGHT)
 		{
 			ray(scene, i, j);
-			j++;
+            j += 100;
+			// j++;
 			temp++;
 		}
-		i++;
+        i += 100;
+		// i++;
 	}
 	printf("focal length %f\n", scene->viewport.focal_length);
 	ft_pntf("beep boop im a raycaster %i and I finished running\nRAYS CAST: %i", scene, temp);
     mlx_put_image_to_window(scene->mlx.mlx, scene->mlx.win, scene->mlx.img, 0, 0); // Corrected mlxdata access
+    ft_pntf("💎 ------------- RAYCASTER ------------- 💎");
 }
 
 // checks if the ray intersects with any "object" aabb in the bvh of our scene
 // if yes, then we calculate the color data for the pixel
-void    ray(t_scene *scene, int x, int y)
+void    ray(t_engine *scene, int x, int y)
 {
     t_color	rgb;
 	t_ray	ray;
@@ -53,44 +57,69 @@ void    ray(t_scene *scene, int x, int y)
 	ray.direction.z = x * scene->viewport.pixel_delta_u.z + scene->viewport.upper_left.z + y * scene->viewport.pixel_delta_u.z;
 	ray.origin = (*scene).viewport.eye_pos;
     ray.normal_unit = vector_subtract(ray.direction,ray.origin);
+    // printf("X        ray from %f %f %f -- : -- ", ray.origin.x, ray.origin.y, ray.origin.z);
     // printf("ray direction %f %f %f\n", ray.direction.x, ray.direction.y, ray.direction.z);
-	rgb = bvh_intersect(scene, &ray);
+	rgb = ray_intersections(scene, &ray);
     ft_process_pixel(&scene->mlx, x, y, rgb);
 }
 
-//checks if the ray intersects with the aabb
-//returns 1 if it does, 0 otherwise
-int ray_intersects_aabb(t_ray *ray, t_aabb *aabb)
+t_color ray_intersections(t_engine *scene, t_ray *ray)
 {
-	float tmin, tmax, tymin, tymax, tzmin, tzmax;
+    t_color color = create_color(255, 255, 255); // Default color (white) - color of the box
+    
+    //enter the BVH tree - check if there are any objects
+    if (scene->bvh_root != NULL)
+    {
+        ft_pntf("BVH root not null");
+        color = traverse_bvh(scene->bvh_root, ray);
+    }
+    return (color);
+}
 
-	tmin = (aabb->min.x - ray->origin.x) / ray->direction.x;
-	tmax = (aabb->max.x - ray->origin.x) / ray->direction.x;
-	tymin = (aabb->min.y - ray->origin.y) / ray->direction.y;
-	tymax = (aabb->max.y - ray->origin.y) / ray->direction.y;
+t_color traverse_bvh(t_bvh_node *node, t_ray *ray)
+{
+	t_color color = create_color(255, 200, 255); // Default color (white)
 
-	if ((tmin > tymax) || (tymin > tmax))
-		return 0;
+    //are there any objects in the node?
+    printf("Node Has %d objects\n", node->num_aabbs_inside);
+    //traverse left   -- and  -- traverse right
 
-	if (tymin > tmin)
-		tmin = tymin;
+    //does it intersect left
+    //does it intersect right
 
-	if (tymax < tmax)
-		tmax = tymax;
+    //if yes, is it the leaf? are there any object in the node?
+    if (node->isLeaf)
+    {
+        // Check intersection with the actual objects in the leaf node
+        t_object *object = node->data;
+        while (object != NULL)
+        {
+            t_color temp_color;
+            if (object_intersects(ray, object, &temp_color))
+            {
+                printf("Object hit\n");
+                return(object->color);
+            }
+            object = object->next;
+        }
+    }
+    // else
+    // {
+    //     // Recursively check left and right children
+    //     t_color left_color = traverse_bvh(node->left, ray);
+    //     t_color right_color = traverse_bvh(node->right, ray);
 
-	tzmin = (aabb->min.z - ray->origin.z) / ray->direction.z;
-	tzmax = (aabb->max.z - ray->origin.z) / ray->direction.z;
-
-	if ((tmin > tzmax) || (tzmin > tmax))
-		return 0;
-
-	if (tzmin > tmin)
-		tmin = tzmin;
-
-	if (tzmax < tmax)
-		tmax = tzmax;
-
-	return 1;
+    //     // Determine which color to return. For now, just return left if left hits something, otherwise right.
+    //     if (!is_color_default(left_color))
+    //     {
+    //         color = left_color;
+    //     }
+    //     else if (!is_color_default(right_color))
+    //     {
+    //         color = right_color;
+    //     }
+    // }
+    return color;
 }
 
 int object_intersects(t_ray *ray, t_object *object, t_color *color)
@@ -214,57 +243,7 @@ t_color create_color(float r, float g, float b)
     return color;
 }
 
-
-t_color traverse_bvh(t_bvh_node *node, t_ray *ray)
-{
-	t_color color = create_color(255, 255, 255); // Default color (white)
-
-    // if (node == NULL || !ray_intersects_aabb(ray, &(node->aabb)))
-    // {
-    //     return color;
-    // }
-    if (node->isLeaf)
-    {
-        // Check intersection with the actual objects in the leaf node
-        t_object *object = node->data;
-        while (object != NULL)
-        {
-            t_color temp_color;
-            if (object_intersects(ray, object, &temp_color))
-            {
-                printf("Object hit\n");
-                return(object->color);
-            }
-            object = object->next;
-        }
-    }
-    else
-    {
-        // Recursively check left and right children
-        t_color left_color = traverse_bvh(node->left, ray);
-        t_color right_color = traverse_bvh(node->right, ray);
-
-        // Determine which color to return. For now, just return left if left hits something, otherwise right.
-        if (!is_color_default(left_color))
-        {
-            color = left_color;
-        }
-        else if (!is_color_default(right_color))
-        {
-            color = right_color;
-        }
-    }
-    return color;
-}
-
-
-t_color bvh_intersect(t_scene *scene, t_ray *ray)
-{
-    return traverse_bvh(scene->bvh_root, ray);
-}
-
-
-void	render(t_scene *scene)
+void	render(t_engine *scene)
 {
 	ft_pntf("beep boop im a render %i", scene);
 	ft_pntf("------------ VIEWPORT CHECK ------------");
@@ -276,9 +255,40 @@ void	render(t_scene *scene)
 	// printf("\nobject 1 %f %f %f\n", scene->objects->coordinates.x, scene->objects->coordinates.y, scene->objects->coordinates.z);
 	bvh_tree(scene);
 	raycaster(scene);
+    print_bvh_tree(scene);
 }
 
+void print_bvh_nodes(t_bvh_node *node)
+{
+    if (node != NULL)
+    {
+        printf("BVH Node: %p\n", node);
+        printf("Bounding Box: (%f, %f, %f) - (%f, %f, %f)\n", node->aabb.min.x, node->aabb.min.y, node->aabb.min.z, node->aabb.max.x, node->aabb.max.y, node->aabb.max.z);
+        printf("Number of AABBS inside: %d\n", node->num_aabbs_inside);
+        printf("Is Leaf: %s\n", node->isLeaf ? "Yes ✅" : "No ❌");
+        printf("Numbers of Objects inside: %i\n", node->num_actual_objects);
+        if (node->isLeaf)
+        {
+            t_object *object = node->data;
+            while (object != NULL)
+            {
+                printf("Object Type: %d\n", object->type);
+                object = object->next;
+            }
+        }
+        printf("\n");
 
+        print_bvh_nodes(node->left);
+        print_bvh_nodes(node->right);
+    }
+}
+
+void print_bvh_tree(t_engine *scene)
+{
+    printf("BVH Tree:\n");
+    print_bvh_nodes(scene->bvh_root);
+    printf("object types : 1 - camera, 2 - sphere, 3 - plane, 4 - square, 5 - cylinder\n");
+}
 
 
 

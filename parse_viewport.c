@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:53:54 by mman              #+#    #+#             */
-/*   Updated: 2024/07/01 02:17:22 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 02:25:56 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 
 //ゆあるあふぁつすぅつ
 
-static void	get_viewport_direction(t_scene *scene)
+static void	get_viewport_direction(t_engine *scene)
 {
 	double x = scene->viewport.orientation.x;
 	double y = scene->viewport.orientation.y;
@@ -26,7 +26,6 @@ static void	get_viewport_direction(t_scene *scene)
 		scene->viewport.orientation.z = 1;
 	else
 		scene->viewport.orientation.z = -1;
-	printf("\n\n\n💎 Looking ");
 
 	if (y > 0.0 && y <= 0.5)
 	{
@@ -67,7 +66,7 @@ static void	get_viewport_direction(t_scene *scene)
 }
 
 //
-void	ft_initialize_viewport(t_scene **scene)
+void	ft_initialize_viewport(t_engine **scene)
 {
 	(*scene)->viewport.upper_right.x = (*scene)->viewport.viewport_middle.x + WIDTH / 2;
 	(*scene)->viewport.upper_right.y = (*scene)->viewport.viewport_middle.y + HEIGHT / 2;
@@ -96,7 +95,7 @@ void	ft_initialize_viewport(t_scene **scene)
 	printf("------------------\n");
 }
 
-void	ft_get_rotation(t_scene **scene)
+void	ft_get_rotation(t_engine **scene)
 {
     double x_rotation = (*scene)->viewport.orientation.x * 90.0;
     double y_rotation = (*scene)->viewport.orientation.y * 90.0;
@@ -129,7 +128,7 @@ void	ft_get_rotation(t_scene **scene)
 }
 
 
-int	parse_camera_data(char *line, t_scene **scene)
+int	parse_camera_data(char *line, t_engine **scene)
 {
 	char	**split;
 	// t_vec	*coords;
@@ -156,7 +155,7 @@ int	parse_camera_data(char *line, t_scene **scene)
 	return (0);
 }
 
-void	ft_rotate_viewport(t_scene **scene)
+void	ft_rotate_viewport(t_engine **scene)
 {
 	rotate_points((*scene)->viewport.viewport_middle, &(*scene)->viewport.upper_left, &(*scene)->viewport.upper_right, &(*scene)->viewport.lower_left, &(*scene)->viewport.lower_right, &(*scene)->viewport.eye_pos, (*scene)->viewport.rotation.x, (*scene)->viewport.rotation.y);
 	(*scene)->viewport.normal_unit = change_per_unit_distance((*scene)->viewport.viewport_middle, (*scene)->viewport.eye_pos);
@@ -177,7 +176,7 @@ void	ft_rotate_viewport(t_scene **scene)
 	printf("------------------\n\n\n\n\n\n\n\n\n\n\n");
 }
 
-void get_eye_coords(t_scene **scene)
+void get_eye_coords(t_engine **scene)
 {
 	(*scene)->viewport.eye_pos.x = (*scene)->viewport.viewport_middle.x + (*scene)->viewport.orientation.x * (*scene)->viewport.focal_length;
 	(*scene)->viewport.eye_pos.y = (*scene)->viewport.viewport_middle.y + (*scene)->viewport.orientation.y * (*scene)->viewport.focal_length;

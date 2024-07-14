@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/26 18:51:20 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:49:23 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 02:18:12 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 //example format;
 //
 //A 0.2 255,255,255
-void	parse_ambient_light(char *line, t_scene **scene)
+void	parse_ambient_light(char *line, t_engine **scene)
 {
 	char	**split;
 

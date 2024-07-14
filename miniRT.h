@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/07/01 02:16:32 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 19:32:13 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,41 +35,41 @@
 
 void	ft_error_check(char *string);
 int		ft_mlx_init(t_mlxdata *mlxdata);
-void	ft_process_other_keys(int keycode, t_scene **scene);
-int		ft_key_hook(int keycode, t_scene *scene);
-void	ft_cleanup_all(t_scene **scene);
-void	ft_free_scene_objects(t_scene **scene);
-int		ft_close_window_event(t_scene *scene);
+void	ft_process_other_keys(int keycode, t_engine **scene);
+int		ft_key_hook(int keycode, t_engine *scene);
+void	ft_cleanup_all(t_engine **scene);
+void	ft_free_scene_objects(t_engine **scene);
+int		ft_close_window_event(t_engine *scene);
 int		ft_mouse_hook(int button, int x, int y, t_mlxdata *mlxdata);
-void	setup_event_hooks(t_scene *scene);
-void	render(t_scene *scene);
+void	setup_event_hooks(t_engine *scene);
+void	render(t_engine *scene);
 
-void	ft_initialize_viewport(t_scene **scene);
-void	get_eye_coords(t_scene **scene);
-void	bvh_tree(t_scene *scene);
-void	bvh_bounds(t_scene *scene);
+void	ft_initialize_viewport(t_engine **scene);
+void	get_eye_coords(t_engine **scene);
+void	bvh_tree(t_engine *scene);
+void	bvh_bounds(t_engine *scene);
 void	calculate_aabb(t_object	*object, t_aabb	*aabb);
-t_color bvh_intersect(t_scene *scene, t_ray *ray);
+t_color ray_intersections(t_engine *scene, t_ray *ray);
 int	    aabb_intersect(t_aabb aabb, t_ray *ray);
-void	ft_rotate_viewport(t_scene **scene);
+void	ft_rotate_viewport(t_engine **scene);
 
 
 //
-void	raycaster(t_scene *scene);
-void    ray(t_scene *scene, int x, int y);
+void	raycaster(t_engine *scene);
+void    ray(t_engine *scene, int x, int y);
 
 //Parsing:
-int		ft_parse(int fd, t_scene **scene);
-int	    parse_camera_data(char *line, t_scene **scene);
-void	parse_sphere_data(char *line, t_scene **scene);
+int		ft_parse(int fd, t_engine **scene);
+int	    parse_camera_data(char *line, t_engine **scene);
+void	parse_sphere_data(char *line, t_engine **scene);
 void	calculate_plane_bounds(t_vec plane_normal, t_vec point, t_object *plane);
-void	parse_plane_data(char *line, t_scene **scene);
-void	parse_cylinder_data(char *line, t_scene **scene);
+void	parse_plane_data(char *line, t_engine **scene);
+void	parse_cylinder_data(char *line, t_engine **scene);
 
 //Vector Allocation:
 void	ft_assign_values_to_t_vec(t_vec *vec, char *str);
 void	ft_assign_values_to_t_color(t_color *color, char *str);
-void	parse_ambient_light(char *line, t_scene **scene);
+void	parse_ambient_light(char *line, t_engine **scene);
 void	ft_vectorize(t_vec *vec, double x, double y, double z);
 
 //Vector Matrix Multiplication;
@@ -108,11 +108,11 @@ int partition(t_object *object_list, int pivot, int axis);
 void sort_object_list(t_object **object_list, int axis);
 void split_object_list(t_object *object_list, t_object **left_list, t_object **right_list);
 int ft_longest_axis(t_aabb bbox);
-void    build_bvh_tree(t_scene *scene, t_bvh_node **bvh_root, t_object *object_list, t_aabb bounds);
-void bvh_tree(t_scene *scene);
+void    build_bvh_tree(t_engine *scene, t_bvh_node **bvh_root, t_object *object_list, t_aabb bounds);
+void bvh_tree(t_engine *scene);
 t_aabb encompassing_bbox(t_aabb bbox1, t_aabb bbox2);
 t_aabb calculate_list_bbox(t_object *object_list);
-void free_bvh_tree(t_scene *scene);
+void free_bvh_tree(t_engine *scene);
 int count_aabbs_in_bvh(t_bvh_node *node);
 int count_objects(t_object *object_list);
 
@@ -131,6 +131,10 @@ int cylinder_intersection(t_ray *ray, t_object *object, t_color *color);
 int is_color_default(t_color color);
 t_color create_color(float r, float g, float b);
 t_color traverse_bvh(t_bvh_node *node, t_ray *ray);
+void print_bvh_nodes(t_bvh_node *node);
+void print_bvh_tree(t_engine *scene);
+
+
 
 // Functions already in the header:
 t_vec vector_subtract(t_vec v1, t_vec v2);
