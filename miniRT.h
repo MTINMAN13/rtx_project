@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 19:32:13 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 23:44:10 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,12 @@
 # include <math.h>
 # include <fcntl.h>
 # include <unistd.h>
+#include <stdbool.h>
+#include <float.h>
 
 # define WIDTH 1200
 # define HEIGHT 800
+# define QUALITY 1
 # define SAMPLES_PER_PIXEL 1
 # define RENDER_DISTANCE 10000
 # define NAME "miniRTX  | mman & agadkari project"
@@ -96,6 +99,8 @@ double	degrees_to_radians(double degrees);
 t_vec	vector_subtract(t_vec v1, t_vec v2);
 t_vec	vector_divide(t_vec v, double scalar);
 t_vec	change_per_unit_distance(t_vec p1, t_vec p2);
+t_vec vector_scale(t_vec v, double t);
+double vec_length(t_vec v);
 
 //Coloring:
 void	ft_process_pixel(t_mlxdata *mlxdata, int x, int y, t_color rgb);
@@ -130,7 +135,7 @@ int cylinder_intersection(t_ray *ray, t_object *object, t_color *color);
 
 int is_color_default(t_color color);
 t_color create_color(float r, float g, float b);
-t_color traverse_bvh(t_bvh_node *node, t_ray *ray);
+void traverse_bvh(t_bvh_node *node, t_ray *ray, t_color *color);
 void print_bvh_nodes(t_bvh_node *node);
 void print_bvh_tree(t_engine *scene);
 

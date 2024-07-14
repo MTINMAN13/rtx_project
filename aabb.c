@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 18:26:44 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 02:23:16 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 22:20:37 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void bvh_bounds(t_engine *scene)
 
     while (i < scene->total_objects && current_object)
     {
-        scene->bounds->min.x = ft_fmin(scene->bounds->min.x, current_object->bounds.min.x);
-        scene->bounds->min.y = ft_fmin(scene->bounds->min.y, current_object->bounds.min.y);
-        scene->bounds->min.z = ft_fmin(scene->bounds->min.z, current_object->bounds.min.z);
-        scene->bounds->max.x = ft_fmax(scene->bounds->max.x, current_object->bounds.max.x);
-        scene->bounds->max.y = ft_fmax(scene->bounds->max.y, current_object->bounds.max.y);
-        scene->bounds->max.z = ft_fmax(scene->bounds->max.z, current_object->bounds.max.z);
-        printf("this is the bounds.min %f\n", current_object->bounds.min.x);
+        scene->bounds->min.x = ft_fmin(scene->bounds->min.x, current_object->aabb.min.x);
+        scene->bounds->min.y = ft_fmin(scene->bounds->min.y, current_object->aabb.min.y);
+        scene->bounds->min.z = ft_fmin(scene->bounds->min.z, current_object->aabb.min.z);
+        scene->bounds->max.x = ft_fmax(scene->bounds->max.x, current_object->aabb.max.x);
+        scene->bounds->max.y = ft_fmax(scene->bounds->max.y, current_object->aabb.max.y);
+        scene->bounds->max.z = ft_fmax(scene->bounds->max.z, current_object->aabb.max.z);
+        printf("this is the bounds.min %f\n", current_object->aabb.min.x);
         i++;
         current_object = current_object->next;
     }

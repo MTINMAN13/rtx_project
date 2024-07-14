@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 19:52:35 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 23:43:56 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,11 +32,11 @@ void	raycaster(t_engine *scene)
 		while (j <= HEIGHT)
 		{
 			ray(scene, i, j);
-            j += 100;
+            j += QUALITY;
 			// j++;
 			temp++;
 		}
-        i += 100;
+        i += QUALITY;
 		// i++;
 	}
 	printf("focal length %f\n", scene->viewport.focal_length);
@@ -57,6 +57,7 @@ void    ray(t_engine *scene, int x, int y)
 	ray.direction.z = x * scene->viewport.pixel_delta_u.z + scene->viewport.upper_left.z + y * scene->viewport.pixel_delta_u.z;
 	ray.origin = (*scene).viewport.eye_pos;
     ray.normal_unit = vector_subtract(ray.direction,ray.origin);
+	ray.hit_point = vector_add(ray.origin, vector_scale(ray.normal_unit, 20000.0));
     // printf("X        ray from %f %f %f -- : -- ", ray.origin.x, ray.origin.y, ray.origin.z);
     // printf("ray direction %f %f %f\n", ray.direction.x, ray.direction.y, ray.direction.z);
 	rgb = ray_intersections(scene, &ray);
@@ -70,63 +71,81 @@ t_color ray_intersections(t_engine *scene, t_ray *ray)
     //enter the BVH tree - check if there are any objects
     if (scene->bvh_root != NULL)
     {
-        ft_pntf("BVH root not null");
-        color = traverse_bvh(scene->bvh_root, ray);
+        traverse_bvh(scene->bvh_root, ray, &color);
     }
     return (color);
 }
 
-t_color traverse_bvh(t_bvh_node *node, t_ray *ray)
+static inline double max(double a, double b) {
+    return a > b ? a : b;
+}
+
+static inline double min(double a, double b) {
+    return a < b ? a : b;
+}
+
+int ray_intersects_aabb(t_ray *ray, t_aabb *aabb)
 {
-	t_color color = create_color(255, 200, 255); // Default color (white)
+    double tmin = 0.0;
+    double tmax = DBL_MAX;
 
-    //are there any objects in the node?
-    printf("Node Has %d objects\n", node->num_aabbs_inside);
-    //traverse left   -- and  -- traverse right
+    for (int d = 0; d < 3; ++d) {
+        double invD = 1.0 / ((d == 0) ? ray->normal_unit.x : (d == 1) ? ray->normal_unit.y : ray->normal_unit.z);
+        double t0 = (((d == 0) ? aabb->min.x : (d == 1) ? aabb->min.y : aabb->min.z) - 
+                     ((d == 0) ? ray->origin.x : (d == 1) ? ray->origin.y : ray->origin.z)) * invD;
+        double t1 = (((d == 0) ? aabb->max.x : (d == 1) ? aabb->max.y : aabb->max.z) - 
+                     ((d == 0) ? ray->origin.x : (d == 1) ? ray->origin.y : ray->origin.z)) * invD;
 
-    //does it intersect left
-    //does it intersect right
+        if (invD < 0.0) {
+            double temp = t0;
+            t0 = t1;
+            t1 = temp;
+        }
 
-    //if yes, is it the leaf? are there any object in the node?
-    if (node->isLeaf)
-    {
-        // Check intersection with the actual objects in the leaf node
-        t_object *object = node->data;
-        while (object != NULL)
-        {
-            t_color temp_color;
-            if (object_intersects(ray, object, &temp_color))
-            {
-                printf("Object hit\n");
-                return(object->color);
-            }
-            object = object->next;
+        tmin = max(t0, tmin);
+        tmax = min(t1, tmax);
+
+        if (tmax <= tmin) {
+            return 0;
         }
     }
-    // else
-    // {
-    //     // Recursively check left and right children
-    //     t_color left_color = traverse_bvh(node->left, ray);
-    //     t_color right_color = traverse_bvh(node->right, ray);
-
-    //     // Determine which color to return. For now, just return left if left hits something, otherwise right.
-    //     if (!is_color_default(left_color))
-    //     {
-    //         color = left_color;
-    //     }
-    //     else if (!is_color_default(right_color))
-    //     {
-    //         color = right_color;
-    //     }
-    // }
-    return color;
+	// printf("found intersection\n");
+    return 1;
 }
+
+void traverse_bvh(t_bvh_node *node, t_ray *ray, t_color *color)
+{
+    if (node == NULL)
+    {
+        // printf("Reached a NULL node, returning.\n");
+        return;
+    }
+
+    // printf("Traversing node with %d objects, isLeaf: %d\n", node->num_actual_objects, node->isLeaf);
+    
+    if (node->num_actual_objects > 0)
+    {
+        if (node->num_actual_objects == 1)
+            object_intersects(ray, node->data, color);
+        else
+        {
+			traverse_bvh(node->left, ray, color);
+            if (node->right != NULL && ray_intersects_aabb(ray, &node->right->aabb))
+                traverse_bvh(node->right, ray, color);
+        }
+    }
+    else
+        printf("Node has no objects, skipping.\n");
+}
+
 
 int object_intersects(t_ray *ray, t_object *object, t_color *color)
 {
 	int hit = 0;
 	
-    // printf("Object type: %d\n", object->type);
+	// printf("checking for object type: %d", object->type);
+	// printf("| object aaab min %f %f %f", object->aabb.min.x, object->aabb.min.y, object->aabb.min.z);
+	// printf("| object aaab max %f %f %f\n", object->aabb.max.x, object->aabb.max.y, object->aabb.max.z);
 	switch (object->type)
 	{
 		case 2: // Sphere
@@ -148,38 +167,101 @@ int object_intersects(t_ray *ray, t_object *object, t_color *color)
 	return hit;
 }
 
+// Updated sphere_intersection function
 int sphere_intersection(t_ray *ray, t_object *object, t_color *color)
 {
     t_vec oc = vector_subtract(ray->origin, object->coordinates);
-    double a = vec_dot(ray->direction, ray->direction);
-    double b = 2.0 * vec_dot(oc, ray->direction);
-    double c = vec_dot(oc, oc) - (object->diameter * object->diameter / 4.0);
-    double discriminant = b * b - 4 * a * c;
+    double radius = object->diameter / 2.0;
+    long double a = vec_dot(ray->direction, ray->direction);
+    long double b = 2.0 * vec_dot(oc, ray->direction);
+    long double c = vec_dot(oc, oc) - (radius * radius);
+    long double discriminant = (b * b) - (4 * a * c);
+
+    // printf("b squared: %Lf ", b * b);
+	// printf("4ac: %Lf ", 4 * a * c);
+	// printf("discriminant: %Lf\n", discriminant);
+	// printf("object coordinates %f %f %f ", object->coordinates.x, object->coordinates.y, object->coordinates.z);
+	// printf("object diameter %f \n", object->diameter);
     if (discriminant > 0)
     {
-        double root1 = (-b - sqrt(discriminant)) / (2.0 * a);
-        double root2 = (-b + sqrt(discriminant)) / (2.0 * a);
-        if (root1 > 0 || root2 > 0)
+        double sqrt_discriminant = sqrt(discriminant);
+        double t1 = (-b - sqrt_discriminant) / (2.0 * a);
+        double t2 = (-b + sqrt_discriminant) / (2.0 * a);
+
+        double t;
+        if (t1 > 0 && t2 > 0)
         {
-            *color = color_from_object(object);
+            t = fmin(t1, t2);
+        }
+        else if (t1 > 0)
+        {
+            t = t1;
+        }
+        else if (t2 > 0)
+        {
+            t = t2;
+        }
+        else
+        {
+            return 0; // Both t1 and t2 are negative
+        }
+
+        t_vec hit_point = vector_add(ray->origin, vector_scale(ray->direction, t));
+
+        // Update hit point and color only if this is the closest intersection
+        if (vec_length(vector_subtract(hit_point, ray->origin)) < vec_length(vector_subtract(ray->hit_point, ray->origin)))
+        {
+            ray->hit_point = hit_point;
+            *color = object->color;
+            printf("Hit point updated to: %f %f %f\n", hit_point.x, hit_point.y, hit_point.z);
+            printf("Color updated to: %d %d %d\n", color->r, color->g, color->b);
             return 1;
         }
     }
     return 0;
 }
 
+
+
 int plane_intersection(t_ray *ray, t_object *object, t_color *color)
 {
-    double denom = vec_dot(object->normal, ray->direction);
-    if (denom != 0)
+    // Extract plane data
+    t_vec plane_normal = object->normal;
+    t_vec plane_point = object->coordinates; // A point on the plane
+
+    // Calculate the dot product of the ray direction and the plane normal
+    double denom = vec_dot(plane_normal, ray->direction);
+
+    // If the denominator is zero, the ray is parallel to the plane
+    if (fabs(denom) > 1e-6) // A small epsilon to avoid division by zero
     {
-        double t = vec_dot(vector_subtract(object->coordinates, ray->origin), object->normal) / denom;
+        // Calculate the distance from the ray origin to the plane
+        t_vec ray_to_plane = vector_subtract(plane_point, ray->origin);
+        double t = vec_dot(ray_to_plane, plane_normal) / denom;
+
+        // Check if the intersection is in front of the ray
         if (t >= 0)
         {
-            *color = color_from_object(object);
-            return 1;
+            // Calculate the intersection point
+            t_vec hit_point = vector_add(ray->origin, vector_scale(ray->direction, t));
+
+            // For simplicity, we assume that the plane is infinitely large
+            // If the plane has boundaries, you would need additional checks here
+
+            // Update hit point and color if this is the closest intersection
+            double current_distance = vec_length(vector_subtract(hit_point, ray->origin));
+            double existing_distance = vec_length(vector_subtract(ray->hit_point, ray->origin));
+            if (current_distance < existing_distance)
+            {
+                ray->hit_point = hit_point;
+                *color = object->color;
+                printf("Hit point updated to: %f %f %f\n", hit_point.x, hit_point.y, hit_point.z);
+                printf("Color updated to: %d %d %d\n", color->r, color->g, color->b);
+                return 1;
+            }
         }
     }
+
     return 0;
 }
 
