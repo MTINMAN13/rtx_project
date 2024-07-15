@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/18 17:33:56 by mman              #+#    #+#             */
-/*   Updated: 2024/06/23 20:48:54 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 23:42:25 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,14 @@ t_vec	vector_divide(t_vec v, double scalar)
 	result.y = v.y / scalar;
 	result.z = v.z / scalar;
 	return (result);
+}
+
+t_vec vector_scale(t_vec v, double t)
+{
+    return (t_vec){v.x * t, v.y * t, v.z * t};
+}
+
+double vec_length(t_vec v)
+{
+	return sqrt(v.x * v.x + v.y * v.y + v.z * v.z);
 }

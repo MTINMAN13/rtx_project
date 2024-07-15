@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/17 18:34:58 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 19:51:00 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 23:55:23 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ typedef struct s_object
 	t_vec			coordinates;
 	t_vec			normal;
 	t_color			color;
-	t_aabb			bounds;
+	t_aabb			aabb;
 	double			diameter;
 	double			brightness;
 	double			height;
@@ -155,6 +155,7 @@ typedef struct s_ray
 	t_vec	origin; // Ray origin -- marks where we cast it from
 	t_vec	direction; // Ray direction -- marks where we cast it to - reference for trajectory calculations
 	t_vec	normal_unit; // Normalized direction vector (unit vector)
+	t_vec	hit_point; // Point where the ray hits an object
 }			t_ray;
 
 #endif

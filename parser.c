@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/30 19:02:34 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 02:18:12 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 22:20:37 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void parse_sphere_data(char *line, t_engine **scene)
         new_object->diameter = ft_atoidouble(split[2]);
         ft_assign_values_to_t_color(&new_object->color, split[3]);
         new_object->type = 2;
-        calculate_aabb(new_object, &new_object->bounds);
+        calculate_aabb(new_object, &new_object->aabb);
         add_object_to_scene(scene, new_object);
         free(split);
     }
@@ -94,7 +94,7 @@ void parse_cylinder_data(char *line, t_engine **scene)
         new_object->height = ft_atoidouble(split[4]);
         ft_assign_values_to_t_color(&new_object->color, split[5]);
         new_object->type = 4;
-        calculate_aabb(new_object, &new_object->bounds);
+        calculate_aabb(new_object, &new_object->aabb);
         add_object_to_scene(scene, new_object);
         free(split);
     }

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/09 18:25:12 by mman              #+#    #+#             */
-/*   Updated: 2024/06/30 20:32:57 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 22:20:37 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,13 @@ void calculate_plane_bounds(t_vec plane_normal, t_vec point, t_object* plane)
     t_vec half_width_vec = {right.x * width / 2, right.y * width / 2, right.z * width / 2};
     t_vec half_height_vec = {forward.x * height / 2, forward.y * height / 2, forward.z * height / 2};
 
-    plane->bounds.min.x = point.x - half_width_vec.x - half_height_vec.x;
-    plane->bounds.min.y = point.y - half_width_vec.y - half_height_vec.y;
-    plane->bounds.min.z = point.z - half_width_vec.z - half_height_vec.z;
+    plane->aabb.min.x = point.x - half_width_vec.x - half_height_vec.x;
+    plane->aabb.min.y = point.y - half_width_vec.y - half_height_vec.y;
+    plane->aabb.min.z = point.z - half_width_vec.z - half_height_vec.z;
 
-    plane->bounds.max.x = point.x + half_width_vec.x + half_height_vec.x;
-    plane->bounds.max.y = point.y + half_width_vec.y + half_height_vec.y;
-    plane->bounds.max.z = point.z + half_width_vec.z + half_height_vec.z;
+    plane->aabb.max.x = point.x + half_width_vec.x + half_height_vec.x;
+    plane->aabb.max.y = point.y + half_width_vec.y + half_height_vec.y;
+    plane->aabb.max.z = point.z + half_width_vec.z + half_height_vec.z;
 	// printf("----------- the min bounds are: %lf, %lf, %lf\n", plane->bounds.min.x, plane->bounds.min.y, plane->bounds.min.z);
 	// printf("----------- the max bounds are: %lf, %lf, %lf\n", plane->bounds.max.x, plane->bounds.max.y, plane->bounds.max.z);
 }

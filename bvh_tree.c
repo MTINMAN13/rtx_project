@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 19:51:07 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/14 22:20:37 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ void build_bvh_tree(t_engine *scene, t_bvh_node **current_bvh_node, t_object *ob
         (*current_bvh_node)->isLeaf = 1;
         (*current_bvh_node)->num_aabbs_inside = 1;
         (*current_bvh_node)->num_actual_objects = 1; // Set num_actual_objects to 1 for leaf node
-        (*current_bvh_node)->aabb = object_list->bounds;
+        (*current_bvh_node)->aabb = object_list->aabb;
         printf("Leaf node created with 1 object.                                    [Type: %i]\n", object_list->type);
         printf("the min bounds are: %lf, %lf, %lf\n", (*current_bvh_node)->aabb.min.x, (*current_bvh_node)->aabb.min.y, (*current_bvh_node)->aabb.min.z);
         printf("the max bounds are: %lf, %lf, %lf\n", (*current_bvh_node)->aabb.max.x, (*current_bvh_node)->aabb.max.y, (*current_bvh_node)->aabb.max.z);
@@ -391,7 +391,7 @@ t_aabb calculate_list_bbox(t_object *object_list)
     t_object *current = object_list;
     while (current != NULL)
     {
-        t_aabb object_bbox = current->bounds;
+        t_aabb object_bbox = current->aabb;
         bbox.min.x = fmin(bbox.min.x, object_bbox.min.x);
         bbox.min.y = fmin(bbox.min.y, object_bbox.min.y);
         bbox.min.z = fmin(bbox.min.z, object_bbox.min.z);
