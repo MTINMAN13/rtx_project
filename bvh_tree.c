@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/27 02:39:58 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 22:20:37 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/17 17:41:01 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,8 +208,6 @@ int partition(t_object *object_list, int pivot, int axis) {
             smaller = smaller->next;
         }
         smaller->next = object_list; // object_list is now the pivot object
-    } else {
-        object_list = object_list; // Pivot object remains at the start
     }
     object_list->next = larger;
 

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 23:43:56 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/17 18:29:42 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,33 @@ void	raycaster(t_engine *scene)
     ft_pntf("💎 ------------- RAYCASTER ------------- 💎");
 }
 
+t_vec vector_normalize(t_vec vec)
+{
+    double length = sqrt(vec.x * vec.x + vec.y * vec.y + vec.z * vec.z);
+    t_vec normalized_vec;
+    normalized_vec.x = vec.x / length;
+    normalized_vec.y = vec.y / length;
+    normalized_vec.z = vec.z / length;
+    return normalized_vec;
+}
+
 // checks if the ray intersects with any "object" aabb in the bvh of our scene
 // if yes, then we calculate the color data for the pixel
 void    ray(t_engine *scene, int x, int y)
 {
     t_color	rgb;
-	t_ray	ray;
+    t_ray	ray;   
 
-	ray.direction.x = x * scene->viewport.pixel_delta_u.x + scene->viewport.upper_left.x + y * scene->viewport.pixel_delta_u.x;
-	ray.direction.y = x * scene->viewport.pixel_delta_v.y + scene->viewport.upper_left.y + y * scene->viewport.pixel_delta_u.y;
-	ray.direction.z = x * scene->viewport.pixel_delta_u.z + scene->viewport.upper_left.z + y * scene->viewport.pixel_delta_u.z;
-	ray.origin = (*scene).viewport.eye_pos;
-    ray.normal_unit = vector_subtract(ray.direction,ray.origin);
-	ray.hit_point = vector_add(ray.origin, vector_scale(ray.normal_unit, 20000.0));
+    ray.direction.x = x * scene->viewport.pixel_delta_u.x + scene->viewport.upper_left.x + y * scene->viewport.pixel_delta_u.x;
+    ray.direction.y = x * scene->viewport.pixel_delta_v.y + scene->viewport.upper_left.y + y * scene->viewport.pixel_delta_u.y;
+    ray.direction.z = x * scene->viewport.pixel_delta_u.z + scene->viewport.upper_left.z + y * scene->viewport.pixel_delta_u.z;
+    ray.origin = (*scene).viewport.eye_pos;
+    ray.normal_unit = vector_normalize(vector_subtract(ray.direction, ray.origin));
+    ray.hit_point = vector_add(ray.origin, vector_scale(ray.normal_unit, 20000.0));
     // printf("X        ray from %f %f %f -- : -- ", ray.origin.x, ray.origin.y, ray.origin.z);
     // printf("ray direction %f %f %f\n", ray.direction.x, ray.direction.y, ray.direction.z);
-	rgb = ray_intersections(scene, &ray);
+    rgb = ray_intersections(scene, &ray);
+    printf("closest point is %f %f %f\n", ray.hit_point.x, ray.hit_point.y, ray.hit_point.z);
     ft_process_pixel(&scene->mlx, x, y, rgb);
 }
 
@@ -170,42 +181,8 @@ int object_intersects(t_ray *ray, t_object *object, t_color *color)
 // Updated sphere_intersection function
 int sphere_intersection(t_ray *ray, t_object *object, t_color *color)
 {
-    t_vec oc = vector_subtract(ray->origin, object->coordinates);
-    double radius = object->diameter / 2.0;
-    long double a = vec_dot(ray->direction, ray->direction);
-    long double b = 2.0 * vec_dot(oc, ray->direction);
-    long double c = vec_dot(oc, oc) - (radius * radius);
-    long double discriminant = (b * b) - (4 * a * c);
-
-    // printf("b squared: %Lf ", b * b);
-	// printf("4ac: %Lf ", 4 * a * c);
-	// printf("discriminant: %Lf\n", discriminant);
-	// printf("object coordinates %f %f %f ", object->coordinates.x, object->coordinates.y, object->coordinates.z);
-	// printf("object diameter %f \n", object->diameter);
     if (discriminant > 0)
     {
-        double sqrt_discriminant = sqrt(discriminant);
-        double t1 = (-b - sqrt_discriminant) / (2.0 * a);
-        double t2 = (-b + sqrt_discriminant) / (2.0 * a);
-
-        double t;
-        if (t1 > 0 && t2 > 0)
-        {
-            t = fmin(t1, t2);
-        }
-        else if (t1 > 0)
-        {
-            t = t1;
-        }
-        else if (t2 > 0)
-        {
-            t = t2;
-        }
-        else
-        {
-            return 0; // Both t1 and t2 are negative
-        }
-
         t_vec hit_point = vector_add(ray->origin, vector_scale(ray->direction, t));
 
         // Update hit point and color only if this is the closest intersection
@@ -221,47 +198,41 @@ int sphere_intersection(t_ray *ray, t_object *object, t_color *color)
     return 0;
 }
 
-
+t_vec Intersect(t_vec planeCenter, t_vec planeNormal, t_vec rayP, t_vec rayD) {
+    float denominator = vec_dot(rayD, planeNormal);
+    // Check if ray is parallel to the plane
+    if (fabs(denominator) < 1e-6) {
+        return (t_vec){INT_MAX, INT_MAX, INT_MAX}; // Return some form of error or indication that the ray is parallel to the plane
+    }
+    float d = vec_dot(planeCenter, planeNormal);
+    float t = -(d + vec_dot(rayP, planeNormal)) / denominator;
+    // Optionally, check if t is negative
+    if (t < 0) {
+        return (t_vec){INT_MAX, INT_MAX, INT_MAX}; // Return some form of error or indication that the intersection is behind the ray origin
+    }
+    t_vec t_vec = vector_scale(rayD, t);
+    return (vector_add(rayP, t_vec));
+}
 
 int plane_intersection(t_ray *ray, t_object *object, t_color *color)
 {
     // Extract plane data
     t_vec plane_normal = object->normal;
     t_vec plane_point = object->coordinates; // A point on the plane
-
-    // Calculate the dot product of the ray direction and the plane normal
-    double denom = vec_dot(plane_normal, ray->direction);
-
-    // If the denominator is zero, the ray is parallel to the plane
-    if (fabs(denom) > 1e-6) // A small epsilon to avoid division by zero
-    {
-        // Calculate the distance from the ray origin to the plane
-        t_vec ray_to_plane = vector_subtract(plane_point, ray->origin);
-        double t = vec_dot(ray_to_plane, plane_normal) / denom;
-
-        // Check if the intersection is in front of the ray
-        if (t >= 0)
-        {
-            // Calculate the intersection point
-            t_vec hit_point = vector_add(ray->origin, vector_scale(ray->direction, t));
-
-            // For simplicity, we assume that the plane is infinitely large
-            // If the plane has boundaries, you would need additional checks here
-
-            // Update hit point and color if this is the closest intersection
-            double current_distance = vec_length(vector_subtract(hit_point, ray->origin));
-            double existing_distance = vec_length(vector_subtract(ray->hit_point, ray->origin));
-            if (current_distance < existing_distance)
-            {
-                ray->hit_point = hit_point;
-                *color = object->color;
-                printf("Hit point updated to: %f %f %f\n", hit_point.x, hit_point.y, hit_point.z);
-                printf("Color updated to: %d %d %d\n", color->r, color->g, color->b);
-                return 1;
-            }
-        }
+    t_vec intersection = Intersect(plane_point, plane_normal, ray->origin, ray->direction);
+    if (intersection.x == INT_MAX && intersection.y == INT_MAX && intersection.z == INT_MAX) {
+        return 0;
     }
-
+    else {
+        double distance = vec_length(vector_subtract(intersection, ray->origin));
+        double current_distance = vec_length(vector_subtract(ray->hit_point, ray->origin));
+        if (distance < current_distance) {
+            ray->hit_point = intersection;
+            *color = color_from_object(object);
+            // printf("hit a plane at %f %f %f and returning the color %d %d %d\n", intersection.x, intersection.y, intersection.z, color->r, color->g, color->b);
+        }
+        return 1;
+    }
     return 0;
 }
 
@@ -409,6 +380,13 @@ void print_bvh_tree(t_engine *scene)
 
 
 
+/**
+ * Calculates the dot product of two vectors.
+ *
+ * @param v1 The first vector.
+ * @param v2 The second vector.
+ * @return The dot product of v1 and v2.
+ */
 double vec_dot(t_vec v1, t_vec v2)
 {
     return v1.x * v2.x + v1.y * v2.y + v1.z * v2.z;

@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 02:42:01 by mman              #+#    #+#             */
-/*   Updated: 2024/07/14 23:44:10 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/17 17:39:23 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 
 # define WIDTH 1200
 # define HEIGHT 800
-# define QUALITY 1
+# define QUALITY 40
 # define SAMPLES_PER_PIXEL 1
 # define RENDER_DISTANCE 10000
 # define NAME "miniRTX  | mman & agadkari project"
