@@ -1,5 +1,8 @@
 # rtx_project
 Exploration of RayTracing using pre-existing graphical library mlx
+
+https://education.siggraph.org/static/HyperGraph/raytrace/rayplane_intersection.htm
+
 ###### Key Takeaways and Understandings:
 - Quaternion rotation
 - Optics
