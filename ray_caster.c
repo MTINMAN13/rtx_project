@@ -6,7 +6,7 @@
 /*   By: mman <mman@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/29 18:46:10 by mman              #+#    #+#             */
-/*   Updated: 2024/07/17 17:28:49 by mman             ###   ########.fr       */
+/*   Updated: 2024/07/17 18:29:42 by mman             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,17 +60,18 @@ t_vec vector_normalize(t_vec vec)
 void    ray(t_engine *scene, int x, int y)
 {
     t_color	rgb;
-	t_ray	ray;
+    t_ray	ray;   
 
-	ray.direction.x = x * scene->viewport.pixel_delta_u.x + scene->viewport.upper_left.x + y * scene->viewport.pixel_delta_u.x;
-	ray.direction.y = x * scene->viewport.pixel_delta_v.y + scene->viewport.upper_left.y + y * scene->viewport.pixel_delta_u.y;
-	ray.direction.z = x * scene->viewport.pixel_delta_u.z + scene->viewport.upper_left.z + y * scene->viewport.pixel_delta_u.z;
-	ray.origin = (*scene).viewport.eye_pos;
+    ray.direction.x = x * scene->viewport.pixel_delta_u.x + scene->viewport.upper_left.x + y * scene->viewport.pixel_delta_u.x;
+    ray.direction.y = x * scene->viewport.pixel_delta_v.y + scene->viewport.upper_left.y + y * scene->viewport.pixel_delta_u.y;
+    ray.direction.z = x * scene->viewport.pixel_delta_u.z + scene->viewport.upper_left.z + y * scene->viewport.pixel_delta_u.z;
+    ray.origin = (*scene).viewport.eye_pos;
     ray.normal_unit = vector_normalize(vector_subtract(ray.direction, ray.origin));
-	ray.hit_point = vector_add(ray.origin, vector_scale(ray.normal_unit, 20000.0));
+    ray.hit_point = vector_add(ray.origin, vector_scale(ray.normal_unit, 20000.0));
     // printf("X        ray from %f %f %f -- : -- ", ray.origin.x, ray.origin.y, ray.origin.z);
     // printf("ray direction %f %f %f\n", ray.direction.x, ray.direction.y, ray.direction.z);
-	rgb = ray_intersections(scene, &ray);
+    rgb = ray_intersections(scene, &ray);
+    printf("closest point is %f %f %f\n", ray.hit_point.x, ray.hit_point.y, ray.hit_point.z);
     ft_process_pixel(&scene->mlx, x, y, rgb);
 }
 
@@ -180,42 +181,8 @@ int object_intersects(t_ray *ray, t_object *object, t_color *color)
 // Updated sphere_intersection function
 int sphere_intersection(t_ray *ray, t_object *object, t_color *color)
 {
-    t_vec oc = vector_subtract(ray->origin, object->coordinates);
-    double radius = object->diameter / 2.0;
-    long double a = vec_dot(ray->direction, ray->direction);
-    long double b = 2.0 * vec_dot(oc, ray->direction);
-    long double c = vec_dot(oc, oc) - (radius * radius);
-    long double discriminant = (b * b) - (4 * a * c);
-
-    // printf("b squared: %Lf ", b * b);
-	// printf("4ac: %Lf ", 4 * a * c);
-	// printf("discriminant: %Lf\n", discriminant);
-	// printf("object coordinates %f %f %f ", object->coordinates.x, object->coordinates.y, object->coordinates.z);
-	// printf("object diameter %f \n", object->diameter);
     if (discriminant > 0)
     {
-        double sqrt_discriminant = sqrt(discriminant);
-        double t1 = (-b - sqrt_discriminant) / (2.0 * a);
-        double t2 = (-b + sqrt_discriminant) / (2.0 * a);
-
-        double t;
-        if (t1 > 0 && t2 > 0)
-        {
-            t = fmin(t1, t2);
-        }
-        else if (t1 > 0)
-        {
-            t = t1;
-        }
-        else if (t2 > 0)
-        {
-            t = t2;
-        }
-        else
-        {
-            return 0; // Both t1 and t2 are negative
-        }
-
         t_vec hit_point = vector_add(ray->origin, vector_scale(ray->direction, t));
 
         // Update hit point and color only if this is the closest intersection
