@@ -3,6 +3,10 @@ Exploration of RayTracing using pre-existing graphical library mlx
 
 https://education.siggraph.org/static/HyperGraph/raytrace/rayplane_intersection.htm
 
+https://kylehalladay.com/blog/tutorial/math/2013/12/24/Ray-Sphere-Intersection.html
+
+
+
 ###### Key Takeaways and Understandings:
 - Quaternion rotation
 - Optics
